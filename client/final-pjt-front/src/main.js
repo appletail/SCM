@@ -8,6 +8,7 @@ import 'bootstrap'
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios; 
+Vue.prototype.$API_URL = 'http://127.0.0.1:8000'; 
 
 new Vue({
   store,
