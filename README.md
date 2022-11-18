@@ -56,6 +56,7 @@
 ---
 
 # erd 작성
+![erd](./readmeStatic/영화 추천 웹사이트 프로젝트.png)
 <img src="./readmeStatic/영화 추천 웹사이트 프로젝트.png">  
 
 ---
