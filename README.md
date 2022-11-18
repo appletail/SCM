@@ -48,20 +48,17 @@
   검색 구현|22.11.21|22.11.22|
   영화 추천 알고리즘|22.11.19|22.11.21|
 ---
-# 목업
-<img src="./readmeStatic/피그마1.png">  
-<img src="./readmeStatic/피그마2.png">  
-<img src="./readmeStatic/피그마3.png">  
 
+# 목업
+![figma1](./readmeStatic/피그마1.png)
+![figma2](./readmeStatic/피그마2.png)
+![figma3](./readmeStatic/피그마3.png)
 ---
 
 # erd 작성
 ![erd](./readmeStatic/영화 추천 웹사이트 프로젝트.png)
-<img src="./readmeStatic/영화 추천 웹사이트 프로젝트.png">  
-
 ---
 
 # api 명세
-<img src="./readmeStatic/api명세서.png">  
-
+![api](./readmeStatic/api명세서.png)
 ---
