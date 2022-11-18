@@ -55,7 +55,7 @@
 ![figma3](./readmeStatic/피그마3.PNG)
 ---
 
-# erd 작성
+# erd
 ![erd](./readmeStatic/영화 추천 웹사이트 프로젝트.png)
 ---
 
