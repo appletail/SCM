@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div>
     <h1>Signup page</h1>
     <form @submit.prevent="signup">
       <input type="text" placeholder="아이디" v-model="username"><br>

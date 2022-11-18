@@ -10,4 +10,3 @@ class User(AbstractUser):
     followings = models.ManyToManyField('self', symmetrical=False, related_name='followers')
     watchlist_movies = models.ManyToManyField(Movie, related_name='watchlist_users')
     like_movies = models.ManyToManyField(Movie, related_name='like_users')
-
