@@ -50,9 +50,9 @@
 ---
 
 # 목업
-![figma1](./readmeStatic/피그마1.png)
-![figma2](./readmeStatic/피그마2.png)
-![figma3](./readmeStatic/피그마3.png)
+![figma1](./readmeStatic/피그마1.PNG)
+![figma2](./readmeStatic/피그마2.PNG)
+![figma3](./readmeStatic/피그마3.PNG)
 ---
 
 # erd 작성
@@ -60,5 +60,5 @@
 ---
 
 # api 명세
-![api](./readmeStatic/api명세서.png)
+![api](./readmeStatic/api명세서.PNG)
 ---
