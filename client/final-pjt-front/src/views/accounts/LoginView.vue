@@ -1,7 +1,10 @@
 <template>
   <div class="login">
-    <h1 class="m-5">This is a login page</h1>
-    <button type="button" class="btn btn-primary">Primary</button>
+    <h1>Login page</h1>
+    <form>
+      <input type="text" placeholder="아이디"><br>
+      <input type="password" placeholder="비밀번호">
+    </form>
   </div>
 </template>
 
