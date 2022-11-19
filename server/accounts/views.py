@@ -1,3 +1,6 @@
+from django.shortcuts import get_object_or_404, get_list_or_404
+from django.contrib.auth import get_user_model
+
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -22,3 +25,19 @@ def signup(request):
         user.nickname = nickname if nickname else user.username
         user.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def profile(request, username):
+    profile_user = get_object_or_404(get_user_model(), username=username)
+    if request.method == 'GET':
+        context = {
+            'username': profile_user.username,
+            'nickname': profile_user.nickname,
+            'introduce': profile_user.introduce,
+        }
+        return Response(context)
+    elif request.method == 'PUT':
+        pass
+    elif request.method == 'DELETE':
+        profile_user.delete()
