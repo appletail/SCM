@@ -1,15 +1,37 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link :to="{name: 'login'}">Login</router-link> |
-      <router-link :to="{name: 'signup'}">Signup</router-link> |
-      <router-link :to="{name: 'logout'}">logout</router-link> |
+      <router-link to="/">Home |</router-link>
+      <router-link :to="{ name: 'login' }" v-if="!is_login">Login |</router-link>
+      <router-link :to="{ name: 'signup' }" v-if="!is_login">Signup |</router-link>
+      <router-link :to="{ name: 'logout' }" v-if="is_login">logout |</router-link>
+      <router-link :to="{ name: 'profile', params:{ userName: username } }" v-if="is_login">profile |</router-link>
 
     </nav>
     <router-view/>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'LogoutView',
+  data() {
+    return {
+    }
+  },
+  computed: {
+    is_login() {
+      return this.$store.state.accountsStore.is_login
+    },
+    username() {
+      return this.$store.state.accountsStore.username
+    },
+  },
+  created() {
+    this.$store.dispatch('accountsStore/login')
+  }
+}
+</script>
 
 <style>
 #app {

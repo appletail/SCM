@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'LoginView',
+  name: 'SignupView',
   data() {
     return {
       username: null,
@@ -34,13 +34,11 @@ export default {
           password_confirm: this.password_confirm,
         }
       })
-        .then((res) => {
-          console.log(res)
-          console.log('가입 성공')
+        .then(() => {
+          this.$router.push({ name:'login' })
         })
         .catch((err) => {
           console.log(err.response.data)
-          console.log('가입 에러')
         })
     }
   },

@@ -30,11 +30,14 @@ export default {
       })
         .then((res)=>{
           localStorage.setItem('jwt', res.data.access)
+          localStorage.setItem('username', this.username)
+          this.$store.dispatch('accountsStore/login')
+          this.$router.push({ name: 'home' })
         })
         .catch((err) => {
           console.log(err.response.data)
         })
-    }
+    },
   },
 }
 </script>
