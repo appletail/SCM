@@ -4,64 +4,80 @@
     <p>{{ profile?.username }}</p>
     <p>{{ profile?.nickname }}</p>
     <p>{{ profile?.introduce }}</p>
-    <button @click="deleteUser">회원탈퇴</button>
+    <div v-if="loginUser === userName">
+      <button @click="deleteUser">회원탈퇴</button>
+      <router-link
+        :to="{ name: 'profile-update', params: { userName: loginUser } }"
+      ><button>회원정보수정</button></router-link>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ProfileView',
+  name: "ProfileView",
   data() {
     return {
       profile: null,
-    }
+      userName: null,
+    };
   },
   methods: {
-    getProfile() {
+    getProfile(userName) {
       this.$axios({
-        method: 'get',
-        url: `${this.$API_URL}/accounts/${this.username}`,
+        method: "get",
+        url: `${this.$API_URL}/accounts/${userName}`,
         headers: {
-          Authorization: `Bearer ${this.access_token}`
-        }
+          Authorization: `Bearer ${this.access_token}`,
+        },
       })
         .then((res) => {
-          this.profile = res.data
+          this.profile = res.data;
         })
         .catch((err) => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
     deleteUser() {
       this.$axios({
-        method: 'DELETE',
-        url: `${this.$API_URL}/accounts/${this.profile.username}`,
+        method: "DELETE",
+        url: `${this.$API_URL}/accounts/${this.userName}`,
         headers: {
-          Authorization: `Bearer ${this.access_token}`
-        }
+          Authorization: `Bearer ${this.access_token}`,
+        },
+        data: {
+          username: this.userName,
+        },
       })
-        .then(() => {
-          this.$router.push({ name:'home' })
+        .then((res) => {
+          console.log(res.data.delete_user);
+          console.log("아직 좀 더 작업할 것");
+          this.$router.push({ name: "logout" });
         })
         .catch((err) => {
-          console.log(err)
-        })
-    }
+          console.log(err.response.data.faild);
+        });
+    },
   },
   computed: {
-    username() {
-      return this.$route.params.userName
-    },
     access_token() {
-      return localStorage.getItem('jwt')
+      return localStorage.getItem("jwt");
+    },
+    loginUser() {
+      return localStorage.getItem("username");
     },
   },
+  beforeRouteUpdate(to, from, next) {
+    this.userName = to.params.userName;
+    this.getProfile(to.params.userName);
+    next();
+  },
   created() {
-    this.getProfile()
-  }
-}
+    this.userName = this.$route.params.userName;
+    this.getProfile(this.userName);
+  },
+};
 </script>
 
 <style>
-
 </style>

@@ -1,0 +1,87 @@
+<template>
+  <div>
+    <h1>회원정보수정</h1>
+    <form @submit.prevent="updateProfile">
+      <input type="text" placeholder="닉네임을 입력해주세요" v-model="nickname"><br>
+      <input type="password" placeholder="비밀번호" v-model="password"><br>
+      <input type="password" placeholder="비밀번호 확인" v-model="password_confirm"><br>
+      <textarea cols="30" rows="10" placeholder="자기소개" v-model="introduce"></textarea>
+      <button>회원정보 수정</button>
+    </form>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'ProfileUpdateView',
+  data() {
+    return {
+      userName: null,
+      nickname: null,
+      password: null,
+      password_confirm: null,
+      introduce: null,
+    }
+  },
+  methods: {
+    getProfile(userName) {
+      this.$axios({
+        method: "get",
+        url: `${this.$API_URL}/accounts/${userName}/update/`,
+        headers: {
+          Authorization: `Bearer ${this.access_token}`,
+        },
+      })
+        .then((res) => {
+          this.nickname = res.data.nickname;
+          this.introduce = res.data.introduce;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    updateProfile() {
+      this.$axios({
+        method: 'put',
+        url: `${this.$API_URL}/accounts/${this.userName}/update/`,
+        headers: {
+          Authorization: `Bearer ${this.access_token}`,
+        },
+        data: {
+          nickname: this.nickname,
+          password: this.password,
+          password_confirm: this.password_confirm,
+          introduce: this.introduce
+        }
+      })
+        .then(() => {
+          this.$router.push({ name:'profile', params:{ userName: this.userName }})
+        })
+        .catch((err) => {
+          console.log(err.response.data)
+        })
+    }
+  },
+  computed: {
+    access_token() {
+      return localStorage.getItem("jwt");
+    },
+    loginUser() {
+      return localStorage.getItem("username");
+    },
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.userName = to.params.userName;
+    this.getProfile(to.params.userName);
+    next();
+  },
+  created() {
+    this.userName = this.$route.params.userName;
+    this.getProfile(this.userName);
+  }
+}
+</script>
+
+<style>
+
+</style>

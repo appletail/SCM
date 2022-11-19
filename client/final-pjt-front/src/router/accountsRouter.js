@@ -2,6 +2,7 @@ import SignupView from '@/views/accounts/SignupView.vue'
 import LoginView from '@/views/accounts/LoginView.vue'
 import LogoutView from '@/views/accounts/LogoutView.vue'
 import ProfileView from '@/views/accounts/ProfileView.vue'
+import ProfileUpdateView from '@/views/accounts/ProfileUpdateView.vue'
 
 export default [
   {
@@ -23,5 +24,11 @@ export default [
     path: '/:userName',
     name: 'profile',
     component: ProfileView
+  },
+  {
+    path: '/:userName/update/',
+    name: 'profile-update',
+    component: ProfileUpdateView,
+    props: true
   },
 ]
