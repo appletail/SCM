@@ -18,19 +18,22 @@ const reviewsStore = {
     }
   },
   actions: {
-    latestReviews(context) {
-      this.$axios({
-        method:'get',
-        url: `${this.$API_URL}/reviews/latest/`
-      })
-        .then((res) => {
-          console.log(res)
-          context.commit('LATEST_REVIEWS',res.data)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
+    // latestReviews(context) {
+    //   this.$axios({
+    //     method:'get',
+    //     url: `${this.$API_URL}/reviews/latest/`,
+    //     headers: {
+    //       Authorization: `Bearer ${localStorage.getItem('jwt')}`
+    //     }
+    //   })
+    //     .then((res) => {
+    //       console.log(res)
+    //       context.commit('LATEST_REVIEWS',res.data)
+    //     })
+    //     .catch((err) => {
+    //       console.log(err)
+    //     })
+    // },
     popularReviews(context) {
       this.$axios({
         method:'get',

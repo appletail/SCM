@@ -14,16 +14,33 @@ export default {
   components: {
     ReviewsList
   },
-  // created: {
-  //   viewsReviews() {
-  //     this.$store.actions.viewsReviews
-  //   }
-  // },
-  // computed: {
-  //   reviews() {
-  //     return this.$store.state.reviews
-  //   }
-  // }
+    data() {
+    return {
+      reviews: []
+    }
+  },
+  created() {
+    this.latestReviews()
+  },
+
+  methods: {
+    latestReviews() {
+      this.$axios({
+        method:'get',
+        url: `${this.$API_URL}/reviews/view/`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwt')}`
+        }
+      })
+        .then((res) => {
+          console.log(res)
+          this.reviews = res.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  }
 }
 </script>
 

@@ -7,51 +7,48 @@ from .models import Review, ReviewComment
 from .serializers import ReviewListSerializer, ReviewCommentSerializer, ReviewSerializer
 from django.shortcuts import get_object_or_404, get_list_or_404
 # Create your views here.
-@api_view(['GET','POST'])
-def reviews_list(request,reviews_filter):
-    if request.method == "POST":
-        if reviews_filter == 'create':
-            print('이건 실행됩니다.')
-            # print(request.user)
-            # 디버깅용
-            for _ in range(10):
-                print(' ')
-            serializer = ReviewSerializer(data=request.data)
-            if serializer.is_valid(raise_exception=True):
-                serializer.save(user=request.user)
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
+@api_view(['GET'])
+def reviews_list_latest(request):
     if request.method == 'GET':
-        # reviews = Review.objects.all()
         reviews = get_list_or_404(Review)
+        reviews = sorted(reviews, key = lambda x: x.created_at)
+        # 정렬된 데이터 조회
+        serializer = ReviewListSerializer(reviews, many=True)
+        return Response(serializer.data)
 
-        if reviews_filter == 'latest':
-            reviews = sorted(reviews, key = lambda x: x.created_at)
+@api_view(['GET'])
+def reviews_list_popular(request):
+    if request.method == 'GET':
+        reviews = get_list_or_404(Review)
+        reviews = sorted(reviews, key = lambda x: len(x.like_users))
+        # 정렬된 데이터 조회
+        serializer = ReviewListSerializer(reviews, many=True)
+        return Response(serializer.data)
 
-        elif reviews_filter == 'popular':
-            reviews = sorted(reviews, key = lambda x: len(x.like_users))
-
-        elif reviews_filter == 'view':
-            reviews = sorted(reviews, key= lambda x: x.Lookup_cnt, reverse=True)
-
+@api_view(['GET'])
+def reviews_list_view(request):
+    if request.method == 'GET':
+        reviews = get_list_or_404(Review)
+        reviews = sorted(reviews, key= lambda x: x.Lookup_cnt, reverse=True)
         # 정렬된 데이터 조회
         serializer = ReviewListSerializer(reviews, many=True)
         return Response(serializer.data)
 
 
 
-# @api_view(['GET', 'POST'])
-# def reviews_create(request):
-#     # # 전체 데이터 조회인데 일단 적었습니다.
-#     # if request.method == 'GET':
-#     #     reviews = Review.objects.all()
-#     #     serializer = ReviewListSerializer(reviews, many=True)
-#     #     return Response(serializer.data)
+@api_view(['GET', 'POST'])
+def reviews_create(request):
+    # # 전체 데이터 조회인데 일단 적었습니다.
+    if request.method == 'GET':
+        reviews = Review.objects.all()
+        serializer = ReviewListSerializer(reviews, many=True)
+        return Response(serializer.data)
     
-#     # elif request.method == 'POST':
-#     serializer = ReviewSerializer(data=request.data)
-#     if serializer.is_valid(raise_exception=True):
-#         serializer.save(user=request.user)
-#         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    if request.method == 'POST':
+        serializer = ReviewSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(user=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 @api_view(['GET','DELETE','PUT'])
 def reviews_detail(request,review_pk):
@@ -67,18 +64,23 @@ def reviews_detail(request,review_pk):
         review.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+    # 리뷰 수정
     elif request.method == 'PUT':
         serializer = ReviewSerializer(review, data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
 
+''' 
+댓글 
+'''
+
 # 리뷰 전체 댓글 조회
 @api_view(['GET'])
 def reviewscomments_list(request):
     if request.method == 'GET':
         comments = ReviewComment.objects.all()
-        serializer = ReviewListSerializer(comments, many=True)
+        serializer = ReviewCommentSerializer(comments, many=True)
         return Response(serializer.data)
 
 # 리뷰 댓글 생성

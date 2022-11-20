@@ -6,7 +6,7 @@
       <router-link :to="{ name: 'signup' }" v-if="!is_login">Signup |</router-link>
       <router-link :to="{ name: 'logout' }" v-if="is_login">logout |</router-link>
       <router-link :to="{ name: 'profile', params:{ userName: username } }" v-if="is_login">profile |</router-link>
-      <router-link :to="{ name : 'review'}">review |</router-link>
+      <router-link :to="{ name : 'reviewlatest'}">review |</router-link>
       
     </nav>
     <router-view/>

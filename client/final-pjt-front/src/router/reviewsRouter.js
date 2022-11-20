@@ -3,6 +3,8 @@ import ReviewsPopularView from '@/views/reviews/ReviewsPopularView.vue'
 import ReviewsViewsView from '@/views/reviews/ReviewsViewsView.vue'
 import ReviewsView from '@/views/reviews/ReviewsView.vue'
 import ReviewCreateView from '@/views/reviews/ReviewCreateView.vue'
+import ReviewDetailView from '@/views/reviews/ReviewDetailView.vue'
+import ReviewUpdateView from '@/views/reviews/ReviewUpdateView.vue'
 
 export default [
   {
@@ -29,6 +31,16 @@ export default [
         path: '/reviews/create',
         name: 'reviewcreateview',
         component: ReviewCreateView
+      },
+      {
+        path: '/reviews/:id',
+        name: 'detailview',
+        component: ReviewDetailView
+      },
+      {
+        path: '/reviews/:id/update',
+        name: 'updateview',
+        component: ReviewUpdateView
       }
     ]
   },

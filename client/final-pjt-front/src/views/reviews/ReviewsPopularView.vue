@@ -14,16 +14,33 @@ export default {
   components: {
     ReviewsList
   },
-//   created: {
-//     popularReviews() {
-//       this.$store.actions.popularReviews
-//     }
-//   },
-//   computed: {
-//     reviews() {
-//       return this.$store.state.reviews
-//     }
-//   }
+  data() {
+    return {
+      reviews: []
+    }
+  },
+  created() {
+    this.latestReviews()
+  },
+
+  methods: {
+    latestReviews() {
+      this.$axios({
+        method:'get',
+        url: `${this.$API_URL}/reviews/latest/`, // 임시방편 게시글 좋아요 확인 후 해보자.
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwt')}`
+        }
+      })
+        .then((res) => {
+          console.log(res)
+          this.reviews = res.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  }
 }
 </script>
 
