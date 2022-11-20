@@ -25,7 +25,7 @@ export default {
       return this.$store.state.accountsStore.is_login
     },
     username() {
-      return this.$store.state.accountsStore.username
+      return localStorage.getItem('username')
     },
   },
   created() {
