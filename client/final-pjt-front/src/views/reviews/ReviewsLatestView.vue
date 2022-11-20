@@ -3,7 +3,7 @@
     <ReviewsList
     :reviews='reviews'/>
     <!-- {{latestreviews}} -->
-    <h1>최신순 잘나옵니다.</h1>
+
   </div>
 </template>
 

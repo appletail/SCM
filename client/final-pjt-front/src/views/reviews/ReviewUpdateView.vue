@@ -73,7 +73,6 @@ export default {
           this.$router.push({ name: 'detailview', params: { id: this.$route.params.id } })
         })
         .catch((err) => {
-          console.log('안되요')
           console.log(err)
         })
     }
