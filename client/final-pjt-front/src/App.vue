@@ -5,7 +5,7 @@
       <router-link :to="{ name: 'login' }" v-if="!is_login">Login |</router-link>
       <router-link :to="{ name: 'signup' }" v-if="!is_login">Signup |</router-link>
       <router-link :to="{ name: 'logout' }" v-if="is_login">logout |</router-link>
-      <router-link :to="{ name: 'profile', params:{ userName: username } }" v-if="is_login">profile |</router-link>
+      <router-link :to="{ name: 'profile', params:{ userName: username() } }" v-if="is_login">profile |</router-link>
       <router-link :to="{ name : 'reviewlatest'}">review |</router-link>
       
     </nav>
@@ -20,12 +20,14 @@ export default {
     return {
     }
   },
+  methods: {
+    username() {
+      return localStorage.getItem('username')
+    },
+  },
   computed: {
     is_login() {
       return this.$store.state.accountsStore.is_login
-    },
-    username() {
-      return localStorage.getItem('username')
     },
   },
   created() {
