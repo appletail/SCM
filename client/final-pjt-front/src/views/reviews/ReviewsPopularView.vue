@@ -2,7 +2,7 @@
   <div>
     <ReviewsList
     :reviews='reviews'/>
-    <h1>인기순 잘나옵니다.</h1>
+
   </div>
 </template>
 

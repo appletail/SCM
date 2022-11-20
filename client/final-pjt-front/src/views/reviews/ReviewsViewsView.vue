@@ -2,7 +2,7 @@
   <div>
     <ReviewsList
     :reviews='reviews'/>
-    <h1>최신순 잘나옵니다.</h1>
+
   </div>
 </template>
 

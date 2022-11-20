@@ -27,22 +27,22 @@ export default [
         name: 'reviewview',
         component: ReviewsViewsView
       },
-      {
-        path: '/reviews/create',
-        name: 'reviewcreateview',
-        component: ReviewCreateView
-      },
-      {
-        path: '/reviews/:id',
-        name: 'detailview',
-        component: ReviewDetailView
-      },
-      {
-        path: '/reviews/:id/update',
-        name: 'updateview',
-        component: ReviewUpdateView
-      }
     ]
+  },
+  {
+    path: '/reviews/create',
+    name: 'reviewcreateview',
+    component: ReviewCreateView
+  },
+  {
+    path: '/reviews/:id/update',
+    name: 'updateview',
+    component: ReviewUpdateView
+  },
+  {
+    path: '/reviews/:id',
+    name: 'detailview',
+    component: ReviewDetailView
   },
 
 
