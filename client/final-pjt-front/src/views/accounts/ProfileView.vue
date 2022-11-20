@@ -1,14 +1,41 @@
 <template>
   <div>
     <h1>This is profile page</h1>
+
     <p>{{ profile?.username }}</p>
     <p>{{ profile?.nickname }}</p>
     <p>{{ profile?.introduce }}</p>
+    <button @click="follow">{{ is_follow }}</button>
+    <p>
+      <router-link
+        :to="{ name: 'profile-follower', 
+        params: {
+           userName: userName,
+           following: profile?.followers
+        } }"
+      >
+      {{ profile?.follower.length }}
+        followers |
+      </router-link>
+      <router-link 
+        :to="{ name: 'profile-following', 
+        params: {
+           userName: userName,
+           following: profile?.followings
+        } }"
+      >
+      {{ profile?.following.length }}
+        followings
+      </router-link>
+    </p>
+
     <div v-if="loginUser === userName">
       <button @click="deleteUser">회원탈퇴</button>
       <router-link
         :to="{ name: 'profile-update', params: { userName: loginUser } }"
-      ><button>회원정보수정</button></router-link>
+      >
+        <button>회원정보수정</button>
+      </router-link>
     </div>
   </div>
 </template>
@@ -20,19 +47,19 @@ export default {
     return {
       profile: null,
       userName: null,
+      is_follow: null,
     };
   },
   methods: {
-    getProfile(userName) {
+    getProfile() {
       this.$axios({
         method: "get",
-        url: `${this.$API_URL}/accounts/${userName}`,
-        headers: {
-          Authorization: `Bearer ${this.access_token}`,
-        },
+        url: `${this.$API_URL}/accounts/${this.userName}`,
+        headers: {Authorization: `Bearer ${this.access_token}`,},
       })
         .then((res) => {
           this.profile = res.data;
+          this.is_follow = res.data.is_follow
         })
         .catch((err) => {
           console.log(err);
@@ -42,9 +69,7 @@ export default {
       this.$axios({
         method: "DELETE",
         url: `${this.$API_URL}/accounts/${this.userName}`,
-        headers: {
-          Authorization: `Bearer ${this.access_token}`,
-        },
+        headers: {Authorization: `Bearer ${this.access_token}`,},
         data: {
           username: this.userName,
         },
@@ -58,6 +83,20 @@ export default {
           console.log(err.response.data.faild);
         });
     },
+    follow() {
+      this.$axios({
+        method: 'post',
+        url: `${this.$API_URL}/accounts/${this.userName}/follow/`,
+        headers: {Authorization: `Bearer ${this.access_token}`,}
+      })
+        .then((res) => {
+          this.is_follow = res.data.message
+          this.getProfile()
+        })
+        .catch((err) => {
+          alert(err.response.data.message)
+        })
+    },
   },
   computed: {
     access_token() {
@@ -69,12 +108,12 @@ export default {
   },
   beforeRouteUpdate(to, from, next) {
     this.userName = to.params.userName;
-    this.getProfile(to.params.userName);
+    this.getProfile();
     next();
   },
   created() {
     this.userName = this.$route.params.userName;
-    this.getProfile(this.userName);
+    this.getProfile();
   },
 };
 </script>
