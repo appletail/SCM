@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import accountsRouter from './accountsRouter.js'
+import reviewsRouter from './reviewsRouter.js'
+
 
 Vue.use(VueRouter)
 
@@ -11,7 +13,9 @@ const routes = [
     name: 'home',
     component: HomeView
   },
+
   ...accountsRouter,
+  ...reviewsRouter,
 ]
 
 const router = new VueRouter({
