@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404, get_list_or_404
 from django.contrib.auth import get_user_model
 
-from .serializers import UserSerializer
+from .serializers import UserSerializer, UserProfileSerializer
 
 # Create your views here.
 
@@ -33,13 +33,22 @@ def signup(request):
 @api_view(['GET', 'DELETE'])
 def profile(request, username):
     profile_user = get_object_or_404(get_user_model(), username=username)
+    serializer = UserProfileSerializer(profile_user)
     # 프로필 조회
     if request.method == 'GET':
+        if profile_user.followers.filter(pk=request.user.pk).exists():
+            is_follow = 'Unfollow' 
+        else:
+            is_follow = 'Follow' 
         context = {
             'username': profile_user.username,
             'nickname': profile_user.nickname,
             'introduce': profile_user.introduce,
+            'following': profile_user.followings.all(),
+            'follower': profile_user.followers.all(),
+            'is_follow': is_follow,
         }
+
         return Response(context)
     
     # 계정 삭제
@@ -94,6 +103,21 @@ def update(request, username):
     return Response(context, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET', 'POST'])
-def follow(request):
-    pass
+@api_view(['POST'])
+def follow(request, username):
+    user = get_user_model()
+    me = request.user
+    you = get_object_or_404(user, username=username)
+    if me != you:
+        if you.followers.filter(username=me.username).exists():
+            # 언팔로우
+            you.followers.remove(me)
+            message = 'Follow'
+        else:
+            # 팔로우
+            you.followers.add(me)
+            message = 'Unfollow'
+        context = {'message': message,}
+        return Response(context, status=status.HTTP_200_OK)
+    context = {'message': '자기 자신을 팔로우할 수 없습니다.',}
+    return Response(context, status=status.HTTP_400_BAD_REQUEST)

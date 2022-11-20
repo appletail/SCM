@@ -25,7 +25,12 @@ export default {
   },
   methods: {
     createReview() {
-      console.log(this.$store.state.accountsStore.username)
+      
+      // 여기 안에 username이랑 token 들어있어
+      console.log(localStorage.getItem('username'))
+      console.log(localStorage.getItem('jwt'))
+
+
       const title = this.title
       const content = this.content
       const movie_title = this.movie_title
@@ -47,9 +52,9 @@ export default {
           movie: movie_title,
           // user: this.$store.state.accountsStore.username
         },
-        // headers: {
-        //   Authorization: `Token ${this.$store.state.accountsStore.token}`
-        // }
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwt')}`
+        }
       })
         .then(() => {
           // console.log(res)
