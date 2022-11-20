@@ -33,23 +33,23 @@ def signup(request):
 @api_view(['GET', 'DELETE'])
 def profile(request, username):
     profile_user = get_object_or_404(get_user_model(), username=username)
-    serializer = UserProfileSerializer(profile_user)
     # 프로필 조회
     if request.method == 'GET':
-        if profile_user.followers.filter(pk=request.user.pk).exists():
-            is_follow = 'Unfollow' 
-        else:
-            is_follow = 'Follow' 
-        context = {
-            'username': profile_user.username,
-            'nickname': profile_user.nickname,
-            'introduce': profile_user.introduce,
-            'following': profile_user.followings.all(),
-            'follower': profile_user.followers.all(),
-            'is_follow': is_follow,
-        }
+        serializer = UserProfileSerializer(profile_user)
+        # if profile_user.followers.filter(pk=request.user.pk).exists():
+        #     is_follow = 'Unfollow' 
+        # else:
+        #     is_follow = 'Follow' 
+        # context = {
+        #     'username': profile_user.username,
+        #     'nickname': profile_user.nickname,
+        #     'introduce': profile_user.introduce,
+        #     'following': profile_user.followings.all(),
+        #     'follower': profile_user.followers.all(),
+        #     'is_follow': is_follow,
+        # }
 
-        return Response(context)
+        return Response(serializer.data)
     
     # 계정 삭제
     elif request.data.get('username') == request.user.username:
