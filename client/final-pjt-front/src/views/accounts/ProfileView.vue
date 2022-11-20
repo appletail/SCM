@@ -5,26 +5,26 @@
     <p>{{ profile?.username }}</p>
     <p>{{ profile?.nickname }}</p>
     <p>{{ profile?.introduce }}</p>
-    <button @click="follow">{{ is_follow }}</button>
+    <button v-if="userName != loginUser" @click="follow">{{ is_follow }}</button>
     <p>
       <router-link
-        :to="{ name: 'profile-follower', 
+        :to="{ name: 'profile-follow', 
         params: {
            userName: userName,
-           following: profile?.followers
+           follow: 'followers',
         } }"
       >
-      {{ profile?.follower.length }}
+      {{ profile?.followers }}
         followers |
       </router-link>
       <router-link 
-        :to="{ name: 'profile-following', 
+        :to="{ name: 'profile-follow', 
         params: {
            userName: userName,
-           following: profile?.followings
+           follow: 'followings',
         } }"
       >
-      {{ profile?.following.length }}
+      {{ profile?.followings }}
         followings
       </router-link>
     </p>

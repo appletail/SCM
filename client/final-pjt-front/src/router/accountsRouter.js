@@ -3,8 +3,8 @@ import LoginView from '@/views/accounts/LoginView.vue'
 import LogoutView from '@/views/accounts/LogoutView.vue'
 import ProfileView from '@/views/accounts/ProfileView.vue'
 import ProfileUpdateView from '@/views/accounts/ProfileUpdateView.vue'
-import FollowerView from '@/views/accounts/FollowerView.vue'
-import FollowingView from '@/views/accounts/FollowingView.vue'
+import FollowView from '@/views/accounts/FollowView.vue'
+
 
 export default [
   {
@@ -34,15 +34,9 @@ export default [
     props: true
   },
   {
-    path: '/:userName/follower/',
-    name: 'profile-follower',
-    component: FollowerView,
-    props: true
-  },
-  {
-    path: '/:userName/following/',
-    name: 'profile-following',
-    component: FollowingView,
+    path: '/:userName/:follow/',
+    name: 'profile-follow',
+    component: FollowView,
     props: true
   },
 ]
