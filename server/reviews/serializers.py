@@ -7,7 +7,7 @@ class ReviewListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review
-        fields = ('id', 'title', 'content','author', 'username')
+        fields = ('id', 'title', 'content','user', 'username')
 
 
 class ReviewCommentListSerializer(serializers.ModelSerializer):
@@ -15,7 +15,7 @@ class ReviewCommentListSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReviewComment
         fields = ('author', 'review')
-        read_only_fields = ('review','author',)
+        read_only_fields = ('review','user',)
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -26,13 +26,13 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = '__all__'
-        read_only_fields = ('user', )
+        read_only_fields = ('user', 'like_users')
 
 class ReviewCommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ReviewComment
         fields = '__all__'
-        read_only_fields = ('review','author',)
+        read_only_fields = ('review','user',)
 
 
