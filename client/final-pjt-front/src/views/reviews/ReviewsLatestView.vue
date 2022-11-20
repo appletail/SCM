@@ -1,7 +1,8 @@
 <template>
   <div>
-    <ReviewsList/>
-    <!-- :reviews='reviews'/> -->
+    <ReviewsList
+    :reviews='reviews'/>
+    <!-- {{latestreviews}} -->
     <h1>최신순 잘나옵니다.</h1>
   </div>
 </template>
@@ -14,17 +15,33 @@ export default {
   components: {
     ReviewsList,
   },
-  // created: {
-  //   latestReviews() {
-  //     console.log('실행은 되요')
-  //     this.$store.actions.latestReviews
-  //   }
-  // },
-  // computed: {
-  //   reviews() {
-  //     return this.$store.state.reviews
-  //   }
-  // }
+  data() {
+    return {
+      reviews: []
+    }
+  },
+  created() {
+    this.latestReviews()
+  },
+
+  methods: {
+    latestReviews() {
+      this.$axios({
+        method:'get',
+        url: `${this.$API_URL}/reviews/latest/`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwt')}`
+        }
+      })
+        .then((res) => {
+          console.log(res)
+          this.reviews = res.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  }
 }
 </script>
 

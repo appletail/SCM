@@ -1,6 +1,12 @@
 <template>
   <div>
-    {{review}}
+    <!-- <p>
+      {{review}}
+    </p> -->
+    <router-link :to="{ name: 'detailview', params: { id: review.id } }">
+      {{review}}
+    </router-link>
+    <!-- {{review.user}} -->
   </div>
 </template>
 
