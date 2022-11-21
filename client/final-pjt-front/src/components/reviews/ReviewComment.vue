@@ -4,7 +4,15 @@
     v-for="comment in comments"
     :key="comment.id"
     :comment="comment"
+    @delete-review-comment="deleteReviewComment"
     />
+
+    <!-- <p
+    v-for="comment in comments"
+    :key="comment.id">
+
+    </p> -->
+  
   </div>
 </template>
 
@@ -19,7 +27,13 @@ export default {
   props : {
     comments : Array,
   },
-  method: {
+  methods: {
+    deleteReviewComment(comment) {
+      this.$emit('delete-review-comment', comment)
+    },
+    readReview() {
+      this.$emit('read-Review')
+    }
   }
 }
 </script>

@@ -6,6 +6,7 @@ from rest_framework import status
 from .models import Review, ReviewComment
 from .serializers import ReviewListSerializer, ReviewCommentSerializer, ReviewSerializer
 from django.shortcuts import get_object_or_404, get_list_or_404
+from django.contrib.auth import get_user_model
 # Create your views here.
 @api_view(['GET'])
 def reviews_list_latest(request):
@@ -57,6 +58,14 @@ def reviews_detail(request,review_pk):
     # 리뷰 상세 조회
     if request.method == 'GET':
         serializer = ReviewSerializer(review)
+        # me = request.user
+        # if review.like_users.filter(username=me.username).exists():
+        #     message = '좋아요'
+        # else:
+        #     # 팔로우
+        #     review.like_users.add(me)
+        #     message = '좋아요 취소'
+        #     context = {'message': message,}
         return Response(serializer.data)
     
     # 리뷰 삭제
@@ -110,3 +119,27 @@ def reviewscomments_detail(request,comment_pk):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
+
+
+@api_view(['POST'])
+def review_like(request, review_pk):
+    # user = get_user_model()
+    me = request.user
+    review = Review.objects.get(pk=review_pk)
+
+    if request.method == 'POST':
+        if review.like_users.filter(username=me.username).exists():
+            review.like_users.remove(me)
+            # message = '좋아요'
+        else:
+            # 팔로우
+            review.like_users.add(me)
+            # message = '좋아요 취소'
+            # context = {'message': message,}
+        return Response(status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def review_lookup(request, review_pk):
+    review = Review.objects.get(pk=review_pk)
+    review.Lookup_cnt += 1
+    return Response(status=status.HTTP_200_OK)

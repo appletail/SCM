@@ -3,7 +3,6 @@ from . import views
 
 urlpatterns = [
     path('create/',views.reviews_create),
-    # path('<str:reviews_filter>/',views.reviews_list),
     path('latest/',views.reviews_list_latest),
     path('popular/',views.reviews_list_popular),
     path('view/',views.reviews_list_view),
@@ -11,4 +10,6 @@ urlpatterns = [
     path('comments/',views.reviewscomments_list),
     path('<int:review_pk>/reviewscomments/',views.reviewscomments_create),
     path('comments/<int:comment_pk>/',views.reviewscomments_detail),
+    path('<int:review_pk>/review_like/', views.review_like),
+    path('<int:review_pk>/lookup/',views.review_lookup)
 ]
