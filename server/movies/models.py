@@ -21,6 +21,6 @@ class Crew(models.Model):
 
 
 class Genre(models.Model):
-    genre_id = models.IntegerField()
+    genre_id = models.IntegerField(default=-1)
     name = models.CharField(max_length=32)
     movies = models.ManyToManyField(Movie, related_name='genres')

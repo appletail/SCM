@@ -28,7 +28,6 @@ class Migration(migrations.Migration):
             name='Genre',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('genre_id', models.IntegerField()),
                 ('name', models.CharField(max_length=32)),
                 ('movies', models.ManyToManyField(related_name='genres', to='movies.Movie')),
             ],

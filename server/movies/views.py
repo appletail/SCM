@@ -80,11 +80,11 @@ def director_list(request):
         serializer = CrewListSerializer(crews)
         return Response(serializer.data)
     
-# @api_view(['GET'])  
-# def makedb(request):
-#     makeDB()
-#     makeCrewDB()
-#     return 
+@api_view(['GET'])  
+def makedb(request):
+    makeDB()
+    makeCrewDB()
+    return Response()
 
 
 

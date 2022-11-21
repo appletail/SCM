@@ -13,7 +13,8 @@ def makeDB():
     # 장르 데이터 추가
     genre_data = requests.get(GENRE_URL).json()['genres']
     for data in genre_data:
-        Genre.objects.create(genre_id=data['id'], name=data['name'])
+        genre = Genre.objects.create(genre_id=data['id'], name=data['name'])
+        
 
     for num in range(1, 6):
         url = POPULAR_MOVIE_URL + str(num)
@@ -30,11 +31,11 @@ def makeDB():
             
                                
             if movie_id and title and description and release_date and img_url and genre_ids and vote_average:
-                m = Movie.objects.create(movie_id=movie_id, title=title, description=description, release_date=release_date, poster_path="https://image.tmdb.org/t/p/w500/" + img_url, vote_average=vote_average)
+                m = Movie.objects.create(movie_id=movie_id, title=title, description=description, release_date=release_date, img_url="https://image.tmdb.org/t/p/w500/" + img_url, vote_average=vote_average)
 
-                # for genre in genre_ids:
-                #     g = Genre.objects.get(genre_id=genre)
-                #     m.genres.add(g)
+                for genre in genre_ids:
+                    g = Genre.objects.get(genre_id=genre)
+                    m.genres.add(g)
 
 def makeCrewDB():
     movies = Movie.objects.all()
@@ -43,19 +44,17 @@ def makeCrewDB():
         cast_data = requests.get(Crew_URL).json().get('cast')
         for data in cast_data:
             if data['profile_path']:
-                at = Crew.objects.create(name=data['name'], gender=data['gender'],job=data['job'], profile_img_path="https://image.tmdb.org/t/p/w500"+data['profile_path'],popularity=data['popularity'])
+                at = Crew.objects.create(name=data['name'], gender=data['gender'],job=data['known_for_department'], profile_img_path="https://image.tmdb.org/t/p/w500"+data['profile_path'],popularity=data['popularity'])
                 print(at.name)
-                movie.actors.add(at)
+                movie.crews.add(at)
         
         crew_data = requests.get(Crew_URL).json().get('crew')
         for data in crew_data:
             if data['profile_path'] and data['known_for_department'] =='Directing':
-                at = Crew.objects.create(name=data['name'], gender=data['gender'],job=data['job'], profile_img_path="https://image.tmdb.org/t/p/w500"+data['profile_path'],popularity=data['popularity'])
+                at = Crew.objects.create(name=data['name'], gender=data['gender'],job=data['known_for_department'], profile_img_path="https://image.tmdb.org/t/p/w500"+data['profile_path'],popularity=data['popularity'])
                 print(at.name)
-                movie.actors.add(at)
+                movie.crews.add(at)
 
-makeDB()
-makeCrewDB()
         
 
 
