@@ -4,10 +4,11 @@ from .models import Review, ReviewComment
 
 class ReviewListSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username', read_only=True)
+    like_users_count = serializers.IntegerField(source='like_users.count', read_only=True)
 
     class Meta:
         model = Review
-        fields = ('id', 'title', 'content','user', 'username')
+        fields = ('id', 'title', 'content','user', 'username', 'like_users_count')
         read_only_fields = ('user',)
 
 

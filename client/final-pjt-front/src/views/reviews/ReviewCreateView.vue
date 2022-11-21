@@ -25,12 +25,6 @@ export default {
   },
   methods: {
     createReview() {
-      
-      // 여기 안에 username이랑 token 들어있어
-      console.log(localStorage.getItem('username'))
-      console.log(localStorage.getItem('jwt'))
-
-
       const title = this.title
       const content = this.content
       const movie_title = this.movie_title
