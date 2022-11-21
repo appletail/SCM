@@ -1,12 +1,11 @@
 from rest_framework import serializers
-from .models import Review, ReviewComment
 from .models import Movie, Crew, Genre
 
 class MovieListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = ('title', 'img_url',)
+        fields = ('title', 'img_url','movie_id',)
 
 class CrewListSerializer(serializers.ModelSerializer):
 
