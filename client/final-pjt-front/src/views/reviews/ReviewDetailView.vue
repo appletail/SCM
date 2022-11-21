@@ -1,8 +1,16 @@
 <template>
   <div>
     {{review}}
+    <!-- <div>
+      리뷰 제목 : {{review.title}}
+    </div>
+    <div>
+      리뷰 내용 : {{review.content}}
+    </div> -->
+
     
     <div>
+      <!-- <p>좋아요 갯수 : {{review.like_users.length}}</p> -->
       <button @click="LikeReview()">좋아요</button>
       <button @click="MoveUpdate()">Update</button>
       <button @click="DeleteReview()">DELETE</button>
@@ -17,6 +25,7 @@
     </form>
     <ReviewComment
     :comments="review?.reviewcomment_set"
+    @delete-review-comment="deleteReviewComment"
     />
   </div>
 </template>
@@ -32,7 +41,7 @@ export default {
   data() {
     return {
       review: null,
-      reviewcomment : ''
+      reviewcomment : '',
     }
   },
   created() {
@@ -48,9 +57,11 @@ export default {
         }
       })
         .then((res) => {
-          console.log(res.data)
+          // console.log(res.data)
           // console.log(this.$route.params.id)
           this.review = res.data
+          console.log()
+          this.message = res.data.message
         })
         .catch((err) => {
           console.log(err)
@@ -75,11 +86,9 @@ export default {
           console.log(err)
         })
     },
-
     MoveUpdate() {
       this.$router.push({ name:'updateview' , params: { id: this.review.id }})
-    }
-    ,
+    },
     DeleteReview() {
       this.$axios({
         method:'DELETE',
@@ -97,34 +106,38 @@ export default {
         })
     },
     LikeReview(){
-      console.log('좋아요.')
-      console.log(localStorage.getItem('username'))
-      console.log(localStorage.getItem('jwt'))
-      
-      if (this.review.like_users.indexOf(localStorage.getItem('username')) != -1) {
-        console.log('이미 포함되어있어요.')
-        this.review.like_users.splice(this.review.like_users.indexOf(localStorage.getItem('username')),1)
-      } else {
-        this.review.like_users.push(localStorage.getItem('username'))
-      }
+      this.$axios({
+        method: 'Post',
+        url: `${this.$API_URL}/reviews/${this.review.id}/review_like/`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwt')}`
+        }
+      })
+        .then((res) => {
+          console.log(res.data)
+          this.ReviewRead()
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    deleteReviewComment(comment) {
+      console.log(comment)
+      this.$axios({
+        method:'DELETE',
+        url: `${this.$API_URL}/reviews/comments/${comment.id}/`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwt')}`
+        }
+      })
+        .then(() => {
+          // console.log('잘 전달됬다.')
+          this.ReviewRead()
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
-    // deleteComment(comment) {
-    //   console.log(comment)
-      // this.$axios({
-      //   method:'DELETE',
-      //   url: `${this.$API_URL}/reviews/comments/${comment.id}/`,
-      //   headers: {
-      //     Authorization: `Bearer ${localStorage.getItem('jwt')}`
-      //   }
-      // })
-      //   .then(() => {
-      //     console.log('잘 전달됬다.')
-      //     this.ReviewRead()
-      //   })
-      //   .catch((err) => {
-      //     console.log(err)
-      //   })
-        // }
     
   }
 }
