@@ -16,7 +16,7 @@
 
     </form>
     <ReviewComment
-    :comments="review.reviewcomment_set"
+    :comments="review?.reviewcomment_set"
     />
   </div>
 </template>
