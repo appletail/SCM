@@ -18,7 +18,6 @@ export default {
   },
   props : {
     comments : Array,
-    // review_id: Number,
   },
   method: {
   }

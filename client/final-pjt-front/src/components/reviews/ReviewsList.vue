@@ -17,11 +17,6 @@ export default {
   components : {
     ReviewsListItem,
   },
-  // computed: {
-  //   reviews() {
-  //     return this.$store.state.reviews
-  //   }
-  // },
   props: {
     reviews: Array,
   }

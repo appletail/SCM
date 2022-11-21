@@ -1,7 +1,7 @@
 <template>
   <div>
     {{comment}}
-    <button @submit.prevent="deleteComment">DELETE</button>
+    <button>DELETE</button>
   </div>
 </template>
 
@@ -12,11 +12,6 @@ export default {
     comment : Object,
   },
   method: {
-    // deleteComment() {
-    //   console.log('여기는 작동합니다.')
-    //   this.$emit('delete-comment',this.comment)
-      
-    // }
   }
 }
 </script>
