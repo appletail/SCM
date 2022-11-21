@@ -14,11 +14,18 @@ class UserProfileSerializer(serializers.ModelSerializer):
     followers = serializers.IntegerField(source='followers.count', read_only=True)
     class Meta:
         model = get_user_model()
-        fields = ('username', 'nickname', 'introduce', 'followings', 'followers',)
+        fields = ('username', 'nickname', 'profile_img', 'introduce', 'followings', 'followers',)
+
+
+class UserProfileUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = get_user_model()
+        fields = ('username', 'nickname', 'introduce', 'profile_img',)
 
 
 class followSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ('username', 'nickname', 'introduce', 'followers',)
+        fields = ('username', 'nickname', 'profile_img', 'introduce', 'followers',)

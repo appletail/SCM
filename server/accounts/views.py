@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404, get_list_or_404
 from django.contrib.auth import get_user_model
 
-from .serializers import UserSerializer, UserProfileSerializer, followSerializer
+from .serializers import UserSerializer, UserProfileSerializer, followSerializer, UserProfileUpdateSerializer
 
 # Create your views here.
 
@@ -64,17 +64,14 @@ def update(request, username):
         user = get_object_or_404(get_user_model(), username=username)
         # 프로필 수정 페이지 조회
         if request.method == 'GET':
-            context = {
-                'username': user.username,
-                'nickname': user.nickname,
-                'introduce': user.introduce,
-            }
-            return Response(context)
+            serializer = UserProfileUpdateSerializer(user)
+            return Response(serializer.data)
         
         # 프로필 수정
         elif request.method == 'PUT':
             password = request.data.get('password')
             password_confirm = request.data.get('password_confirm')
+            profile_img = request.FILES.get('profile_img')
             nickname = request.data.get('nickname')
             introduce = request.data.get('introduce')
 
@@ -85,10 +82,10 @@ def update(request, username):
 
             # 프로필 수정
             else:
-                if password:
-                    user.set_password(password)
+                user.set_password(password) if password else user.password
                 user.nickname = nickname if nickname else user.nickname
                 user.introduce = introduce if introduce else user.introduce
+                user.profile_img = profile_img if profile_img else user.profile_img
                 user.save()
                 context = {'success': '수정이 완료되었습니다.'}
                 return Response(status=status.HTTP_204_NO_CONTENT)
