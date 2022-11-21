@@ -11,7 +11,7 @@
 export default {
   name: 'FollowItem',
   props: {
-    followItem: Array,
+    followItem: Object,
   },
   data() {
     return {

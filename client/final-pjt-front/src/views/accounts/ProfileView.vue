@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>This is profile page</h1>
-
+    <img :src="profile_img" alt="프로필 이미지">
     <p>{{ profile?.username }}</p>
     <p>{{ profile?.nickname }}</p>
     <p>{{ profile?.introduce }}</p>
@@ -46,6 +46,7 @@ export default {
   data() {
     return {
       profile: null,
+      profile_img: null,
       userName: null,
       is_follow: null,
     };
@@ -60,6 +61,9 @@ export default {
         .then((res) => {
           this.profile = res.data;
           this.is_follow = res.data.is_follow
+          if (this.profile.profile_img) {
+            this.profile_img = `${this.$API_URL}/${this.profile.profile_img}`
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -112,6 +116,7 @@ export default {
     next();
   },
   created() {
+    this.profile_img = `${this.$API_URL}/media/images/default_profile_img/1.jpg`
     this.userName = this.$route.params.userName;
     this.getProfile();
   },

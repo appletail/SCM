@@ -32,7 +32,7 @@ export default {
         headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`,},
       })
         .then((res) => {
-          console.log(res.data)
+          // console.log(res.data)
           this.followItems = res.data
         })
         .catch((err) => {
