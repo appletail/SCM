@@ -13,10 +13,10 @@ def makeDB():
     # 장르 데이터 추가
     genre_data = requests.get(GENRE_URL).json()['genres']
     for data in genre_data:
-        genre = Genre.objects.create(genre_id=data['id'], name=data['name'])
+        genre = Genre.objects.create(pk=data['id'], name=data['name'])
         
 
-    for num in range(1, 6):
+    for num in range(1, 501):
         url = POPULAR_MOVIE_URL + str(num)
         movie_data = requests.get(url).json().get('results')
 
@@ -34,7 +34,7 @@ def makeDB():
                 m = Movie.objects.create(movie_id=movie_id, title=title, description=description, release_date=release_date, img_url="https://image.tmdb.org/t/p/w500/" + img_url, vote_average=vote_average)
 
                 for genre in genre_ids:
-                    g = Genre.objects.get(genre_id=genre)
+                    g = Genre.objects.filter(pk=genre)
                     m.genres.add(g)
 
 def makeCrewDB():
