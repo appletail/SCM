@@ -40,11 +40,9 @@ export default [
     component: ReviewUpdateView
   },
   {
-    path: '/reviews/:id',
+    path: '/reviews/:id/',
     name: 'detailview',
     component: ReviewDetailView
   },
-
-
 
 ]

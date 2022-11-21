@@ -8,24 +8,28 @@ from .serializers import ReviewListSerializer, ReviewCommentSerializer, ReviewSe
 from django.shortcuts import get_object_or_404, get_list_or_404
 from django.contrib.auth import get_user_model
 # Create your views here.
+
+# 최신순 정렬
 @api_view(['GET'])
 def reviews_list_latest(request):
     if request.method == 'GET':
         reviews = get_list_or_404(Review)
-        reviews = sorted(reviews, key = lambda x: x.created_at)
+        reviews = sorted(reviews, key = lambda x: x.created_at, reverse=True)
         # 정렬된 데이터 조회
         serializer = ReviewListSerializer(reviews, many=True)
         return Response(serializer.data)
 
+# 인기순 정렬
 @api_view(['GET'])
 def reviews_list_popular(request):
     if request.method == 'GET':
         reviews = get_list_or_404(Review)
-        reviews = sorted(reviews, key = lambda x: len(x.like_users))
         # 정렬된 데이터 조회
         serializer = ReviewListSerializer(reviews, many=True)
-        return Response(serializer.data)
+        popular_reviews = sorted(serializer.data, key= lambda x: x.get('like_users_count'), reverse=True)
+        return Response(popular_reviews)
 
+# 조회순 정렬
 @api_view(['GET'])
 def reviews_list_view(request):
     if request.method == 'GET':
@@ -58,15 +62,13 @@ def reviews_detail(request,review_pk):
     # 리뷰 상세 조회
     if request.method == 'GET':
         serializer = ReviewSerializer(review)
-        # me = request.user
-        # if review.like_users.filter(username=me.username).exists():
-        #     message = '좋아요'
-        # else:
-        #     # 팔로우
-        #     review.like_users.add(me)
-        #     message = '좋아요 취소'
-        #     context = {'message': message,}
-        return Response(serializer.data)
+        if request.user.pk in serializer.data.get('like_users'):
+            like = '좋아요 취소'
+        else:
+            like = '좋아요'
+        context = { 'reviewLike': like }
+        context.update(serializer.data)
+        return Response(context)
     
     # 리뷰 삭제
     elif request.method == 'DELETE':
@@ -130,16 +132,17 @@ def review_like(request, review_pk):
     if request.method == 'POST':
         if review.like_users.filter(username=me.username).exists():
             review.like_users.remove(me)
-            # message = '좋아요'
+            message = '좋아요'
         else:
             # 팔로우
             review.like_users.add(me)
-            # message = '좋아요 취소'
-            # context = {'message': message,}
-        return Response(status=status.HTTP_200_OK)
+            message = '좋아요 취소'
+        context = {'message': message,}
+        return Response(context, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 def review_lookup(request, review_pk):
     review = Review.objects.get(pk=review_pk)
     review.Lookup_cnt += 1
+    review.save()
     return Response(status=status.HTTP_200_OK)

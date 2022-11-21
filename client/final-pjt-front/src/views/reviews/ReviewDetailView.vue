@@ -11,7 +11,7 @@
     
     <div>
       <!-- <p>좋아요 갯수 : {{review.like_users.length}}</p> -->
-      <button @click="LikeReview()">좋아요</button>
+      <button @click="LikeReview()">{{ reviewLike }}</button>
       <button @click="MoveUpdate()">Update</button>
       <button @click="DeleteReview()">DELETE</button>
     </div>  
@@ -41,11 +41,10 @@ export default {
   data() {
     return {
       review: null,
+      reviewLike: null,
+      reviewId: null,
       reviewcomment : '',
     }
-  },
-  created() {
-    this.ReviewRead()
   },
   methods: {
     ReviewRead() {
@@ -57,11 +56,8 @@ export default {
         }
       })
         .then((res) => {
-          // console.log(res.data)
-          // console.log(this.$route.params.id)
           this.review = res.data
-          console.log()
-          this.message = res.data.message
+          this.reviewLike = res.data.reviewLike
         })
         .catch((err) => {
           console.log(err)
@@ -99,7 +95,6 @@ export default {
       })
         .then(() => {
           this.$router.push({ name:'reviewlatest'})
-
         })
         .catch((err) => {
           console.log(err)
@@ -114,7 +109,7 @@ export default {
         }
       })
         .then((res) => {
-          console.log(res.data)
+          this.reviewLike = res.data.message
           this.ReviewRead()
         })
         .catch((err) => {
@@ -131,15 +126,29 @@ export default {
         }
       })
         .then(() => {
-          // console.log('잘 전달됬다.')
           this.ReviewRead()
         })
         .catch((err) => {
           console.log(err)
         })
-    }
-    
-  }
+    },
+    reviewLookUp() {
+      this.$axios({
+        method: 'post',
+        url: `${this.$API_URL}/reviews/${this.reviewId}/lookup/`,
+        headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`}
+      })
+    },
+  },
+  created() {
+    this.reviewId = this.$route.params.id
+    this.ReviewRead()
+    this.reviewLookUp()
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.reviewId = this.$route.params.id
+    next();
+  },
 }
 </script>
 

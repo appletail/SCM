@@ -27,13 +27,12 @@ export default {
     latestReviews() {
       this.$axios({
         method:'get',
-        url: `${this.$API_URL}/reviews/latest/`, // 임시방편 게시글 좋아요 확인 후 해보자.
+        url: `${this.$API_URL}/reviews/popular/`, // 임시방편 게시글 좋아요 확인 후 해보자.
         headers: {
           Authorization: `Bearer ${localStorage.getItem('jwt')}`
         }
       })
         .then((res) => {
-          console.log(res)
           this.reviews = res.data
         })
         .catch((err) => {

@@ -8,33 +8,33 @@ import FollowView from '@/views/accounts/FollowView.vue'
 
 export default [
   {
-    path: '/signup',
+    path: '/accounts/signup/',
     name: 'signup',
     component: SignupView
   },
   {
-    path: '/login',
+    path: '/accounts/login/',
     name: 'login',
     component: LoginView
   },
   {
-    path: '/logout',
+    path: '/accounts/logout/',
     name: 'logout',
     component: LogoutView
   },
   {
-    path: '/:userName',
+    path: '/accounts/:userName/',
     name: 'profile',
     component: ProfileView
   },
   {
-    path: '/:userName/update/',
+    path: '/accounts/:userName/update/',
     name: 'profile-update',
     component: ProfileUpdateView,
     props: true
   },
   {
-    path: '/:userName/:follow/',
+    path: '/accounts/:userName/:follow/',
     name: 'profile-follow',
     component: FollowView,
     props: true

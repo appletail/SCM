@@ -34,7 +34,6 @@ export default {
         }
       })
         .then((res) => {
-          console.log(res)
           this.reviews = res.data
         })
         .catch((err) => {
