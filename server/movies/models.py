@@ -2,7 +2,6 @@ from django.db import models
 
 # Create your models here.
 class Movie(models.Model):
-    movie_id = models.IntegerField()
     title = models.CharField(max_length=50)
     description = models.TextField(null=True)
     release_date = models.DateField(null=True)
@@ -21,6 +20,5 @@ class Crew(models.Model):
 
 
 class Genre(models.Model):
-    genre_id = models.IntegerField(default=-1)
     name = models.CharField(max_length=32)
     movies = models.ManyToManyField(Movie, related_name='genres')
