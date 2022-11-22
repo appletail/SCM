@@ -5,6 +5,7 @@ class Movie(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField(null=True)
     release_date = models.DateField(null=True)
+    popularity = models.FloatField(default=0, null=True)
     vote_average = models.FloatField(default=0, null=True)
     img_url = models.CharField(max_length=255, null=True)
     backdrop_img_url = models.CharField(max_length=255, null=True)
