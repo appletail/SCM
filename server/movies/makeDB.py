@@ -8,12 +8,12 @@ API_KEY = 'c355457ba4508bf477d4c1d98ce31dd0'
 
 def makeDB():
     POPULAR_MOVIE_URL = f'https://api.themoviedb.org/3/movie/popular?api_key={API_KEY}&language=ko-KR&page='
-    GENRE_URL = f'https://api.themoviedb.org/3/genre/movie/list?api_key={API_KEY}&language=ko-KR'
+    # GENRE_URL = f'https://api.themoviedb.org/3/genre/movie/list?api_key={API_KEY}&language=ko-KR'
             
     # 장르 데이터 추가
-    genre_data = requests.get(GENRE_URL).json()['genres']
-    for data in genre_data:
-        genre = Genre.objects.create(pk=data['id'], name=data['name'])
+    # genre_data = requests.get(GENRE_URL).json()['genres']
+    # for data in genre_data:
+    #     genre = Genre.objects.create(pk=data['id'], name=data['name'])
         
 
     for num in range(1, 501):
@@ -22,20 +22,20 @@ def makeDB():
 
         for movie in movie_data:
             movie_id = movie.get('id')
-            title = movie.get('title')
-            description = movie.get('overview')
-            release_date =  movie.get('release_date')
-            img_url = movie.get('poster_path')
-            genre_ids = movie.get('genre_ids')
-            vote_average = movie.get('vote_average')
+            # title = movie.get('title')
+            # description = movie.get('overview')
+            # release_date =  movie.get('release_date')
+            # img_url = movie.get('poster_path')
+            # genre_ids = movie.get('genre_ids')
+            # vote_average = movie.get('vote_average')
+            popularity = movie.get('popularity')
 
-            if movie_id and title and description and release_date and img_url and genre_ids and vote_average:
-                if not Movie.objects.filter(pk=movie_id).exists():
-                    m = Movie.objects.create(pk=movie_id, title=title, description=description, release_date=release_date, img_url="https://image.tmdb.org/t/p/w500/" + img_url, vote_average=vote_average)
-
-                    for genre in genre_ids:
-                        g = Genre.objects.get(pk=genre)
-                        m.genres.add(g)
+            if movie_id and popularity:
+                if Movie.objects.filter(pk=movie_id).exists():
+                    m = Movie.objects.get(pk=movie_id)
+                    
+                    m.popularity = popularity
+                    m.save()
 
 def makeCrewDB():
     movies = Movie.objects.all()
