@@ -5,6 +5,10 @@ import router from './router'
 import axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap'
+import CKEditor from 'ckeditor4-vue';
+
+Vue.use( CKEditor );
+
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios; 

@@ -1,6 +1,7 @@
 <template>
   <div>
-    {{review}}
+    <p v-html="content"></p>
+    <!-- {{ review }} -->
     <!-- <div>
       리뷰 제목 : {{review.title}}
     </div>
@@ -44,6 +45,7 @@ export default {
       reviewLike: null,
       reviewId: null,
       reviewcomment : '',
+      content: null,
     }
   },
   methods: {
@@ -58,6 +60,7 @@ export default {
         .then((res) => {
           this.review = res.data
           this.reviewLike = res.data.reviewLike
+          this.content = res.data.content
         })
         .catch((err) => {
           console.log(err)
