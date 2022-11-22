@@ -1,11 +1,11 @@
 <template>
-  <div >
-    <router-link
-      @click.native="lookup"
-     :to="{ name: 'detailview', params: { id: review.id } } ">
-      {{review}}
-    </router-link>
-  </div>
+  <md-table-row @click="movieDetail">
+    <md-table-cell md-numeric>{{review.title}}</md-table-cell>
+    <md-table-cell>{{review.movie}}</md-table-cell>
+    <md-table-cell>{{review.username}}</md-table-cell>
+    <md-table-cell>{{review1_created_at}}</md-table-cell>
+    <md-table-cell>{{review.Lookup_cnt}}</md-table-cell>
+  </md-table-row>
 </template>
 
 <script>
@@ -14,7 +14,15 @@ export default {
   props: {
     review:Object,
   },
+  data() {
+    return {
+      review1_created_at : this.review.created_at.substr(0,10)
+    }
+  },
   methods: {
+    movieDetail() {
+      this.$router.push({ name: 'detailview', params: { id: this.review.id } })
+    }
   }
 }
 </script>
