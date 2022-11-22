@@ -1,41 +1,46 @@
 <template>
-  <div>
-    <h1>This is profile page</h1>
-    <img :src="profile_img" alt="프로필 이미지">
-    <p>{{ profile?.username }}</p>
-    <p>{{ profile?.nickname }}</p>
-    <p>{{ profile?.introduce }}</p>
-    <button v-if="userName != loginUser" @click="follow">{{ is_follow }}</button>
-    <p>
-      <router-link
-        :to="{ name: 'profile-follow', 
-        params: {
-           userName: userName,
-           follow: 'followers',
-        } }"
-      >
-      {{ profile?.followers }}
-        followers |
-      </router-link>
-      <router-link 
-        :to="{ name: 'profile-follow', 
-        params: {
-           userName: userName,
-           follow: 'followings',
-        } }"
-      >
-      {{ profile?.followings }}
-        followings
-      </router-link>
-    </p>
+  <div class="d-flex">
+    <div class="mx-5">
+      <h1>This is profile page</h1>
+      <img :src="profile_img" alt="프로필 이미지">
+      <p>{{ profile?.username }}</p>
+      <p>{{ profile?.nickname }}</p>
+      <p>{{ profile?.introduce }}</p>
+      <button v-if="userName != loginUser" @click="follow">{{ is_follow }}</button>
+      <p>
+        <router-link
+          :to="{ name: 'profile-follow', 
+          params: {
+            userName: userName,
+            follow: 'followers',
+          } }"
+        >
+        {{ profile?.followers }}
+          followers |
+        </router-link>
+        <router-link 
+          :to="{ name: 'profile-follow', 
+          params: {
+            userName: userName,
+            follow: 'followings',
+          } }"
+        >
+        {{ profile?.followings }}
+          followings
+        </router-link>
+      </p>
 
-    <div v-if="loginUser === userName">
-      <button @click="deleteUser">회원탈퇴</button>
-      <router-link
-        :to="{ name: 'profile-update', params: { userName: loginUser } }"
-      >
-        <button>회원정보수정</button>
-      </router-link>
+      <div v-if="loginUser === userName">
+        <button @click="deleteUser">회원탈퇴</button>
+        <router-link
+          :to="{ name: 'profile-update', params: { userName: loginUser } }"
+        >
+          <button>회원정보수정</button>
+        </router-link>
+      </div>
+    </div>
+    <div class="mx-3 d-flex justify-content-center">
+      <router-view/>
     </div>
   </div>
 </template>

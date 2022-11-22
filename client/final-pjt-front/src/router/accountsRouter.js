@@ -19,18 +19,20 @@ export default [
   {
     path: '/accounts/:userName/',
     name: 'profile',
-    component: ProfileView
+    component: ProfileView,
+    children: [
+      {
+        path: '/accounts/:userName/:follow/',
+        name: 'profile-follow',
+        component: FollowView,
+        props: true
+      },
+    ]
   },
   {
     path: '/accounts/:userName/update/',
     name: 'profile-update',
     component: ProfileUpdateView,
-    props: true
-  },
-  {
-    path: '/accounts/:userName/:follow/',
-    name: 'profile-follow',
-    component: FollowView,
     props: true
   },
 ]
