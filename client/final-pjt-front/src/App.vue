@@ -14,14 +14,12 @@
       <router-link :to="{ name : 'reviewlatest'}">review |</router-link>
     </nav>
     <router-view/>
-
   </div>
 </template>
 
-
 <script>
 export default {
-  name: 'LogoutView',
+  name: 'App',
   data() {
     return {
     }
