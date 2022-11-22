@@ -19,6 +19,7 @@ def reviews_list_latest(request):
         serializer = ReviewListSerializer(reviews, many=True)
         return Response(serializer.data)
 
+
 # 인기순 정렬
 @api_view(['GET'])
 def reviews_list_popular(request):
@@ -28,6 +29,7 @@ def reviews_list_popular(request):
         serializer = ReviewListSerializer(reviews, many=True)
         popular_reviews = sorted(serializer.data, key= lambda x: x.get('like_users_count'), reverse=True)
         return Response(popular_reviews)
+
 
 # 조회순 정렬
 @api_view(['GET'])
@@ -40,7 +42,6 @@ def reviews_list_view(request):
         return Response(serializer.data)
 
 
-
 @api_view(['GET', 'POST'])
 def reviews_create(request):
     # # 전체 데이터 조회인데 일단 적었습니다.
@@ -48,12 +49,13 @@ def reviews_create(request):
         reviews = Review.objects.all()
         serializer = ReviewListSerializer(reviews, many=True)
         return Response(serializer.data)
-    
+
     if request.method == 'POST':
         serializer = ReviewSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save(user=request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 @api_view(['GET','DELETE','PUT'])
 def reviews_detail(request,review_pk):
@@ -94,6 +96,7 @@ def reviewscomments_list(request):
         serializer = ReviewCommentSerializer(comments, many=True)
         return Response(serializer.data)
 
+
 # 리뷰 댓글 생성
 @api_view(['POST'])
 def reviewscomments_create(request,review_pk):
@@ -102,6 +105,7 @@ def reviewscomments_create(request,review_pk):
     if serializer.is_valid(raise_exception=True):
         serializer.save(review=review)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 # 리뷰 댓글 상세 조회, 삭제, 수정
 @api_view(['GET', 'DELETE', 'PUT'])
@@ -125,7 +129,6 @@ def reviewscomments_detail(request,comment_pk):
 
 @api_view(['POST'])
 def review_like(request, review_pk):
-    # user = get_user_model()
     me = request.user
     review = Review.objects.get(pk=review_pk)
 
@@ -139,6 +142,7 @@ def review_like(request, review_pk):
             message = '좋아요 취소'
         context = {'message': message,}
         return Response(context, status=status.HTTP_200_OK)
+
 
 @api_view(['POST'])
 def review_lookup(request, review_pk):
