@@ -28,6 +28,17 @@ export default {
     username() {
       return localStorage.getItem('username')
     },
+    saveMovies() {
+      this.$axios({
+        method: 'get',
+        url: `${this.API_URL}/movies/popular/`,
+        headers: {Authorization: `Bearer ${this.access_token}`,},
+      })
+        .then((res) => {
+          movies = res.data
+          this.$store.dispatch('moviesStore/saveMovies', movies)
+        })
+    }
   },
   computed: {
     is_login() {
@@ -36,6 +47,7 @@ export default {
   },
   created() {
     this.$store.dispatch('accountsStore/login')
+    this.saveMovies()
   }
 }
 </script>

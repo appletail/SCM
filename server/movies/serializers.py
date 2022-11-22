@@ -22,15 +22,6 @@ class GenreListSerializer(serializers.ModelSerializer):
         fields = ('id', 'name')
 
 
-class GenreSerializer(serializers.ModelSerializer):
-    
-    movies = MovieListSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Genre
-        fields = '__all__'
-
-
 class CrewSerializer(serializers.ModelSerializer):
 
     movies = MovieListSerializer(many=True, read_only=True)
