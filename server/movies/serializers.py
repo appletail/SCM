@@ -5,30 +5,45 @@ class MovieListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = ('title', 'img_url','movie_id',)
+        fields = ('id', 'title', 'img_url',)
+
 
 class CrewListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Crew
-        fields = ('name','profile_img_path')
+        fields = ('id', 'name','profile_img_path', 'job',)
+
 
 class GenreListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Genre
+        fields = ('id', 'name')
+
+
+class GenreSerializer(serializers.ModelSerializer):
+    
+    movies = MovieListSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Genre
         fields = '__all__'
-        read_only_fields = ('movies',)
+
+
+class CrewSerializer(serializers.ModelSerializer):
+
+    movies = MovieListSerializer(many=True, read_only=True)
+    class Meta:
+        model = Crew
+        fields = '__all__'
+        # read_only_fields = ('id', 'movies',)
+
 
 class MovieSerializer(serializers.ModelSerializer):
+
+    crews = CrewListSerializer(many=True, read_only=True)
 
     class Meta:
         model = Movie
         fields = '__all__'
-
-class CrewSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Crew
-        fileds = '__all__'
-        read_only_fields = ('movies',)
