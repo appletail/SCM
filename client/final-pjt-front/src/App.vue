@@ -1,17 +1,26 @@
 <template>
   <div id="app">
     <nav class="navbar navbar-expand-lg bg-light d-flex justify-content-evenly">
-
+      
       <router-link to="/">
         <div class="content">
           <h2>SCM</h2>
           <h2>SCM</h2>
         </div>
       </router-link>
-      <router-link :to="{ name: 'login' }" v-if="!is_login">Login |</router-link>
-      <router-link :to="{ name: 'logout' }" v-if="is_login">logout |</router-link>
-      <router-link :to="{ name: 'profile', params:{ userName: username() } }" v-if="is_login">profile |</router-link>
-      <router-link :to="{ name : 'reviewlatest'}">review |</router-link>
+      <div>
+        <router-link :to="{ name: 'login' }" v-if="!is_login">Login |</router-link>
+        <router-link :to="{ name: 'logout' }" v-if="is_login">logout |</router-link>
+        <router-link :to="{ name : 'reviewlatest'}">review |</router-link>
+        <router-link :to="{ name: 'profile', params:{ userName: username() } }" v-if="is_login">profile |</router-link>
+      </div>
+    
+      <div style="display:flex;">
+        <md-autocomplete v-model="search_value" :md-options="movies"
+        style="width:80%; margin-left: auto; margin-right: auto;">
+        <label>Serach</label>
+        </md-autocomplete>
+      </div>
     </nav>
     <router-view/>
   </div>
@@ -22,6 +31,8 @@ export default {
   name: 'App',
   data() {
     return {
+      movies : [],
+      search_value : ''
     }
   },
   methods: {
@@ -41,6 +52,23 @@ export default {
         .catch((err) => {
           console.log(err.response.data)
         })
+    },
+    popularMovies() {
+      this.$axios({
+        method:'get',
+        url: `${this.$API_URL}/movies/popular/`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwt')}`
+        }
+      })
+        .then((res) => {
+          this.movies = res.data.slice(0,500).map(element => Object.values(element)[1])
+          // console.log(res.data.map(element => Object.values(element)[1]))
+
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   },
   computed: {
@@ -51,6 +79,7 @@ export default {
   created() {
     this.$store.dispatch('accountsStore/login')
     this.saveMovies()
+    this.popularMovies()
   }
 }
 </script>
