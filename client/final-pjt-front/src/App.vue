@@ -31,12 +31,15 @@ export default {
     saveMovies() {
       this.$axios({
         method: 'get',
-        url: `${this.API_URL}/movies/popular/`,
-        headers: {Authorization: `Bearer ${this.access_token}`,},
+        url: `${this.$API_URL}/movies/popular/`,
+        headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`},
       })
         .then((res) => {
-          movies = res.data
+          const movies = res.data
           this.$store.dispatch('moviesStore/saveMovies', movies)
+        })
+        .catch((err) => {
+          console.log(err.response.data)
         })
     }
   },
