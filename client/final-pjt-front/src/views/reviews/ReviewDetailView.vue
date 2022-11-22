@@ -1,33 +1,68 @@
 <template>
   <div>
-    <p v-html="content"></p>
-    <!-- {{ review }} -->
-    <!-- <div>
-      리뷰 제목 : {{review.title}}
+    <div class="back">
+        <md-card>
+          <md-card-header style="background-color: black; color: white;">
+            <div class="md-title">{{review.title}}</div>
+            <div class="md-subhead">{{review.movie}}</div>
+          </md-card-header>
+          <br>
+          <md-card-content style="display: flex; justify-content: center;">
+            {{review.content}}
+          </md-card-content>
+        
+          <div 
+          style="margin-left:5%; margin-right:2%;
+          display: flex; justify-content: space-between;">
+            <div class="d-flex">
+            <!-- <button @click="LikeReview()">{{ reviewLike }}</button> -->
+            <md-button class="md-icon-button md-accent" @click="LikeReview()">
+              <md-icon v-if="reviewLike === '좋아요 취소'">thumb_up</md-icon>
+              <md-icon v-if="reviewLike === '좋아요'">thumb_up_off_alt</md-icon>
+            </md-button>
+            <p>{{review.like_users.length}}</p>
+            </div>
+            <div>
+              <button type="button" class="btn btn-dark" @click="MoveUpdate()">Update</button>
+              <button type="button" class="btn btn-danger" @click="DeleteReview()">DELETE</button>
+            </div>
+          </div>
+        </md-card>
     </div>
-    <div>
-      리뷰 내용 : {{review.content}}
-    </div> -->
+    <!-- 댓글 작성 및 출력 -->
+    <div class="back">
+        <md-card>
+          <md-card-header style="background-color: white; color: white;">
+            <form @submit.prevent="CreateReviewComment">
+              <md-field style="width:80%; margin-left: auto; margin-right: auto;">
+                <label for="reviewcomment">reviewComment</label>
+                <md-input v-model="reviewComment" type="text" id="reviewcomment"></md-input>
+                <button type="submit" id="submit" class="btn btn-dark" >Submit</button>
+              </md-field>
+            </form>
+            <form @submit.prevent="CreateReviewComment">
+              <div>
+                <label for="reviewcomment"> 댓글 작성: </label>
+                <input type="text" id="reviewcomment" v-model.trim="reviewcomment"><br>
+                <input type="submit" id="submit">
+              </div>
+            </form>
+          </md-card-header>
+ 
+          <br>
+          <!-- 댓글 출력 -->
+          <md-card-content style="display: flex; justify-content: center;">
+            <ReviewComment
+            :comments="review?.reviewcomment_set"
+            @delete-review-comment="deleteReviewComment"
+            />
+          </md-card-content>
+        </md-card>
+    </div>
+    
 
     
-    <div>
-      <!-- <p>좋아요 갯수 : {{review.like_users.length}}</p> -->
-      <button @click="LikeReview()">{{ reviewLike }}</button>
-      <button @click="MoveUpdate()">Update</button>
-      <button @click="DeleteReview()">DELETE</button>
-    </div>  
-    <form @submit.prevent="CreateReviewComment">
-      <div>
-        <label for="reviewcomment"> 댓글 작성: </label>
-        <input type="text" id="reviewcomment" v-model.trim="reviewcomment"><br>
-        <input type="submit" id="submit">
-      </div>
 
-    </form>
-    <ReviewComment
-    :comments="review?.reviewcomment_set"
-    @delete-review-comment="deleteReviewComment"
-    />
   </div>
 </template>
 
@@ -155,6 +190,10 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  .back {
+    margin: 20px;
+    background-color : white ;
+    border-radius: 20px;
+  };
 </style>

@@ -1,16 +1,33 @@
 <template>
   <div>
-    <h3>영화 리뷰 작성</h3>
-    <form @submit.prevent="createReview">
-      <label for="title">제목 : </label>
-      <input type="text" id="title" v-model.trim="title"><br>
-      <label for="movietitle">영화제목 : </label>
-      <input type="text" id="movietitle" v-model.trim="movie_title"><br>
-      <label for="content">내용 : </label>
-      <ckeditor v-model="content" :config="editorConfig"></ckeditor><br>
-      <input type="submit" id="submit">
-    </form>
+    <div class='back'>
+      <form @submit.prevent="createReview">
+        <md-field style="width:80%; margin-left: auto; margin-right: auto;">
+          <label>Title</label>
+          <md-input v-model="title"></md-input>
+        </md-field>
+
+        <md-autocomplete v-model="movie_title" :md-options="movies"
+        style="width:80%; margin-left: auto; margin-right: auto;">
+        <label>Movie</label>
+        </md-autocomplete>
+
+        <!-- <div style="margin-left: auto; margin-right: auto;">
+          <label for="content"></label>
+          <ckeditor v-model="content" :config="editorConfig"></ckeditor><br>
+        </div> -->
+        <md-field style="width:80%; margin-left: auto; margin-right: auto;">
+          <label>Content</label>
+          <md-textarea v-model="content"></md-textarea>
+        </md-field>
+        <div style="padding: 10px 0px;">
+          <button type="submit" class="btn btn-dark centering" 
+          style="width:80%; margin-left: auto; margin-right: auto;">제출</button>
+        </div>
+      </form>
+    </div>  
   </div>
+  
 </template>
 
 <script>
@@ -21,6 +38,8 @@ export default {
       title: null,
       movie_title:null,
       content: null,
+      movies: [],
+      test_value: '',
       editorConfig: {
         extraPlugins: 'autogrow',
         autoGrow_bottomSpace: 50,
@@ -30,6 +49,9 @@ export default {
         width: '90%',
       },
     }
+  },
+  created() {
+    this.popularMovies()
   },
   methods: {
     createReview() {
@@ -66,11 +88,39 @@ export default {
           console.log('안되요')
           console.log(err)
         })
+    },
+    popularMovies() {
+      this.$axios({
+        method:'get',
+        url: `${this.$API_URL}/movies/popular/`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwt')}`
+        }
+      })
+        .then((res) => {
+          this.movies = res.data.slice(0,500).map(element => Object.values(element)[1])
+          // console.log(res.data.map(element => Object.values(element)[1]))
+
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   }
 }
 </script>
 
-<style>
-
+<style scoped>
+  .back {
+    margin: 20px;
+    background-color : white ;
+    border-radius: 20px;
+  };
+  .centering{
+    width:80%; 
+    margin-left: auto; 
+    margin-right: auto;
+    margin-bottom: 10px;
+  }
+  
 </style>

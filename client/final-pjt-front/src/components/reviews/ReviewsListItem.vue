@@ -1,10 +1,10 @@
 <template>
   <md-table-row @click="movieDetail">
     <md-table-cell md-numeric>{{review.title}}</md-table-cell>
-    <md-table-cell>{{review.movie}}</md-table-cell>
-    <md-table-cell>{{review.username}}</md-table-cell>
-    <md-table-cell>{{review1_created_at}}</md-table-cell>
-    <md-table-cell>{{review.Lookup_cnt}}</md-table-cell>
+    <md-table-cell md-numeric>{{review.movie}}</md-table-cell>
+    <md-table-cell md-numeric>{{review.username}}</md-table-cell>
+    <md-table-cell md-numeric>{{review1_created_at}}</md-table-cell>
+    <md-table-cell md-numeric>{{review.Lookup_cnt}}</md-table-cell>
   </md-table-row>
 </template>
 
