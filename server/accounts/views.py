@@ -21,6 +21,9 @@ def signup(request):
     if password != password_confirm:
         context = {'password_unmatch': '비밀번호가 일치하지 않습니다.',}
         return Response(context, status=status.HTTP_400_BAD_REQUEST)
+    elif not password:
+        context = {'password': '비밀번호를 입력해주세요.',}
+        return Response(context, status=status.HTTP_400_BAD_REQUEST)
 
     if serializer.is_valid(raise_exception=True):
         user = serializer.save()

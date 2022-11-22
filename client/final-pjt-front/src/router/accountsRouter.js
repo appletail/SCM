@@ -1,4 +1,3 @@
-import SignupView from '@/views/accounts/SignupView.vue'
 import LoginView from '@/views/accounts/LoginView.vue'
 import LogoutView from '@/views/accounts/LogoutView.vue'
 import ProfileView from '@/views/accounts/ProfileView.vue'
@@ -7,11 +6,6 @@ import FollowView from '@/views/accounts/FollowView.vue'
 
 
 export default [
-  {
-    path: '/accounts/signup/',
-    name: 'signup',
-    component: SignupView
-  },
   {
     path: '/accounts/login/',
     name: 'login',
