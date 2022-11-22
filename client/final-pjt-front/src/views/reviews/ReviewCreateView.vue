@@ -7,7 +7,7 @@
       <label for="movietitle">영화제목 : </label>
       <input type="text" id="movietitle" v-model.trim="movie_title"><br>
       <label for="content">내용 : </label>
-      <textarea id="content" cols="30" rows="10" v-model="content"></textarea><br>
+      <ckeditor v-model="content" :config="editorConfig"></ckeditor><br>
       <input type="submit" id="submit">
     </form>
   </div>
@@ -21,6 +21,14 @@ export default {
       title: null,
       movie_title:null,
       content: null,
+      editorConfig: {
+        extraPlugins: 'autogrow',
+        autoGrow_bottomSpace: 50,
+        autoGrow_minHeight: 450,
+        autoGrow_maxHeight: 600,
+        autoGrow_onStartup: true,
+        width: '90%',
+      },
     }
   },
   methods: {

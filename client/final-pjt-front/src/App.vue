@@ -1,17 +1,23 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home |</router-link>
+    <nav class="navbar navbar-expand-lg bg-light d-flex justify-content-evenly">
+
+      <router-link to="/">
+        <div class="content">
+          <h2>SCM</h2>
+          <h2>SCM</h2>
+        </div>
+      </router-link>
       <router-link :to="{ name: 'login' }" v-if="!is_login">Login |</router-link>
-      <router-link :to="{ name: 'signup' }" v-if="!is_login">Signup |</router-link>
       <router-link :to="{ name: 'logout' }" v-if="is_login">logout |</router-link>
       <router-link :to="{ name: 'profile', params:{ userName: username() } }" v-if="is_login">profile |</router-link>
       <router-link :to="{ name : 'reviewlatest'}">review |</router-link>
-      
     </nav>
     <router-view/>
+
   </div>
 </template>
+
 
 <script>
 export default {
@@ -42,19 +48,67 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
 }
 
-nav {
-  padding: 30px;
+@import url("https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900");
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Poppins", sans-serif;
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.content {
+	position: relative;
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
+.content h2 {
+	color: #fff;
+	font-size: 3em;
+	position: absolute;
+	transform: translate(-50%, -50%);
 }
+
+.content h2:nth-child(1) {
+	color: transparent;
+	-webkit-text-stroke: 2px #8338ec;
+}
+
+.content h2:nth-child(2) {
+	color: #c19bf5;
+	animation: animate 4s ease-in-out infinite;
+}
+
+@keyframes animate {
+	0%,
+	100% {
+		clip-path: polygon(
+			0% 45%,
+			16% 44%,
+			33% 50%,
+			54% 60%,
+			70% 61%,
+			84% 59%,
+			100% 52%,
+			100% 100%,
+			0% 100%
+		);
+	}
+
+	50% {
+		clip-path: polygon(
+			0% 60%,
+			15% 65%,
+			34% 66%,
+			51% 62%,
+			67% 50%,
+			84% 45%,
+			100% 46%,
+			100% 100%,
+			0% 100%
+		);
+	}
+}
+
 </style>
