@@ -3,18 +3,30 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 
-from .makeDB import makeDB, makeCrewDB
+from .makeDB import makeDB, makeCrewDB, makeMovieBackdrop
 from .models import Movie, Crew, Genre
-from .serializers import MovieListSerializer, CrewListSerializer, GenreListSerializer, GenreSerializer, MovieSerializer, CrewSerializer
+from .serializers import MovieListSerializer, CrewListSerializer, GenreListSerializer, MovieSerializer, CrewSerializer
 from django.shortcuts import get_object_or_404, get_list_or_404
 from django.contrib.auth import get_user_model
 
-# 인기영화 조회
+
+# 영화 저장용
 @api_view(['GET'])
-def movies_list_popular(request):
+def save_movies(request):
     if request.method == 'GET':
         movies = get_list_or_404(Movie)
         movies = sorted(movies, key=lambda x: x.popularity, reverse=True)
+        serializer = MovieListSerializer(movies, many=True)
+        return Response(serializer.data)
+
+
+# 인기영화 조회
+@api_view(['GET'])
+def movies_list_popular(request, page):
+    if request.method == 'GET':
+        pages = 20 * page
+        movies = Movie.objects.all().order_by('-popularity')[pages - 20 : pages]
+        # movies = sorted(movies, key=lambda x: x.popularity, reverse=True)
         serializer = MovieListSerializer(movies, many=True)
         return Response(serializer.data)
 
@@ -92,8 +104,9 @@ def crews_detail(request, crew_pk):
         return Response(serializer.data)
 
 
-# @api_view(['GET'])  
-# def makedb(request):
-#     makeDB()
-#     makeCrewDB()
-#     return Response()
+@api_view(['GET'])  
+def makedb(request):
+    # makeDB()
+    # makeCrewDB()
+    makeMovieBackdrop()
+    return Response(status=status.HTTP_201_CREATED)

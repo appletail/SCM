@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{ pageName }} page</h1>
+    <h1>{{ pageName }}</h1>
     <FollowItem
       v-for="followItem in followItems"
       :key="followItem.username"
@@ -32,7 +32,6 @@ export default {
         headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`,},
       })
         .then((res) => {
-          // console.log(res.data)
           this.followItems = res.data
         })
         .catch((err) => {
@@ -43,6 +42,7 @@ export default {
   beforeRouteUpdate(to, from, next) {
     this.userName = to.params.userName;
     this.pageName = to.params.follow;
+    this.follow()
     next();
   },
   created() {

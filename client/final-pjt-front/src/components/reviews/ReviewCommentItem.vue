@@ -2,13 +2,24 @@
   <div>
     <p v-if="!is_update">
       {{content}}
-      <button @click="deleteReviewComment(comment)">DELETE</button>
-      <button @click="isUpdate">UPDATE</button>
+      <!-- {{comment.user}} -->
+      <!-- <button @click="deleteReviewComment(comment)">DELETE</button>
+      <button @click="isUpdate">UPDATE</button> -->
+      <md-button class="md-button-content" @click="isUpdate">
+        <i class="md-icon md-icon-font md-theme-default">update</i>
+      </md-button>
+      <md-button class="md-button-content" @click="deleteReviewComment(comment)">
+        <i class="md-icon md-icon-font md-theme-default">delete</i>
+      </md-button>
     </p>
     <form @submit.prevent="commentUpdate" v-if="is_update">
       <input type="text" v-model="content">
-      <button>UPDATE</button>
+      <!-- <button>UPDATE</button> -->
+      <md-button class="md-button-content" @click="isUpdate">
+        <i class="md-icon md-icon-font md-theme-default">update</i>
+      </md-button>
     </form>
+    
 
   </div>
 </template>

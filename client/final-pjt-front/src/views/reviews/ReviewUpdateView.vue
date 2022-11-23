@@ -1,15 +1,32 @@
 <template>
   <div>
-    <h3>영화 리뷰 작성</h3>
-    <form @submit.prevent="UpdateReview">
-      <label for="title">제목 : </label>
-      <input type="text" id="title" v-model.trim="title"><br>
-      <label for="movietitle">영화제목 : </label>
-      <input type="text" id="movietitle" v-model.trim="movie_title"><br>
-      <label for="content">내용 : </label>
-      <ckeditor v-model="content" :config="editorConfig"></ckeditor><br>
-      <input type="submit" id="submit">
-    </form>
+    <div class='back'>
+      <form @submit.prevent="UpdateReview">
+        <md-field style="width:80%; margin-left: auto; margin-right: auto;">
+          <label>Title</label>
+          <md-input v-model="title"></md-input>
+        </md-field>
+
+        <md-field 
+        style="width:80%; margin-left: auto; margin-right: auto;">
+          <label>{{movie_title}}</label>
+          <md-input disabled></md-input>
+        </md-field>
+
+        <!-- <div style="margin-left: auto; margin-right: auto;">
+          <label for="content"></label>
+          <ckeditor v-model="content" :config="editorConfig"></ckeditor><br>
+        </div> -->
+        <md-field style="width:80%; margin-left: auto; margin-right: auto;">
+          <label>Content</label>
+          <md-textarea v-model="content"></md-textarea>
+        </md-field>
+        <div style="padding: 10px 0px;">
+          <button type="submit" class="btn btn-dark centering" 
+          style="width:80%; margin-left: auto; margin-right: auto;">제출</button>
+        </div>
+      </form>
+    </div> 
   </div>
 </template>
 
@@ -88,6 +105,10 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  .back {
+    margin: 20px;
+    background-color : white ;
+    border-radius: 20px;
+  };
 </style>
