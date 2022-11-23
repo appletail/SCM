@@ -80,11 +80,13 @@ export default {
       })
         .then((res)=>{
           localStorage.setItem('jwt', res.data.access)
+          localStorage.setItem('refresh', res.data.refresh)
           localStorage.setItem('username', this.login_username)
           this.$store.dispatch('accountsStore/login')
           this.$router.push({ name: 'home' })
         })
         .catch((err) => {
+					console.log(err)
 					if (err.response.data.username) {
 						this.login_err_msg = '아이디를 입력해주세요.'
 					} else if (err.response.data.password) {
