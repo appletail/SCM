@@ -1,5 +1,7 @@
 <template>
   <div>
+    {{review}}
+    <!-- {{movie}} -->
     <div class="back">
         <md-card>
           <md-card-header style="background-color: black; color: white;">
@@ -82,6 +84,7 @@ export default {
       reviewId: null,
       reviewcomment : '',
       content: null,
+      movie: null,
     }
   },
   methods: {
@@ -178,11 +181,31 @@ export default {
         headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`}
       })
     },
+    getMovie() {
+      this.$axios({
+        method:'get',
+        url: `${this.$API_URL}/movies/${this.review.movie}/`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwt')}`
+        }
+      })
+        .then((res) => {
+          console.log('됩니다.')
+          this.movie = res.data
+          console.log(res.data)
+        })
+        .catch((err) => {
+          console.log('안됩니다.')
+          console.log(err)
+        })
+    },
   },
   created() {
     this.reviewId = this.$route.params.id
     this.ReviewRead()
     this.reviewLookUp()
+    this.getMovie()
+    console.log(this.movie)
   },
   beforeRouteUpdate(to, from, next) {
     this.reviewId = this.$route.params.id

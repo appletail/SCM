@@ -1,41 +1,7 @@
 <template>
   <div class="home">
     <div class="p-5">
-
-    <!-- carousel -->
-      <!-- <div class="carousel-cell">
-        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
-          <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5"></button>
-          </div>
-          <div class="carousel-inner">
-            <div class="carousel-item active"
-              v-for="movie in carouselMovies"
-              :key="movie.id">
-              <img :src="movie.img_url" class="" alt="...">
-            </div>
-          </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>
-      </div> -->
-      <div class="carousel" data-flickity>
-        <div class="carousel-cell"></div>
-        <div class="carousel-cell"></div>
-        <!-- <div class="carousel-cell"></div> -->
-        <!-- <div class="carousel-cell"></div> -->
-        <!-- <div class="carousel-cell"></div> -->
-      </div>
+      <SwiperView style="padding: 20px 0px;"/>
 
       <!-- 목록별 5개 영화 -->
       <div class="card mb-3">
@@ -46,7 +12,8 @@
                 <div class="col"
                   v-for="movie in carouselMovies"
                   :key="movie.id">
-                  <div class="card" style="height: 100%">
+                  <div class="card" style="height: 100%"
+                  @click='moveMovieDetail(movie)'>
                     <img :src="movie.img_url" class="card-img-top" alt="...">
                     <div class="card-body">
                       <h5 class="card-title">{{movie.title}}</h5>
@@ -61,8 +28,9 @@
             <h3>맞춤 영화</h3>
             <p>고객님의 맞춤영화를 제공합니다!</p>
             <i class="bi bi-arrow-right"></i>
-            <md-button class="md-icon-button">
-              <md-icon>thumb_up</md-icon>
+            <md-button class="md-icon-button md-accent">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width:30px;" fill='red'><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/>
+              </svg>
             </md-button>
           </div>
         </div>
@@ -89,9 +57,9 @@
           <div class="col-md-2" style="height : 100%; margin-top: auto; margin-bottom: auto;">
             <h3>인기 영화</h3>
             <p>최근 인기영화를 소개합니다!</p>
-            <i class="bi bi-arrow-right"></i>
-            <md-button class="md-icon-button">
-              <md-icon>thumb_up</md-icon>
+            <md-button class="md-icon-button md-accent">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width:30px;" fill='red'><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/>
+              </svg>
             </md-button>
             
           </div>
@@ -129,20 +97,19 @@
 </template>
 <!-- <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script> -->
 <script>
-
-// @ is an alias to /src
+import SwiperView from '@/components/SwiperView.vue'
 
 export default {
   name: 'HomeView',
-  components: {
-  },
   data() {
     return {
       movies: [],
       carouselMovies : null,
       popular_reviews : null,
-      // review1_created_at : this.review.created_at.substr(0,10)
     }
+  },
+  components : {
+    SwiperView
   },
   created() {
     this.popularMovies()
@@ -184,6 +151,9 @@ export default {
     },
     reviewDetail() {
       this.$router.push({ name: 'detailview', params: { id: this.review.id } })
+    },
+    moveMovieDetail(movie) {
+      this.$router.push({ name : 'moviedetail', params: {id: movie.id}})
     }
 
   }
@@ -198,36 +168,10 @@ export default {
   /* margin-bottom: 10px; */
  }
 
-* { box-sizing: border-box; }
-
-body { font-family: sans-serif; }
-
-.carousel {
-  background: #EEE;
-}
-
-.carousel-cell {
-  width: 50%;
-  height: 200px;
-  margin-right: 10px;
-  background: #8C8;
-  border-radius: 5px;
-  counter-increment: gallery-cell;
-}
-
-/* cell number */
-.carousel-cell:before {
-  display: block;
-  text-align: center;
-  content: counter(gallery-cell);
-  line-height: 200px;
-  font-size: 80px;
-  color: white;
-}
-
 .movie-list{
   border-radius: 1rem;
 }
 
-
 </style>
+
+

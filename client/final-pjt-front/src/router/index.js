@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import accountsRouter from './accountsRouter.js'
+import detailRouter from './detailRouter.js'
 import reviewsRouter from './reviewsRouter.js'
 
 
@@ -16,6 +17,7 @@ const routes = [
 
   ...accountsRouter,
   ...reviewsRouter,
+  ...detailRouter,
 ]
 
 const router = new VueRouter({
