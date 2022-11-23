@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex justify-content-between my-2 p-2 follow-item">
     <div class="d-flex justify-content-start">
-      <div @click="goToProfile" class="pointer">
+      <div @click="goToProfile" class="pointer" style="z-index: 2;">
         <img :src="profile_img" alt="..." class="rounded-circle mr-3" style="width: 50px; height: 50px">
       </div>
       <div @click="goToProfile">
@@ -68,7 +68,8 @@ export default {
 .follow-item:hover {
   background-color: #DBCDCF;
   transition: background-color 0.35s;
-  
+  opacity: 0.2;
+  z-index: 0;
   border-radius: 1rem;
 }
 .pointer{
