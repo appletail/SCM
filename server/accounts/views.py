@@ -15,7 +15,6 @@ def signup(request):
     serializer = UserSerializer(data=request.data)
     password = request.data.get('password')
     password_confirm = request.data.get('password_confirm')
-    nickname = request.data.get('nickname')
 
     # 비밀번호 검증
     if password != password_confirm:
@@ -28,7 +27,6 @@ def signup(request):
     if serializer.is_valid(raise_exception=True):
         user = serializer.save()
         user.set_password(password)
-        user.nickname = nickname if nickname else user.username
         user.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -75,7 +73,6 @@ def update(request, username):
             password = request.data.get('password')
             password_confirm = request.data.get('password_confirm')
             profile_img = request.FILES.get('profile_img')
-            nickname = request.data.get('nickname')
             introduce = request.data.get('introduce')
 
             # 비밀번호 검증
@@ -85,8 +82,18 @@ def update(request, username):
 
             # 프로필 수정
             else:
-                user.set_password(password) if password else user.password
-                user.nickname = nickname if nickname else user.nickname
+                print()
+                print()
+                print()
+                print()
+                print(type(password))
+                print()
+                print()
+                print()
+                print()
+                if password:
+                    user.set_password(password)
+                print(user.password)
                 user.introduce = introduce if introduce else user.introduce
                 user.profile_img = profile_img if profile_img else user.profile_img
                 user.save()

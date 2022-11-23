@@ -7,7 +7,6 @@
       <div @click="goToProfile">
         <div class="d-flex justify-content-start align-items-end pointer">
           <div>{{ followItem.username }}</div>
-          <div style="font-size: 0.7em;" class="text-blueGray-600 ml-2 pointer">{{ followItem.nickname }}</div>
         </div>
         <div style="font-size: 0.7em;">
           {{ followItem.introduce }}

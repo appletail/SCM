@@ -4,7 +4,6 @@
 		<form @submit.prevent="signup">
 			<h1>Create Account</h1>
 			<input type="text" placeholder="username" v-model="signup_username"/>
-			<input type="text" placeholder="nickname" v-model="signup_nickname"/>
 			<input type="password" placeholder="Password" v-model="signup_password"/>
 			<input type="password" placeholder="password confirm" v-model="signup_password_confirm"/>
 			<div v-show="signup_err_msg">
@@ -61,7 +60,6 @@ export default {
       login_password: null,
 			login_err_msg: null,
       signup_username: null,
-      signup_nickname: null,
       signup_password: null,
       signup_password_confirm: null,
 			signup_err_msg: null,
@@ -102,7 +100,6 @@ export default {
         url: `${this.$API_URL}/accounts/signup/`,
         data: {
           username: this.signup_username,
-          nickname: this.signup_nickname,
           password: this.signup_password,
           password_confirm: this.signup_password_confirm,
         }
