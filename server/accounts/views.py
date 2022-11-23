@@ -82,16 +82,7 @@ def update(request, username):
 
             # 프로필 수정
             else:
-                print()
-                print()
-                print()
-                print()
-                print(type(password))
-                print()
-                print()
-                print()
-                print()
-                if password:
+                if password != 'null':
                     user.set_password(password)
                 print(user.password)
                 user.introduce = introduce if introduce else user.introduce
