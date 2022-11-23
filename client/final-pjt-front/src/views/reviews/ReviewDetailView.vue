@@ -25,6 +25,7 @@
             </div>
             <div>
               <button type="button" class="btn btn-dark" @click="MoveUpdate()">Update</button>
+
               <button type="button" class="btn btn-danger" @click="DeleteReview()">DELETE</button>
             </div>
           </div>
@@ -37,7 +38,7 @@
             <form @submit.prevent="CreateReviewComment">
               <md-field style="width:80%; margin-left: auto; margin-right: auto;">
                 <label for="reviewcomment">reviewComment</label>
-                <md-input v-model="reviewComment" type="text" id="reviewcomment"></md-input>
+                <md-input type="text" id="reviewcomment" v-model.trim="reviewComment"></md-input>
                 <button type="submit" id="submit" class="btn btn-dark" >Submit</button>
               </md-field>
             </form>
