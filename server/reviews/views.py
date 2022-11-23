@@ -3,8 +3,9 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 
+from movies.models import Movie
 from .models import Review, ReviewComment
-from .serializers import ReviewListSerializer, ReviewCommentSerializer, ReviewSerializer
+from .serializers import ReviewListSerializer, ReviewCommentSerializer, ReviewSerializer, ReviewCreateSerializer
 from django.shortcuts import get_object_or_404, get_list_or_404
 from django.contrib.auth import get_user_model
 # Create your views here.
@@ -51,10 +52,15 @@ def reviews_create(request):
         return Response(serializer.data)
 
     if request.method == 'POST':
-        serializer = ReviewSerializer(data=request.data)
+        serializer = ReviewCreateSerializer(data=request.data)
+        # print(request.data.get('movie').get('id'))
+        movie = Movie.objects.get(pk=request.data.get('movie').get('id'))
+
         if serializer.is_valid(raise_exception=True):
-            serializer.save(user=request.user)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+            review = serializer.save(movie=movie)
+            review.user = request.user
+            review.save()
+        return Response(status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET','DELETE','PUT'])
@@ -62,7 +68,7 @@ def reviews_detail(request,review_pk):
     review = Review.objects.get(pk=review_pk)
 
     # 리뷰 상세 조회
-    if request.method == 'GET':
+    if request.method == 'GET': 
         serializer = ReviewSerializer(review)
         if request.user.pk in serializer.data.get('like_users'):
             like = '좋아요 취소'

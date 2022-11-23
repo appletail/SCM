@@ -69,7 +69,21 @@ export default {
         .catch((err) => {
           console.log(err)
         })
-    }
+    },
+    completedMovies() {
+      this.$axios({
+        method: 'get',
+        url: `${this.$API_URL}/movies/popular/`,
+        // headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`},
+      })
+        .then((res) => {
+          const movies = res.data
+          this.$store.dispatch('moviesStore/completedMovies', movies)
+        })
+        .catch((err) => {
+          console.log(err.response.data)
+        })
+    },
   },
   computed: {
     is_login() {
@@ -80,6 +94,7 @@ export default {
     this.$store.dispatch('accountsStore/login')
     this.saveMovies()
     this.popularMovies()
+    this.completedMovies()
   }
 }
 </script>

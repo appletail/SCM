@@ -10,6 +10,8 @@ import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
 import CKEditor from 'ckeditor4-vue';
 
+
+
 Vue.use(VueMaterial)
 Vue.use( CKEditor );
 Vue.config.productionTip = false
