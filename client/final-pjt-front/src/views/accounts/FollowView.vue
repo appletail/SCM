@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{ pageName }} page</h1>
+    <h1>{{ pageName }}</h1>
     <FollowItem
       v-for="followItem in followItems"
       :key="followItem.username"
@@ -40,13 +40,14 @@ export default {
         })
     },
   },
-  beforeRouteUpdate(to, from, next) {
-    this.userName = to.params.userName;
-    this.pageName = to.params.follow;
-    next();
-  },
+  // beforeRouteUpdate(to, from, next) {
+  //   this.userName = to.params.userName;
+  //   this.pageName = to.params.follow;
+  //   this.follow()
+  //   next();
+  // },
   created() {
-    this.userName = this.$route.params.userName;
+    // this.userName = this.$route.params.userName;
     this.pageName = this.$route.params.follow;
     this.follow()
   },

@@ -3,7 +3,7 @@
 
 from .models import Movie, Crew, Genre
 import requests
-
+from django.shortcuts import get_object_or_404, get_list_or_404
 API_KEY = 'c355457ba4508bf477d4c1d98ce31dd0'
 
 def makeDB():
@@ -55,4 +55,16 @@ def makeCrewDB():
                 # print(at.name)
                 movie.crews.add(at)
 
-  
+
+def makeMovieBackdrop():
+    movies = get_list_or_404(Movie)
+    MOVIE_DETAIL_URL = f'https://api.themoviedb.org/3/movie/'
+    # 영화아이디?api_key=에이피아이&language=ko-KR'
+    for movie in movies:
+        movieId = movie.id
+        url = f'{MOVIE_DETAIL_URL}{movieId}?api_key={API_KEY}&language=ko-KR'
+        result = requests.get(url).json().get('backdrop_path')
+        backdrop_url = f'https://image.tmdb.org/t/p/original{result}'
+        target = Movie.objects.get(pk=movieId)
+        target.backdrop_img_url = backdrop_url
+        target.save()

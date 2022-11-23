@@ -12,7 +12,7 @@
         <router-link :to="{ name: 'login' }" v-if="!is_login">Login |</router-link>
         <router-link :to="{ name: 'logout' }" v-if="is_login">logout |</router-link>
         <router-link :to="{ name : 'reviewlatest'}">review |</router-link>
-        <router-link :to="{ name: 'profile', params:{ userName: username() } }" v-if="is_login">profile |</router-link>
+        <router-link :to="{ name: 'profile-item', params:{ userName: username() } }" v-if="is_login">profile |</router-link>
       </div>
     
       <div style="display:flex;">
@@ -37,6 +37,7 @@ export default {
   },
   methods: {
     username() {
+      console.log
       return localStorage.getItem('username')
     },
     saveMovies() {
