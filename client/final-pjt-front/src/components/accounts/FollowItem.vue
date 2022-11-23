@@ -1,22 +1,22 @@
 <template>
-  <div class="d-flex justify-content-between">
+  <div class="d-flex justify-content-between my-2 p-2 follow-item">
     <div class="d-flex justify-content-start">
-      <span>
-        <img :src="profile_img" alt="프로필 사진" style="width: 50px; height: 50px">
-      </span>
-      <span>
-        <div>
-          <span>{{ followItem.username }}</span>
-          <span style="font-size: 0.7em;" class="text-blueGray-600 ml-2">{{ followItem.nickname }}</span>
+      <div @click="goToProfile" class="pointer" style="z-index: 2;">
+        <img :src="profile_img" alt="..." class="rounded-circle mr-3" style="width: 50px; height: 50px">
+      </div>
+      <div @click="goToProfile">
+        <div class="d-flex justify-content-start align-items-end pointer">
+          <div>{{ followItem.username }}</div>
+          <div style="font-size: 0.7em;" class="text-blueGray-600 ml-2 pointer">{{ followItem.nickname }}</div>
         </div>
         <div style="font-size: 0.7em;">
           {{ followItem.introduce }}
         </div>
-      </span>
+      </div>
     </div>
-    <span>
+    <div>
       <button @click="follow">{{ is_follow }}</button>
-    </span>
+    </div>
 
     
   </div>
@@ -49,6 +49,9 @@ export default {
           alert(err.response.data.message)
         })
     },
+    goToProfile() {
+      this.$router.push({ name: 'profile-item', params: { userName: this.followItem.username } })
+    }
   },
   created() {
     this.is_follow = this.followItem.is_follow
@@ -61,6 +64,15 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.follow-item:hover {
+  background-color: #DBCDCF;
+  transition: background-color 0.35s;
+  opacity: 0.2;
+  z-index: 0;
+  border-radius: 1rem;
+}
+.pointer{
+  cursor : pointer;
+}
 </style>
