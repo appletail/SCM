@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       is_follow: null,
-      profile_img: null,
+      profile_img: require('@/assets/test.png'),
     }
   },
   methods: {
@@ -55,9 +55,7 @@ export default {
   created() {
     this.is_follow = this.followItem.is_follow
     if (this.followItem.profile_img) {
-      this.profile_img = `${this.$API_URL}/${this.followItem.profile_img}`
-    } else {
-      this.profile_img = 'https://media.istockphoto.com/id/826793062/es/foto/foto-vertical-de-agradable-pocos-gatito-blanco-semanas-de-edad-con-manchas-tabby-en-la-cara-el.jpg?s=170667a&w=0&k=20&c=6LvzyI6Txp8Ai9lOpY6vJiSfktWfdSAf9ZqKpiinM5M='
+      this.profile_img = `${this.$API_URL}${this.followItem.profile_img}`
     }
   }
 }
