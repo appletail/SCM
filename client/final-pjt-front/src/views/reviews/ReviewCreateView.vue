@@ -12,10 +12,10 @@
         <label>Movie</label>
         </md-autocomplete>
 
-        <!-- <div style="margin-left: auto; margin-right: auto;">
+        <div style="margin-left: auto; margin-right: auto;">
           <label for="content"></label>
           <ckeditor v-model="content" :config="editorConfig"></ckeditor><br>
-        </div> -->
+        </div>
         <md-field style="width:80%; margin-left: auto; margin-right: auto;">
           <label>Content</label>
           <md-textarea v-model="content"></md-textarea>
@@ -41,12 +41,7 @@ export default {
       movies: [],
       test_value: '',
       editorConfig: {
-        extraPlugins: 'autogrow',
-        autoGrow_bottomSpace: 50,
-        autoGrow_minHeight: 450,
-        autoGrow_maxHeight: 600,
-        autoGrow_onStartup: true,
-        width: '90%',
+ 
       },
     }
   },
