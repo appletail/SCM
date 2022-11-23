@@ -38,7 +38,6 @@ export default {
         },
       })
         .then((res) => {
-          console.log(res.data)
           this.profile_img_url = `${this.$API_URL}/${res.data.profile_img}`;
           this.nickname = res.data.nickname;
           this.introduce = res.data.introduce;
@@ -47,6 +46,11 @@ export default {
           console.log(err);
         });
     },
+    // refresh() {
+    //   this.$axios({
+    //     method: 
+    //   })
+    // },
     updateProfile() {
       const formData = new FormData();
       if (this.profile_img) {
