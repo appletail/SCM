@@ -36,8 +36,11 @@ export default {
         headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`,},
       })
         .then((res) => {
-          // console.log(res.data)
-          this.movies = this.movies.concat(res.data)
+          if (this.page === 1) {
+            this.movies = res.data
+          } else {
+            this.movies = this.movies.concat(res.data)
+          }
         })
         .catch((err) => {
           console.log(err)
@@ -60,11 +63,13 @@ export default {
   },
   beforeRouteUpdate(to, from, next) {
     this.listName = to.params.movieListName
+    this.page = 0
     this.getMovieList()
     next()
   },
   created() {
     this.listName = this.$route.params.movieListName
+    this.page = 0
     this.getMovieList()
   },
 }
