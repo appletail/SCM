@@ -56,7 +56,7 @@
       </svg>
     </div>
   </section>
-  <section class="relative py-16 bg-blueGray-200">
+  <section class="relative py-16">
     <div class="container mx-auto px-4">
       <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
         <div class="px-6">
@@ -77,7 +77,7 @@
                 </button>
 
 
-                <button class="bg-pink-500 active:bg-pink-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150" type="button" v-if="profileName = loginUser" @click="update">
+                <button class="bg-pink-500 active:bg-pink-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150" type="button" v-if="profileName === loginUser" @click="update">
                   프로필 수정
                 </button>
 
@@ -87,7 +87,7 @@
               <div class="flex justify-center py-4 lg:pt-4 pt-8">
                 <div class="mr-4 p-3 text-center">
                   <span class="text-xl font-bold block uppercase tracking-wide text-blueGray-600">{{ profile?.followers }}</span><span class="text-sm text-blueGray-400">
-                    <!-- <router-link
+                    <router-link
                       :to="{ name: 'profile-follow', 
                       params: {
                         userName: profileName,
@@ -108,7 +108,7 @@
                       } }"
                     >
                       followings
-                    </router-link> -->
+                    </router-link>
                   </span>
                 </div>
               </div>
@@ -154,7 +154,7 @@ export default {
     return {
       profile: null,
       profile_img: null,
-      profileName: this.$route.params.userName,
+      profileName: null,
       is_follow: null,
     };
   },
@@ -223,15 +223,13 @@ export default {
     },
   },
   beforeRouteUpdate(to, from, next) {
-    // this.userName = to.params.userName;
-    console.log(2, this.profileName)
     this.profile_img = 'https://media.istockphoto.com/id/826793062/es/foto/foto-vertical-de-agradable-pocos-gatito-blanco-semanas-de-edad-con-manchas-tabby-en-la-cara-el.jpg?s=170667a&w=0&k=20&c=6LvzyI6Txp8Ai9lOpY6vJiSfktWfdSAf9ZqKpiinM5M='
+    this.profileName = to.params.userName;
     this.getProfile();
     next();
   },
   created() {
-    // this.userName = this.$route.params.userName;
-    console.log(1, this.profileName)
+    this.profileName = this.$route.params.userName;
     this.profile_img = 'https://media.istockphoto.com/id/826793062/es/foto/foto-vertical-de-agradable-pocos-gatito-blanco-semanas-de-edad-con-manchas-tabby-en-la-cara-el.jpg?s=170667a&w=0&k=20&c=6LvzyI6Txp8Ai9lOpY6vJiSfktWfdSAf9ZqKpiinM5M='
     this.getProfile();
   },

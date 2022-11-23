@@ -1,22 +1,22 @@
 <template>
   <div class="d-flex justify-content-between">
     <div class="d-flex justify-content-start">
-      <span>
+      <div>
         <img :src="profile_img" alt="프로필 사진" style="width: 50px; height: 50px">
-      </span>
-      <span>
-        <div>
-          <span>{{ followItem.username }}</span>
-          <span style="font-size: 0.7em;" class="text-blueGray-600 ml-2">{{ followItem.nickname }}</span>
+      </div>
+      <div>
+        <div class="d-flex justify-content-start">
+          <div>{{ followItem.username }}</div>
+          <div style="font-size: 0.7em;" class="text-blueGray-600 ml-2">{{ followItem.nickname }}</div>
         </div>
         <div style="font-size: 0.7em;">
           {{ followItem.introduce }}
         </div>
-      </span>
+      </div>
     </div>
-    <span>
+    <div>
       <button @click="follow">{{ is_follow }}</button>
-    </span>
+    </div>
 
     
   </div>

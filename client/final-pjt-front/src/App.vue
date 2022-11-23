@@ -37,7 +37,6 @@ export default {
   },
   methods: {
     username() {
-      console.log
       return localStorage.getItem('username')
     },
     saveMovies() {

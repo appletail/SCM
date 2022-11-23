@@ -40,14 +40,14 @@ export default {
         })
     },
   },
-  // beforeRouteUpdate(to, from, next) {
-  //   this.userName = to.params.userName;
-  //   this.pageName = to.params.follow;
-  //   this.follow()
-  //   next();
-  // },
+  beforeRouteUpdate(to, from, next) {
+    this.userName = to.params.userName;
+    this.pageName = to.params.follow;
+    this.follow()
+    next();
+  },
   created() {
-    // this.userName = this.$route.params.userName;
+    this.userName = this.$route.params.userName;
     this.pageName = this.$route.params.follow;
     this.follow()
   },
