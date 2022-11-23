@@ -1,13 +1,12 @@
 <template>
-  <div class="d-flex justify-content-between">
+  <div class="d-flex justify-content-between my-2 p-2 follow-item">
     <div class="d-flex justify-content-start">
-      <div>
-        <img :src="profile_img" alt="프로필 사진" style="width: 50px; height: 50px">
+      <div @click="goToProfile" class="pointer">
+        <img :src="profile_img" alt="..." class="rounded-circle mr-3" style="width: 50px; height: 50px">
       </div>
-      <div>
-        <div class="d-flex justify-content-start">
+      <div @click="goToProfile">
+        <div class="d-flex justify-content-start align-items-end pointer">
           <div>{{ followItem.username }}</div>
-          <div style="font-size: 0.7em;" class="text-blueGray-600 ml-2">{{ followItem.nickname }}</div>
         </div>
         <div style="font-size: 0.7em;">
           {{ followItem.introduce }}
@@ -31,7 +30,7 @@ export default {
   data() {
     return {
       is_follow: null,
-      profile_img: null,
+      profile_img: require('@/assets/test.png'),
     }
   },
   methods: {
@@ -49,18 +48,27 @@ export default {
           alert(err.response.data.message)
         })
     },
+    goToProfile() {
+      this.$router.push({ name: 'profile-item', params: { userName: this.followItem.username } })
+    }
   },
   created() {
     this.is_follow = this.followItem.is_follow
     if (this.followItem.profile_img) {
-      this.profile_img = `${this.$API_URL}/${this.followItem.profile_img}`
-    } else {
-      this.profile_img = 'https://media.istockphoto.com/id/826793062/es/foto/foto-vertical-de-agradable-pocos-gatito-blanco-semanas-de-edad-con-manchas-tabby-en-la-cara-el.jpg?s=170667a&w=0&k=20&c=6LvzyI6Txp8Ai9lOpY6vJiSfktWfdSAf9ZqKpiinM5M='
+      this.profile_img = `${this.$API_URL}${this.followItem.profile_img}`
     }
   }
 }
 </script>
 
-<style>
-
+<style scoped>
+.follow-item:hover {
+  background-color: #DBCDCF;
+  transition: background-color 0.35s;
+  
+  border-radius: 1rem;
+}
+.pointer{
+  cursor : pointer;
+}
 </style>

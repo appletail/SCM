@@ -7,7 +7,7 @@
           <md-input v-model="title"></md-input>
         </md-field>
 
-        <md-autocomplete v-model="movie_title" :md-options="movies"
+        <md-autocomplete v-model="movie_title" :md-options="completed_movies"
         style="width:80%; margin-left: auto; margin-right: auto;">
         <label>Movie</label>
         </md-autocomplete>
@@ -16,10 +16,10 @@
           <label for="content"></label>
           <ckeditor v-model="content" :config="editorConfig"></ckeditor><br>
         </div>
-        <md-field style="width:80%; margin-left: auto; margin-right: auto;">
+        <!-- <md-field style="width:80%; margin-left: auto; margin-right: auto;">
           <label>Content</label>
           <md-textarea v-model="content"></md-textarea>
-        </md-field>
+        </md-field> -->
         <div style="padding: 10px 0px;">
           <button type="submit" class="btn btn-dark centering" 
           style="width:80%; margin-left: auto; margin-right: auto;">제출</button>
@@ -36,17 +36,23 @@ export default {
   data() {
     return {
       title: null,
-      movie_title:null,
       content: null,
-      movies: [],
+      movie_title:null,
       test_value: '',
       editorConfig: {
- 
       },
     }
   },
   created() {
-    this.popularMovies()
+
+  },
+  computed: {
+    movies() {
+      return this.$store.state.moviesStore.savedMovies
+    },
+    completed_movies() {
+      return this.$store.state.moviesStore.completed_movies
+    }
   },
   methods: {
     createReview() {
@@ -59,8 +65,8 @@ export default {
       } else if (!content) {
         alert('내용을 입력해주세요')
         return
-      } else if (!movie_title) {
-        alert('영화제목을 입력해주세요')
+      } else if (this.completed_movies.indexOf(movie_title) === -1) {
+        alert('영화제목을 정확히 입력해주세요')
       }
       this.$axios({
         method: 'post',
@@ -68,15 +74,13 @@ export default {
         data: {
           title: title,
           content: content,
-          movie: movie_title,
-          // user: this.$store.state.accountsStore.username
+          movie: this.movies[this.completed_movies.indexOf(this.movie_title)],
         },
         headers: {
           Authorization: `Bearer ${localStorage.getItem('jwt')}`
         }
       })
         .then(() => {
-          // console.log(res)
           this.$router.push({ name:'reviewlatest'})
         })
         .catch((err) => {
@@ -84,23 +88,6 @@ export default {
           console.log(err)
         })
     },
-    popularMovies() {
-      this.$axios({
-        method:'get',
-        url: `${this.$API_URL}/movies/popular/`,
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('jwt')}`
-        }
-      })
-        .then((res) => {
-          this.movies = res.data.slice(0,500).map(element => Object.values(element)[1])
-          // console.log(res.data.map(element => Object.values(element)[1]))
-
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    }
   }
 }
 </script>

@@ -13,7 +13,6 @@ def user_img_path(instance, filename):
 
 class User(AbstractUser):
     introduce = models.CharField(max_length=100)
-    nickname = models.CharField(max_length=15, null=True)
     profile_img = models.ImageField(blank=True, upload_to=user_img_path)
     followings = models.ManyToManyField('self', symmetrical=False, related_name='followers')
     watchlist_movies = models.ManyToManyField(Movie, related_name='watchlist_users')

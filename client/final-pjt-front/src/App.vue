@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav class="navbar navbar-expand-lg bg-light d-flex justify-content-evenly">
-      
+
       <router-link to="/">
         <div class="content">
           <h2>SCM</h2>
@@ -12,9 +12,9 @@
         <router-link :to="{ name: 'login' }" v-if="!is_login">Login |</router-link>
         <router-link :to="{ name: 'logout' }" v-if="is_login">logout |</router-link>
         <router-link :to="{ name : 'reviewlatest'}">review |</router-link>
+        <router-link :to="{ name : 'MovieListItems', params: { movieListName: 'popular' } }">movies |</router-link>
         <router-link :to="{ name: 'profile-item', params:{ userName: username() } }" v-if="is_login">profile |</router-link>
       </div>
-    
       <div style="display:flex;">
         <md-autocomplete v-model="search_value" :md-options="movies"
         style="width:80%; margin-left: auto; margin-right: auto;">
@@ -42,7 +42,7 @@ export default {
     saveMovies() {
       this.$axios({
         method: 'get',
-        url: `${this.$API_URL}/movies/popular/`,
+        url: `${this.$API_URL}/movies/savemovies/`,
         headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`},
       })
         .then((res) => {
@@ -56,7 +56,7 @@ export default {
     popularMovies() {
       this.$axios({
         method:'get',
-        url: `${this.$API_URL}/movies/popular/`,
+        url: `${this.$API_URL}/movies/savemovies/`,
         headers: {
           Authorization: `Bearer ${localStorage.getItem('jwt')}`
         }
@@ -69,7 +69,21 @@ export default {
         .catch((err) => {
           console.log(err)
         })
-    }
+    },
+    completedMovies() {
+      this.$axios({
+        method: 'get',
+        url: `${this.$API_URL}/movies/popular/`,
+        // headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`},
+      })
+        .then((res) => {
+          const movies = res.data
+          this.$store.dispatch('moviesStore/completedMovies', movies)
+        })
+        .catch((err) => {
+          console.log(err.response.data)
+        })
+    },
   },
   computed: {
     is_login() {
@@ -80,6 +94,7 @@ export default {
     this.$store.dispatch('accountsStore/login')
     this.saveMovies()
     this.popularMovies()
+    this.completedMovies()
   }
 }
 </script>
