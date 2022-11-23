@@ -7,18 +7,19 @@
             <div class="md-subhead">{{review.movie}}</div>
           </md-card-header>
           <br>
-          <md-card-content style="display: flex; justify-content: center;">
-            {{review.content}}
+          <md-card-content style="display: flex; justify-content: center;" v-html="review.content">
+            <!-- {{review.content}} -->
           </md-card-content>
-        
+          <i class="fa-solid fa-grid-2">넌 또 어디누</i>
           <div 
           style="margin-left:5%; margin-right:2%;
           display: flex; justify-content: space-between;">
             <div class="d-flex">
             <!-- <button @click="LikeReview()">{{ reviewLike }}</button> -->
             <md-button class="md-icon-button md-accent" @click="LikeReview()">
-              <md-icon v-if="reviewLike === '좋아요 취소'">thumb_up</md-icon>
-              <md-icon v-if="reviewLike === '좋아요'">thumb_up_off_alt</md-icon>
+              <!-- <md-icon v-if="reviewLike === '좋아요 취소'">thumb_up</md-icon> -->
+              <i class="fa fa-thumbs-up" aria-hidden="true">어디누</i>
+              <!-- <md-icon v-if="reviewLike === '좋아요'">thumb_up_off_alt</md-icon> -->
             </md-button>
             <p>{{review.like_users.length}}</p>
             </div>

@@ -3,7 +3,7 @@
     <div class="p-5">
 
     <!-- carousel -->
-      <div style="width : 400px; margin-bottom : 20px;">
+      <!-- <div class="carousel-cell">
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
           <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -16,7 +16,7 @@
             <div class="carousel-item active"
               v-for="movie in carouselMovies"
               :key="movie.id">
-              <img :src="movie.img_url" class="d-block w-100" alt="...">
+              <img :src="movie.img_url" class="" alt="...">
             </div>
           </div>
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -28,13 +28,20 @@
             <span class="visually-hidden">Next</span>
           </button>
         </div>
+      </div> -->
+      <div class="carousel" data-flickity>
+        <div class="carousel-cell"></div>
+        <div class="carousel-cell"></div>
+        <!-- <div class="carousel-cell"></div> -->
+        <!-- <div class="carousel-cell"></div> -->
+        <!-- <div class="carousel-cell"></div> -->
       </div>
 
       <!-- 목록별 5개 영화 -->
-      <div class="card mb-3" style="border-radius: 1rem;">
+      <div class="card mb-3 movie-list">
         <div class="row g-0">
           <div class="col-md-10">
-            <div class="recommend_div" style="border-radius: 1rem;">
+            <div class="recommend_div movie-list">
               <div class="row row-cols-5 row-cols-md-5 g-3">
                 <div class="col"
                   v-for="movie in carouselMovies"
@@ -49,6 +56,7 @@
               </div>
             </div>
           </div>
+          
           <div class="col-md-2" style="height : 100%; margin-top: auto; margin-bottom: auto;">
             <h3>맞춤 영화</h3>
             <p>고객님의 맞춤영화를 제공합니다!</p>
@@ -60,10 +68,10 @@
         </div>
       </div>
 
-      <div class="card mb-3">
+      <div class="card mb-3 movie-list">
         <div class="row g-0">
           <div class="col-md-10">
-            <div class="recommend_div">
+            <div class="recommend_div movie-list">
               <div class="row row-cols-5 row-cols-md-5 g-3">
                 <div class="col"
                   v-for="movie in carouselMovies"
@@ -85,6 +93,7 @@
             <md-button class="md-icon-button">
               <md-icon>thumb_up</md-icon>
             </md-button>
+            
           </div>
         </div>
       </div>
@@ -118,8 +127,9 @@
     </div>
   </div>
 </template>
-
+<!-- <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script> -->
 <script>
+
 // @ is an alias to /src
 
 export default {
@@ -188,6 +198,36 @@ export default {
   /* margin-bottom: 10px; */
  }
 
+* { box-sizing: border-box; }
+
+body { font-family: sans-serif; }
+
+.carousel {
+  background: #EEE;
+}
+
+.carousel-cell {
+  width: 50%;
+  height: 200px;
+  margin-right: 10px;
+  background: #8C8;
+  border-radius: 5px;
+  counter-increment: gallery-cell;
+}
+
+/* cell number */
+.carousel-cell:before {
+  display: block;
+  text-align: center;
+  content: counter(gallery-cell);
+  line-height: 200px;
+  font-size: 80px;
+  color: white;
+}
+
+.movie-list{
+  border-radius: 1rem;
+}
 
 
 </style>
