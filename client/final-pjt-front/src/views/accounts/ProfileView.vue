@@ -1,42 +1,149 @@
 <template>
   <div>
-    <h1>This is profile page</h1>
-    <img :src="profile_img" alt="프로필 이미지">
-    <p>{{ profile?.username }}</p>
-    <p>{{ profile?.nickname }}</p>
-    <p>{{ profile?.introduce }}</p>
-    <button v-if="userName != loginUser" @click="follow">{{ is_follow }}</button>
-    <p>
-      <router-link
-        :to="{ name: 'profile-follow', 
-        params: {
-           userName: userName,
-           follow: 'followers',
-        } }"
-      >
-      {{ profile?.followers }}
-        followers |
-      </router-link>
-      <router-link 
-        :to="{ name: 'profile-follow', 
-        params: {
-           userName: userName,
-           follow: 'followings',
-        } }"
-      >
-      {{ profile?.followings }}
-        followings
-      </router-link>
-    </p>
+    <!-- <div class="mx-5">
+      <h1>This is profile page</h1>
+      <p>{{ profile?.username }}</p>
+      <p>{{ profile?.nickname }}</p>
+      <p>{{ profile?.introduce }}</p>
+      <button v-if="userName != loginUser" @click="follow">{{ is_follow }}</button>
+      <p>
+        <router-link
+          :to="{ name: 'profile-follow', 
+          params: {
+            userName: userName,
+            follow: 'followers',
+          } }"
+        >
+        {{ profile?.followers }}
+          followers |
+        </router-link>
+        <router-link 
+          :to="{ name: 'profile-follow', 
+          params: {
+            userName: userName,
+            follow: 'followings',
+          } }"
+        >
+        {{ profile?.followings }}
+          followings
+        </router-link>
+      </p>
 
-    <div v-if="loginUser === userName">
-      <button @click="deleteUser">회원탈퇴</button>
-      <router-link
-        :to="{ name: 'profile-update', params: { userName: loginUser } }"
-      >
-        <button>회원정보수정</button>
-      </router-link>
+      <div v-if="loginUser === userName">
+        <button @click="deleteUser">회원탈퇴</button>
+        <router-link
+          :to="{ name: 'profile-update', params: { userName: loginUser } }"
+        >
+          <button>회원정보수정</button>
+        </router-link>
+      </div>
+    </div>   -->
+
+
+<link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
+<link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
+
+<main class="profile-page">
+  <section class="relative block h-500-px">
+    <div class="absolute top-0 w-full h-full bg-center bg-cover" style="
+            background-image: url('https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=2710&amp;q=80');
+          ">
+      <span id="blackOverlay" class="absolute opacity-50 bg-black" style="height: 100%; width: 100%"></span>
     </div>
+    <div class="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px" style="transform: translateZ(0px)">
+      <svg class="absolute bottom-0 overflow-hidden" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" version="1.1" viewBox="0 0 2560 100" x="0" y="0">
+        <polygon class="text-blueGray-200 fill-current" points="2560 0 2560 100 0 100"></polygon>
+      </svg>
+    </div>
+  </section>
+  <section class="relative py-16 bg-blueGray-200">
+    <div class="container mx-auto px-4">
+      <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
+        <div class="px-6">
+          <div class="flex flex-wrap justify-center">
+            <div class="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
+              <div class="relative">
+                <router-link
+                  :to="{ name: 'profile-item', params:{ userName: profileName } }"
+                >
+                  <img alt="프로필 이미지" :src="profile_img" class="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px">
+                </router-link>
+              </div>
+            </div>
+            <div class="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
+              <div class="py-6 px-3 mt-32 sm:mt-0">
+                <button class="bg-pink-500 active:bg-pink-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150" type="button" v-if="profileName != loginUser" @click="follow">
+                  {{ is_follow }}
+                </button>
+
+
+                <button class="bg-pink-500 active:bg-pink-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150" type="button" v-if="profileName = loginUser" @click="update">
+                  프로필 수정
+                </button>
+
+              </div>
+            </div>
+            <div class="w-full lg:w-4/12 px-4 lg:order-1">
+              <div class="flex justify-center py-4 lg:pt-4 pt-8">
+                <div class="mr-4 p-3 text-center">
+                  <span class="text-xl font-bold block uppercase tracking-wide text-blueGray-600">{{ profile?.followers }}</span><span class="text-sm text-blueGray-400">
+                    <!-- <router-link
+                      :to="{ name: 'profile-follow', 
+                      params: {
+                        userName: profileName,
+                        follow: 'followers',
+                      } }"
+                    >
+                      followers
+                    </router-link>
+                  </span>
+                </div>
+                <div class="mr-4 p-3 text-center">
+                  <span class="text-xl font-bold block uppercase tracking-wide text-blueGray-600">{{ profile?.followings }}</span><span class="text-sm text-blueGray-400">
+                    <router-link
+                      :to="{ name: 'profile-follow', 
+                      params: {
+                        userName: profileName,
+                        follow: 'followings',
+                      } }"
+                    >
+                      followings
+                    </router-link> -->
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-center mt-12">
+            <h3 class="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
+              {{ profile?.username }}
+            </h3>
+            <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
+              {{ profile?.nickname }}
+            </div>
+            <div class="mb-2 text-blueGray-600 mt-10">
+              <i class="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>Solution Manager - Creative Tim Officer
+            </div>
+            <div class="mb-2 text-blueGray-600">
+              <i class="fas fa-university mr-2 text-lg text-blueGray-400"></i>University of Computer Science
+            </div>
+          </div>
+          <div class="mt-10 py-10 border-t border-blueGray-200 text-center">
+            <div class="flex flex-wrap justify-center">
+              <div class="w-full lg:w-9/12 px-4">
+                <p class="mb-4 text-lg leading-relaxed text-blueGray-700">
+                  <router-view
+                    :introduce="profile?.introduce"
+                  />
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
   </div>
 </template>
 
@@ -47,18 +154,20 @@ export default {
     return {
       profile: null,
       profile_img: null,
-      userName: null,
+      profileName: this.$route.params.userName,
       is_follow: null,
     };
   },
   methods: {
     getProfile() {
+      console.log(4, this.profileName)
       this.$axios({
         method: "get",
-        url: `${this.$API_URL}/accounts/${this.userName}`,
+        url: `${this.$API_URL}/accounts/${this.profileName}`,
         headers: {Authorization: `Bearer ${this.access_token}`,},
       })
         .then((res) => {
+          console.log(2, this.profileName)
           this.profile = res.data;
           this.is_follow = res.data.is_follow
           if (this.profile.profile_img) {
@@ -72,10 +181,10 @@ export default {
     deleteUser() {
       this.$axios({
         method: "DELETE",
-        url: `${this.$API_URL}/accounts/${this.userName}`,
+        url: `${this.$API_URL}/accounts/${this.loginUser}`,
         headers: {Authorization: `Bearer ${this.access_token}`,},
         data: {
-          username: this.userName,
+          username: this.loginUser,
         },
       })
         .then((res) => {
@@ -90,7 +199,7 @@ export default {
     follow() {
       this.$axios({
         method: 'post',
-        url: `${this.$API_URL}/accounts/${this.userName}/follow/`,
+        url: `${this.$API_URL}/accounts/${this.profileName}/follow/`,
         headers: {Authorization: `Bearer ${this.access_token}`,}
       })
         .then((res) => {
@@ -101,6 +210,9 @@ export default {
           alert(err.response.data.message)
         })
     },
+    update() {
+      this.$router.push({ name: 'profile-update', params: { userName: this.loginUser } })
+    }
   },
   computed: {
     access_token() {
@@ -111,13 +223,16 @@ export default {
     },
   },
   beforeRouteUpdate(to, from, next) {
-    this.userName = to.params.userName;
+    // this.userName = to.params.userName;
+    console.log(2, this.profileName)
+    this.profile_img = 'https://media.istockphoto.com/id/826793062/es/foto/foto-vertical-de-agradable-pocos-gatito-blanco-semanas-de-edad-con-manchas-tabby-en-la-cara-el.jpg?s=170667a&w=0&k=20&c=6LvzyI6Txp8Ai9lOpY6vJiSfktWfdSAf9ZqKpiinM5M='
     this.getProfile();
     next();
   },
   created() {
-    this.profile_img = `${this.$API_URL}/media/images/default_profile_img/1.jpg`
-    this.userName = this.$route.params.userName;
+    // this.userName = this.$route.params.userName;
+    console.log(1, this.profileName)
+    this.profile_img = 'https://media.istockphoto.com/id/826793062/es/foto/foto-vertical-de-agradable-pocos-gatito-blanco-semanas-de-edad-con-manchas-tabby-en-la-cara-el.jpg?s=170667a&w=0&k=20&c=6LvzyI6Txp8Ai9lOpY6vJiSfktWfdSAf9ZqKpiinM5M='
     this.getProfile();
   },
 };

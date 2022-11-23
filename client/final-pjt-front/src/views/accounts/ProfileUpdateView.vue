@@ -67,7 +67,7 @@ export default {
         data: formData
       })
         .then(() => {
-          this.$router.push({ name:'profile', params:{ userName: this.userName }})
+          this.$router.push({ name:'profile-item', params:{ userName: this.userName }})
         })
         .catch((err) => {
           console.log(err.response.data)

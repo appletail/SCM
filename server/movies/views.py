@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 
-# from .makeDB import makeDB, makeCrewDB
+from .makeDB import makeDB, makeCrewDB, makeMovieBackdrop
 from .models import Movie, Crew, Genre
 from .serializers import MovieListSerializer, CrewListSerializer, GenreListSerializer, MovieSerializer, CrewSerializer
 from django.shortcuts import get_object_or_404, get_list_or_404
@@ -92,8 +92,9 @@ def crews_detail(request, crew_pk):
         return Response(serializer.data)
 
 
-# @api_view(['GET'])  
-# def makedb(request):
-#     makeDB()
-#     makeCrewDB()
-#     return Response()
+@api_view(['GET'])  
+def makedb(request):
+    # makeDB()
+    # makeCrewDB()
+    makeMovieBackdrop()
+    return Response(status=status.HTTP_201_CREATED)
