@@ -38,10 +38,10 @@
       </div>
 
       <!-- 목록별 5개 영화 -->
-      <div class="card mb-3 movie-list">
+      <div class="card mb-3">
         <div class="row g-0">
           <div class="col-md-10">
-            <div class="recommend_div movie-list">
+            <div class="recommend_div">
               <div class="row row-cols-5 row-cols-md-5 g-3">
                 <div class="col"
                   v-for="movie in carouselMovies"
