@@ -84,7 +84,6 @@ export default {
           this.$router.push({ name: 'home' })
         })
         .catch((err) => {
-					console.log(err)
 					if (err.response.data.username) {
 						this.login_err_msg = '아이디를 입력해주세요.'
 					} else if (err.response.data.password) {
@@ -110,7 +109,6 @@ export default {
           this.login()
         })
         .catch((err) => {
-					console.log(err.response.data)
 					if (err.response.data.password) {
 						this.signup_err_msg = '비밀번호를 입력해주세요.'
 					} else if (err.response.data.password_unmatch) {

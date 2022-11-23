@@ -8,8 +8,8 @@
         <div class="absolute top-0 w-full h-full bg-center bg-cover" style="
                 background-image: url('https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=2710&amp;q=80');
               ">
-          <span id="blackOverlay" class="absolute opacity-50 bg-black" style="height: 100%; width: 100%"></span>
         </div>
+          <span id="blackOverlay" class="absolute opacity-50 bg-black" style="height: 100%; width: 100%; left:0%;"></span>
         <div class="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px" style="transform: translateZ(0px)">
           <svg class="absolute bottom-0 overflow-hidden" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" version="1.1" viewBox="0 0 2560 100" x="0" y="0">
             <polygon class="text-blueGray-200 fill-current" points="2560 0 2560 100 0 100"></polygon>
@@ -126,7 +126,7 @@ export default {
           this.profile = res.data;
           this.is_follow = res.data.is_follow
           if (this.profile.profile_img) {
-            this.profile_img = `${this.$API_URL}/${this.profile.profile_img}`
+            this.profile_img = `${this.$API_URL}${this.profile.profile_img}`
           }
         })
         .catch((err) => {
