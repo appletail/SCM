@@ -1,7 +1,7 @@
 <template>
   <md-table-row @click="reviewDetail">
     <md-table-cell md-numeric>{{review.title}}</md-table-cell>
-    <md-table-cell md-numeric>{{review.movie}}</md-table-cell>
+    <md-table-cell md-numeric>{{review.movie.title}}</md-table-cell>
     <md-table-cell md-numeric>{{review.username}}</md-table-cell>
     <md-table-cell md-numeric>{{review1_created_at}}</md-table-cell>
     <md-table-cell md-numeric>{{review.Lookup_cnt}}</md-table-cell>

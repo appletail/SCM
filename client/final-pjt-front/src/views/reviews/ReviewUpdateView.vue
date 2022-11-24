@@ -56,7 +56,7 @@ export default {
       })
         .then((res) => {
           this.title = res.data.title
-          this.movie_title = res.data.movie
+          this.movie_title = res.data.movie.title
           this.content = res.data.content
         })
         .catch((err) => {
