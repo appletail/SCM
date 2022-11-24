@@ -1,5 +1,5 @@
 <template>
-  <div class="card col p-2">
+  <div class="card col p-2 m-1">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- <link rel="stylesheet" href="style.css"> -->
     <div class="image">

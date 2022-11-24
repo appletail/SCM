@@ -49,7 +49,7 @@
           <br>
 
           <!-- 댓글 출력 -->
-          <md-card-content style="display: flex; justify-content: center;">
+          <md-card-content>
             <ReviewComment
             :comments="review?.reviewcomment_set"
             @delete-review-comment="deleteReviewComment"
