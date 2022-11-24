@@ -94,8 +94,8 @@ export default {
 
 <style scoped>
 .card {
-  width: 360px;
-  height: 501px;
+  width: 20rem;
+  height: 30rem;
 }
 .card .image {
   width: 100%;

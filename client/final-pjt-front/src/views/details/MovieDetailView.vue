@@ -101,7 +101,6 @@ export default {
           for (const movie of append_data) {
             if (this.similar_movies.indexOf(movie) === -1) {
               this.similar_movies.push(movie)
-              console.log(movie.title)
             }
           }
           // this.similar_movies = this.similar_movies.concat(res.data.slice(0,5))

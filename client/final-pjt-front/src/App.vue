@@ -131,7 +131,7 @@ export default {
 
 .content h2 {
 	color: #fff;
-	font-size: 4em;
+	font-size: 3rem;
 	position: absolute;
 	transform: translate(-50%, -50%);
 }

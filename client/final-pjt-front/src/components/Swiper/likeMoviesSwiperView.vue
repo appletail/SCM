@@ -2,15 +2,11 @@
   
   <div>
     <swiper ref="filterSwiper" :options="swiperOption" role="tablist">
-    <swiper-slide role="tab" style="width: 200px;"
-    v-for="movie in movies"
+    <swiper-slide role="tab" style="width: 12rem; height:18rem;"
+    v-for="movie in likeMovies"
     :key="movie.id">
-      <div class="card" style="" @click="moveMovie(movie)">
-        <img :src="movie.img_url" alt="">
-        <div class="card-body">
-          <p class="card-text" style="color: black;">{{movie.title}}</p>
-        </div>
-      </div>
+      <img :src="movie.img_url" alt="" @click="moveMovie(movie)">
+      <p>{{ movie.title }}</p>
     </swiper-slide>  
     </swiper>
   </div>
@@ -22,13 +18,13 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
 
 export default {
-  name: 'SimilarMovieSwiperView',
+  name: 'SwiperView',
   components: {
     swiper,
     swiperSlide
   },
-  props : {
-    movies : Array
+  props: {
+    likeMovies: Array
   },
   data () {
     return {
@@ -39,20 +35,23 @@ export default {
         slidesOffsetAfter: 0, // slidesOffsetAfter는 마지막 슬라이드 시작점 + 마지막 슬라이드 너비에 해당하는 위치의 변경이 필요할 때 사용
         freeMode: true, // freeMode를 사용시 스크롤하는 느낌으로 구현 가능
         centerInsufficientSlides: true, // 컨텐츠의 수량에 따라 중앙정렬 여부를 결정함
+        autoplay: {
+          disableOnInteraction: true,
+        },
       },
       popmovies : null
     }
   },
-  created() {
-  },
   computed: {
+  },
+  created() {
   },
   methods: {
     moveMovie(movie) {
-      // location.href=move_url+`${movie.id}+${crew.name}?language=ko`;
       this.$router.push({ name: 'moviedetail', params: { id: movie.id } })
     }
   },
+  
 }
 </script>
 
@@ -71,6 +70,7 @@ export default {
         border-radius: 18px;
         background: #f3f4f7;
         appearance: none;
+        
         cursor: pointer;
       }
     }

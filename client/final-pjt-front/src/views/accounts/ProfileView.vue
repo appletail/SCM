@@ -91,6 +91,8 @@
                     <div class="mb-4 text-lg leading-relaxed text-blueGray-700">
                       <router-view
                         :introduce="profile?.introduce"
+                        :watchList="profile?.watchlist_movies"
+                        :likeMovies="profile?.like_movies"
                       />
                     </div>
                   </div>
