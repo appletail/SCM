@@ -79,18 +79,14 @@
                   {{ profile?.username }}
                 </h3>
                 <div class="mb-2 text-blueGray-600 mt-10">
-                  <i class="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>Solution Manager - Creative Tim Officer
-                </div>
-                <div class="mb-2 text-blueGray-600">
-                  <i class="fas fa-university mr-2 text-lg text-blueGray-400"></i>University of Computer Science
+                  <i class="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>자기소개 <br> {{ profile?.introduce }}
                 </div>
               </div>
-              <div class="mt-10 py-10 border-t border-blueGray-200 text-center">
+              <div class="mt-3 py-10 border-blueGray-200 text-center">
                 <div class="flex flex-wrap justify-center">
                   <div class="w-full px-4">
                     <div class="mb-4 text-lg leading-relaxed text-blueGray-700">
                       <router-view
-                        :introduce="profile?.introduce"
                         :watchList="profile?.watchlist_movies"
                         :likeMovies="profile?.like_movies"
                       />
@@ -112,7 +108,7 @@ export default {
   data() {
     return {
       profile: null,
-      profile_img: null,
+      profile_img: require('@/assets/test.png'),
       profileName: null,
       is_follow: null,
     };
@@ -133,22 +129,6 @@ export default {
         })
         .catch((err) => {
           console.log(err);
-        });
-    },
-    deleteUser() {
-      this.$axios({
-        method: "DELETE",
-        url: `${this.$API_URL}/accounts/${this.loginUser}`,
-        headers: {Authorization: `Bearer ${this.access_token}`,},
-        data: {
-          username: this.loginUser,
-        },
-      })
-        .then(() => {
-          this.$router.push({ name: "logout" });
-        })
-        .catch((err) => {
-          console.log(err.response.data.faild);
         });
     },
     follow() {
@@ -178,14 +158,12 @@ export default {
     },
   },
   beforeRouteUpdate(to, from, next) {
-    this.profile_img = require('@/assets/test.png')
     this.profileName = to.params.userName;
     this.getProfile();
     next();
   },
   created() {
     this.profileName = this.$route.params.userName;
-    this.profile_img = require('@/assets/test.png')
     this.getProfile();
   },
 };

@@ -36,7 +36,7 @@ export default [
     ]
   },
   {
-    path: '/accounts/:userName/update/',
+    path: '/:userName/update/',
     name: 'profile-update',
     component: ProfileUpdateView,
     props: true

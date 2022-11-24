@@ -39,6 +39,7 @@ export default {
       movie_title:null,
       content: null,
       editorConfig: {
+        height: '25rem', 
       },
     }
   },

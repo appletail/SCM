@@ -1,5 +1,5 @@
 <template>
-  <md-table-row @click="reviewDetail">
+  <md-table-row @click="reviewDetail" style="cursor: pointer;">
     <md-table-cell md-numeric>{{review.title}}</md-table-cell>
     <md-table-cell md-numeric>{{review.movie.title}}</md-table-cell>
     <md-table-cell md-numeric>{{review.username}}</md-table-cell>
@@ -21,27 +21,11 @@ export default {
     }
   },
   created() {
-    // this.getMovie()
   },
   methods: {
     reviewDetail() {
       this.$router.push({ name: 'detailview', params: { id: this.review.id } })
     },
-    // getMovie() {
-    //   this.$axios({
-    //     method:'get',
-    //     url: `${this.$API_URL}/movies/${this.review.movie}/`,
-    //     headers: {
-    //       Authorization: `Bearer ${localStorage.getItem('jwt')}`
-    //     }
-    //   })
-    //     .then((res) => {
-    //       this.movie = res.data
-    //     })
-    //     .catch((err) => {
-    //       console.log(err)
-    //     })
-    // }
     
   }
 }

@@ -16,10 +16,6 @@
           <label for="content"></label>
           <ckeditor v-model="content" :config="editorConfig"></ckeditor><br>
         </div>
-        <!-- <md-field style="width:80%; margin-left: auto; margin-right: auto;">
-          <label>Content</label>
-          <md-textarea v-model="content"></md-textarea>
-        </md-field> -->
         <div style="padding: 10px 0px;">
           <button type="submit" class="btn btn-dark centering" 
           style="width:80%; margin-left: auto; margin-right: auto;">제출</button>
@@ -40,6 +36,7 @@ export default {
       movie_title:null,
       test_value: '',
       editorConfig: {
+        height: '25rem', 
       },
     }
   },
@@ -51,7 +48,7 @@ export default {
       return this.$store.state.moviesStore.savedMovies
     },
     completed_movies() {
-      return this.$store.state.moviesStore.completed_movies
+      return this.$store.state.moviesStore.completed_movies.slice(0,500)
     }
   },
   methods: {

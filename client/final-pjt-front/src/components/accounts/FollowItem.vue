@@ -14,10 +14,8 @@
       </div>
     </div>
     <div>
-      <button @click="follow">{{ is_follow }}</button>
+      <button v-if="followItem.username != loginUser"  @click="follow">{{ is_follow }}</button>
     </div>
-
-    
   </div>
 </template>
 
@@ -50,6 +48,11 @@ export default {
     },
     goToProfile() {
       this.$router.push({ name: 'profile-item', params: { userName: this.followItem.username } })
+    }
+  },
+  computed: {
+    loginUser() {
+      return localStorage.getItem('username')
     }
   },
   created() {

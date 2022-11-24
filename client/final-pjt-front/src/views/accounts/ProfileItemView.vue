@@ -1,22 +1,15 @@
 <template>
-  <div>
     <div>
-      <h1>자기소개</h1>
-      {{ introduce }}
-    </div>
-    <hr>
-    <div>
-      <p>보고 싶은 영화</p>
+      <p v-if="watchList?.length">보고 싶은 영화</p>
       <watchListSwiperView
         :watchList="watchList"
       />
       <hr>
-      <p>좋아요한 영화</p>
+      <p v-if="likeMovies?.length">좋아요한 영화</p>
       <likeMoviesSwiperView
         :likeMovies="likeMovies"
       />
     </div>
-  </div>
 </template>
 
 <script>
@@ -30,7 +23,6 @@ export default {
     likeMoviesSwiperView,
   },
   props: {
-    introduce: String,
     watchList: Array,
     likeMovies: Array,
   }

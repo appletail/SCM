@@ -5,7 +5,7 @@ from rest_framework import status
 
 from .makeDB import makeDB, makeCrewDB, makeMovieBackdrop
 from .models import Movie, Crew, Genre
-from .serializers import MovieListSerializer, CrewListSerializer, GenreListSerializer, MovieSerializer, CrewSerializer
+from .serializers import MovieListSerializer, CrewListSerializer, GenreListSerializer, MovieSerializer, CrewSerializer, recommendSerializer
 from django.shortcuts import get_object_or_404, get_list_or_404
 from django.contrib.auth import get_user_model
 
@@ -106,7 +106,6 @@ def crews_detail(request, crew_pk):
 
 @api_view(['GET'])  
 def makedb(request):
-    # makeDB()
-    makeCrewDB()
-    # makeMovieBackdrop()
-    return Response(status=status.HTTP_201_CREATED)
+    user = request.user
+    serializer = recommendSerializer(user)
+    return Response(serializer.data)

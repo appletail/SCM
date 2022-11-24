@@ -1,7 +1,7 @@
 <template>
-  <div class='p-5 back'>
+  <div class='p-5'>
     <nav>
-      <router-link :to="{ name: 'reviewcreateview' }">[CREATE]</router-link>
+      <router-link :to="{ name: 'reviewcreateview' }" v-if="isLogin">[CREATE]</router-link>
     </nav>
     <md-tabs class="md-accent">
       <md-tab id="tab-home" md-label="최신순" @click="reviewLatestList"></md-tab>
@@ -28,18 +28,20 @@ export default {
     reviewViewList() {
     this.$router.push({ name: 'reviewview' })
     },
-    
+  },
+  computed: {
+    isLogin() {
+      return this.$store.state.accountsStore.is_login
+    }
   }
 }
 </script>
 
 <style scoped>
-  /* .back {
-    background-image: url("https://image.tmdb.org/t/p/w500//bQXAqRx2Fgc46uCVWgoPz5L5Dtr.jpg");
-    background-size: cover;
-  } */
-
   .test {
     background-color : black;
+  }
+  .back {
+    border-radius: 9rem;
   }
 </style>
