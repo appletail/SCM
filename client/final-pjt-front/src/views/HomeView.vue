@@ -95,7 +95,7 @@
     </div>
   </div>
 </template>
-<!-- <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script> -->
+
 <script>
 import SwiperView from '@/components/Swiper/SwiperView.vue'
 

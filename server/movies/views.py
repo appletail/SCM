@@ -107,6 +107,6 @@ def crews_detail(request, crew_pk):
 @api_view(['GET'])  
 def makedb(request):
     # makeDB()
-    # makeCrewDB()
-    makeMovieBackdrop()
+    makeCrewDB()
+    # makeMovieBackdrop()
     return Response(status=status.HTTP_201_CREATED)
