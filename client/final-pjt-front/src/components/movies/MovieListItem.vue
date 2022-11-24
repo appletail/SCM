@@ -1,145 +1,171 @@
 <template>
-  <div>
-<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
-
-<section class="hero-section">
-  <div class="card-grid">
-    <a class="card" href="#">
-      <div class="card__background" style="background-image: url(https://images.unsplash.com/photo-1557177324-56c542165309?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1950&amp;q=80)"></div>
-      <div class="card__content">
-        <p class="card__category">Category</p>
-        <h3 class="card__heading">Example Card Heading</h3>
+  <div class="card col p-2">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <div class="image">
+      <img :src="movie.img_url"/>
+    </div>
+    <div class="details">
+      <div class="center">
+        <h1>{{ movie.title }}<br><span>{{ movie.release_date }}</span></h1>
+        <p>{{ description }}</p>
+        <ul>
+          <span  @click="toggleLikeMovie">
+            <li v-show="!like"><a><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a></li>
+            <li v-show="like"><a><i class="fa fa-thumbs-up" aria-hidden="true"></i></a></li>
+          </span>
+          <li><a><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        </ul>
       </div>
-    </a>
-  <div>
-</div></div></section>
+    </div>
   </div>
 </template>
 
 <script>
+import _ from 'lodash'
+
 export default {
   name: 'MovieListItem',
   props: {
     movie: Object,
+    is_watchlist: Boolean,
+    is_like: Boolean,
+  },
+  data() {
+    return {
+      like: this.is_like
+    }
+  },
+  methods: {
+    toogleWatchList() {
+      this.$axios({
+        method: 'post',
+        url: `${this.$API_URL}/accounts/watchlist/${this.movie.id}/`,
+        headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`,}
+      })
+        .then((res) => {
+          console.log(res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    toggleLikeMovie() {
+      this.$axios({
+        method: 'post',
+        url: `${this.$API_URL}/accounts/likemovie/${this.movie.id}/`,
+        headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`,}
+      })
+        .then((res) => {
+          console.log(typeof res.data.message)
+          this.like = res.data.message
+          console.log(this.like)
+        })
+        .catch((err) => {
+          console.log(err.response.data)
+        })
+    },
+  },
+  computed: {
+    description() {
+      let res = _.truncate(
+        this.movie.description , {
+          'length': 65,
+          'omission': '...'
+        }
+      );
+      return res
+    },
+    loginUser() {
+      return localStorage.getItem('username')
+    }
+  },
+  created() {
+    console.log(this.is_like)
   }
 }
 </script>
 
 <style scoped>
-:root{
-  --background-dark: #2d3548;
-  --text-light: rgba(255,255,255,0.6);
-  --text-lighter: rgba(255,255,255,0.9);
-  --spacing-s: 8px;
-  --spacing-m: 16px;
-  --spacing-l: 24px;
-  --spacing-xl: 32px;
-  --spacing-xxl: 64px;
-  --width-container: 1200px;
+.card {
+  width: 360px;
+  height: 501px;
 }
-
-*{
-  border: 0;
+.card .image {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.3rem;
+  overflow: hidden;
+}
+.card .image img {
+  width: 100%;
+  transition: .5s;
+}
+.card:hover .image img {
+  opacity: .5;
+  transform: translateX(30%);/*100%*/
+}
+.card .details {
+  position: absolute;
+  border-start-start-radius: 0.3rem;
+  top: 0;
+  left: 0;
+  width: 70%;/*100%*/
+  height: 100%;
+  background: #ffc107;
+  transition: .5s;
+  transform-origin: left;
+  transform: perspective(2000px) rotateY(-90deg);
+}
+.card:hover .details {
+  transform: perspective(2000px) rotateY(0deg);
+}
+.card .details .center {
+  padding: 20px;
+  text-align: center;
+  background: #fff;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.card .details .center h1 {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-}
-
-html{
-  height: 100%;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 14px;
-}
-
-body{
-  height: 100%;
-}
-
-.hero-section{
-  align-items: flex-start;
-  display: flex;
-  min-height: 100%;
-  justify-content: center;
-  padding: var(--spacing-xxl) var(--spacing-l);
-}
-
-.card-grid{
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  grid-column-gap: var(--spacing-l);
-  grid-row-gap: var(--spacing-l);
-  max-width: var(--width-container);
-  width: 100%;
-}
-
-@media(min-width: 540px){
-  .card-grid{
-    grid-template-columns: repeat(2, 1fr); 
-  }
-}
-
-@media(min-width: 960px){
-  .card-grid{
-    grid-template-columns: repeat(4, 1fr); 
-  }
-}
-
-.card{
-  list-style: none;
-  position: relative;
-}
-
-.card:before{
-  content: '';
-  display: block;
-  padding-bottom: 150%;
-  width: 100%;
-}
-
-.card__background{
-  background-size: cover;
-  background-position: center;
-  border-radius: var(--spacing-l);
-  bottom: 0;
-  filter: brightness(0.75) saturate(1.2) contrast(0.85);
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  transform-origin: center;
-  trsnsform: scale(1) translateZ(0);
-  transition: 
-    filter 200ms linear,
-    transform 200ms linear;
-}
-
-.card:hover .card__background{
-  transform: scale(1.05) translateZ(0);
-}
-
-.card-grid:hover > .card:not(:hover) .card__background{
-  filter: brightness(0.5) saturate(0) contrast(1.2) blur(20px);
-}
-
-.card__content{
-  left: 0;
-  padding: var(--spacing-l);
-  position: absolute;
-  top: 0;
-}
-
-.card__category{
-  color: var(--text-light);
-  font-size: 0.9rem;
-  margin-bottom: var(--spacing-s);
+  color: #ff3636;
+  line-height: 20px;
+  font-size: 20px;
   text-transform: uppercase;
 }
-
-.card__heading{
-  color: var(--text-lighter);
-  font-size: 1.9rem;
-  text-shadow: 2px 2px 20px rgba(0,0,0,0.2);
-  line-height: 1.4;
-  word-spacing: 100vw;
+.card .details .center h1 span {
+  font-size: 14px;
+  color: #262626;
+}
+.card .details .center p {
+  margin: 10px 0;
+  padding: 0;
+  color: #262626;
+}
+.card .details .center ul {
+  margin: 10px auto 0;
+  padding: 0;
+  display: table;
+}
+.card .details .center ul li {
+  list-style: none;
+  margin: 0 5px;
+  float: left;
+}
+.card .details .center ul li a {
+  display: block;
+  background: #262626;
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  transform: .5s;
+}
+.card .details .center ul li a:hover {
+  background: #ff3636;
 }
 </style>

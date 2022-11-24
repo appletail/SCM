@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from movies.models import Movie, Crew, Genre
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -29,3 +30,10 @@ class followSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ('username', 'profile_img', 'introduce', 'followers',)
+
+
+class watchlistSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Movie
+        fields = ('id',)
