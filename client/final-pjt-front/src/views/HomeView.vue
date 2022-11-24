@@ -4,10 +4,10 @@
       <SwiperView style="padding: 20px 0px;"/>
 
       <!-- 목록별 5개 영화 -->
-      <div class="card mb-3">
+      <div class="card mb-3 movie-list">
         <div class="row g-0">
           <div class="col-md-10">
-            <div class="recommend_div">
+            <div class="recommend_div movie-list">
               <div class="row row-cols-5 row-cols-md-5 g-3">
                 <div class="col"
                   v-for="movie in carouselMovies"
@@ -57,7 +57,7 @@
           <div class="col-md-2" style="height : 100%; margin-top: auto; margin-bottom: auto;">
             <h3>인기 영화</h3>
             <p>최근 인기영화를 소개합니다!</p>
-            <md-button class="md-icon-button md-accent">
+            <md-button class="md-icon-button md-accent" @click="movePopularMovie">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width:30px;" fill='red'><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/>
               </svg>
             </md-button>
@@ -68,30 +68,31 @@
 
       <!-- 인기 리뷰 -->
 
-      <md-card>
-        <md-card-header>
+        <div class="back">
           <h4>인기 리뷰</h4>
-          <!-- <p class="category">New employees on 15th September, 2016</p> -->
-        </md-card-header>
-        <md-table>
-          <!-- <md-table-row>
-            <md-table-head md-numeric>제목</md-table-head>
-            <md-table-head>영화 제목</md-table-head>
-            <md-table-head>작성자</md-table-head>
-            <md-table-head>작성일자</md-table-head>
-            <md-table-head>조회수</md-table-head>
-          </md-table-row> -->
-          <div
+          <div>
+            <div style="display: flex; justify-content: space-around;">
+              <p>제목</p>
+              <p>영화 제목</p>
+              <p> 작성자 </p>
+            </div>
+            <div
             v-for="review in popular_reviews"
-            :key="review.id">
-            <md-table-row @click="reviewDetail" class="d-flex justify-content-around">
-              <md-table-cell md-label="ID">{{ review.title }}</md-table-cell>
-              <md-table-cell md-label="Name">{{ review.movie }}</md-table-cell>
-              <md-table-cell md-label="Salary">{{ review.username }}</md-table-cell>
-            </md-table-row>
+            :key="review.id" 
+            class="reviewList"
+            >
+            <hr style="margin: 0px">
+            <div>
+              <div  style="display: flex; justify-content: space-around; cursor: pointer ;" @click="reviewDetail(review)" >
+                <p>{{ review.title }}</p>
+                <p>{{ review.movie.title }}</p>
+                <p>{{ review.username }}</p>
+              </div>
+            </div>
           </div>
-        </md-table>
-      </md-card>
+
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -149,11 +150,14 @@ export default {
           console.log(err)
         })
     },
-    reviewDetail() {
-      this.$router.push({ name: 'detailview', params: { id: this.review.id } })
+    reviewDetail(review) {
+      this.$router.push({ name: 'detailview', params: { id: review.id } })
     },
     moveMovieDetail(movie) {
       this.$router.push({ name : 'moviedetail', params: {id: movie.id}})
+    },
+    movePopularMovie() {
+      this.$router.push({ name : 'MovieListItems', params: { movieListName: 'popular' }} )
     }
 
   }
@@ -171,7 +175,15 @@ export default {
 .movie-list{
   border-radius: 1rem;
 }
+        
+.reviewList :hover {
+  background-color : gray;
+}
 
+.back {
+    background-color : white ;
+    border-radius: 10px;
+  };
 </style>
 
 

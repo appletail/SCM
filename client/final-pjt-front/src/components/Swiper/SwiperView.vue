@@ -5,7 +5,7 @@
     <swiper-slide role="tab" style="height:700px;"
     v-for="movie in popmovies"
     :key="movie.id">
-      <img :src="movie.img_url" alt="">
+      <img :src="movie.img_url" alt="" @click="moveMovie(movie)">
     </swiper-slide>  
     </swiper>
   </div>
@@ -31,6 +31,9 @@ export default {
         slidesOffsetAfter: 0, // slidesOffsetAfter는 마지막 슬라이드 시작점 + 마지막 슬라이드 너비에 해당하는 위치의 변경이 필요할 때 사용
         freeMode: true, // freeMode를 사용시 스크롤하는 느낌으로 구현 가능
         centerInsufficientSlides: true, // 컨텐츠의 수량에 따라 중앙정렬 여부를 결정함
+        autoplay: {
+          disableOnInteraction: true,
+        },
       },
       popmovies : null
     }
@@ -47,8 +50,13 @@ export default {
     popMovies() {
       console.log(this.savedMovies)
       this.popmovies = this.savedMovies.slice(0,10)
+    },
+    moveMovie(movie) {
+      // location.href=move_url+`${movie.id}+${crew.name}?language=ko`;
+      this.$router.push({ name: 'moviedetail', params: { id: movie.id } })
     }
   },
+  
 }
 </script>
 
@@ -67,6 +75,7 @@ export default {
         border-radius: 18px;
         background: #f3f4f7;
         appearance: none;
+        
         cursor: pointer;
       }
     }

@@ -26,6 +26,7 @@
           <router-link :to="{ name: 'logout' }" v-if="is_login" class="m-1">logout</router-link>
           <router-link :to="{ name: 'profile-item', params:{ userName: username() } }" v-if="is_login" class="m-1">profile</router-link>
         </div>
+
       </div>
     </nav>
     <router-view/>
