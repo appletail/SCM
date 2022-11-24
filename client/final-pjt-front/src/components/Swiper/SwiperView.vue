@@ -46,7 +46,7 @@ export default {
   methods: {
     popMovies() {
       console.log(this.savedMovies)
-      this.popmovies = this.savedMovies
+      this.popmovies = this.savedMovies.slice(0,10)
     }
   },
 }
