@@ -1,5 +1,7 @@
 <template>
   <div>
+    {{review}}
+    <!-- {{movie}} -->
     <div class="back">
         <md-card>
           <md-card-header style="background-color: black; color: white;">
@@ -25,6 +27,7 @@
             </div>
             <div>
               <button type="button" class="btn btn-dark" @click="MoveUpdate()">Update</button>
+
               <button type="button" class="btn btn-danger" @click="DeleteReview()">DELETE</button>
             </div>
           </div>
@@ -37,20 +40,14 @@
             <form @submit.prevent="CreateReviewComment">
               <md-field style="width:80%; margin-left: auto; margin-right: auto;">
                 <label for="reviewcomment">reviewComment</label>
-                <md-input v-model="reviewComment" type="text" id="reviewcomment"></md-input>
+                <md-input type="text" id="reviewcomment" v-model.trim="reviewcomment"></md-input>
                 <button type="submit" id="submit" class="btn btn-dark" >Submit</button>
               </md-field>
-            </form>
-            <form @submit.prevent="CreateReviewComment">
-              <div>
-                <label for="reviewcomment"> 댓글 작성: </label>
-                <input type="text" id="reviewcomment" v-model.trim="reviewcomment"><br>
-                <input type="submit" id="submit">
-              </div>
             </form>
           </md-card-header>
  
           <br>
+
           <!-- 댓글 출력 -->
           <md-card-content style="display: flex; justify-content: center;">
             <ReviewComment
@@ -82,6 +79,7 @@ export default {
       reviewId: null,
       reviewcomment : '',
       content: null,
+      movie: null,
     }
   },
   methods: {
@@ -178,11 +176,31 @@ export default {
         headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`}
       })
     },
+    getMovie() {
+      this.$axios({
+        method:'get',
+        url: `${this.$API_URL}/movies/${this.review.movie}/`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwt')}`
+        }
+      })
+        .then((res) => {
+          console.log('됩니다.')
+          this.movie = res.data
+          console.log(res.data)
+        })
+        .catch((err) => {
+          console.log('안됩니다.')
+          console.log(err)
+        })
+    },
   },
   created() {
     this.reviewId = this.$route.params.id
     this.ReviewRead()
     this.reviewLookUp()
+    this.getMovie()
+    console.log(this.movie)
   },
   beforeRouteUpdate(to, from, next) {
     this.reviewId = this.$route.params.id

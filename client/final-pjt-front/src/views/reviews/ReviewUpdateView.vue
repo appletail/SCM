@@ -13,14 +13,14 @@
           <md-input disabled></md-input>
         </md-field>
 
-        <!-- <div style="margin-left: auto; margin-right: auto;">
+        <div style="margin-left: auto; margin-right: auto;">
           <label for="content"></label>
           <ckeditor v-model="content" :config="editorConfig"></ckeditor><br>
-        </div> -->
-        <md-field style="width:80%; margin-left: auto; margin-right: auto;">
+        </div>
+        <!-- <md-field style="width:80%; margin-left: auto; margin-right: auto;">
           <label>Content</label>
           <md-textarea v-model="content"></md-textarea>
-        </md-field>
+        </md-field> -->
         <div style="padding: 10px 0px;">
           <button type="submit" class="btn btn-dark centering" 
           style="width:80%; margin-left: auto; margin-right: auto;">제출</button>
@@ -39,12 +39,6 @@ export default {
       movie_title:null,
       content: null,
       editorConfig: {
-        extraPlugins: 'autogrow',
-        autoGrow_bottomSpace: 50,
-        autoGrow_minHeight: 450,
-        autoGrow_maxHeight: 600,
-        autoGrow_onStartup: true,
-        width: '90%',
       },
     }
   },
