@@ -10,11 +10,14 @@
         <h1>{{ movie.title }}<br><span>{{ movie.release_date }}</span></h1>
         <p>{{ description }}</p>
         <ul>
-          <span  @click="toggleLikeMovie">
+          <span @click="toggleLikeMovie">
             <li v-show="!like"><a><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a></li>
             <li v-show="like"><a><i class="fa fa-thumbs-up" aria-hidden="true"></i></a></li>
           </span>
-          <li><a><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+          <span @click="toogleWatchList">
+            <li v-show="!watch"><a><i class="fa fa-eye-slash" aria-hidden="true"></i></a></li>
+            <li v-show="watch"><a><i class="fa fa-eye" aria-hidden="true"></i></a></li>
+          </span>
         </ul>
       </div>
     </div>
@@ -33,7 +36,8 @@ export default {
   },
   data() {
     return {
-      like: this.is_like
+      like: this.is_like,
+      watch: this.is_watchlist
     }
   },
   methods: {
@@ -44,7 +48,7 @@ export default {
         headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`,}
       })
         .then((res) => {
-          console.log(res.data)
+          this.watch = res.data.message
         })
         .catch((err) => {
           console.log(err)
@@ -57,9 +61,7 @@ export default {
         headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`,}
       })
         .then((res) => {
-          console.log(typeof res.data.message)
           this.like = res.data.message
-          console.log(this.like)
         })
         .catch((err) => {
           console.log(err.response.data)
@@ -81,7 +83,6 @@ export default {
     }
   },
   created() {
-    console.log(this.is_like)
   }
 }
 </script>

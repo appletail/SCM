@@ -6,8 +6,8 @@
           v-for="movie in movies"
           :key="movie.id"
           :movie="movie"
-          :is_watchlist="watchlist.includes(movie)"
-          :is_like="likeMovies.includes(movie.id)"
+          :is_watchlist="watchlist().includes(movie.id)"
+          :is_like="likeMovies().includes(movie.id)"
         />
       </div>
     </div>
@@ -25,8 +25,7 @@ export default {
   data() {
     return {
       listName: null,
-      watchlist: [],
-      likeMovies: [],
+
       movies: [],
       page: 0,
     }
@@ -63,10 +62,16 @@ export default {
       // api를 호출하여 리스트 추가하면 됨, 현재는 pushList에 1개의 index 추가
       this.getMovieList()
     },
-    getLikeMovies() {
-      const movies = this.$store.state.moviesStore.likeMovies
-      console.log(movies)
-    }
+    watchlist() {
+      return this.$store.state.moviesStore.watchList.map((elem) => {
+        return elem.id
+      })
+    },
+    likeMovies() {
+      return this.$store.state.moviesStore.likeMovies.map((elem) => {
+        return elem.id
+      })
+    },
   },
   computed: {
     loginUser() {
@@ -76,19 +81,17 @@ export default {
   beforeRouteUpdate(to, from, next) {
     this.listName = to.params.movieListName
     this.page = 0
-    this.getMovieList()
     this.$store.dispatch('moviesStore/getWatchlist')
     this.$store.dispatch('moviesStore/getLikeMovies')
+    this.getMovieList()
     next()
   },
   created() {
     this.listName = this.$route.params.movieListName
     this.page = 0
-    this.getMovieList()
     this.$store.dispatch('moviesStore/getWatchlist')
     this.$store.dispatch('moviesStore/getLikeMovies')
-    this.getLikeMovies()
-    console.log(this.likeMovies)
+    this.getMovieList()
   },
 }
 </script>
