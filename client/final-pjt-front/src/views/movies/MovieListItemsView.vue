@@ -39,6 +39,12 @@ export default {
         headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`,},
       })
         .then((res) => {
+          if (res.data.pick) {
+            alert(res.data.pick)
+            this.$router.push({ name : 'MovieListItems', params: { movieListName: 'popular' } })
+            console.log(123)
+            return
+          }
           if (this.page === 1) {
             this.movies = res.data
           } else {

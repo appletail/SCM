@@ -5,7 +5,7 @@ from rest_framework import status
 
 from .makeDB import makeDB, makeCrewDB, makeMovieBackdrop
 from .models import Movie, Crew, Genre
-from .serializers import MovieListSerializer, CrewListSerializer, GenreListSerializer, MovieSerializer, CrewSerializer, recommendSerializer
+from .serializers import MovieListSerializer, CrewListSerializer, GenreListSerializer, MovieSerializer, CrewSerializer, recommendSerializer, GenreListSerializer
 from django.shortcuts import get_object_or_404, get_list_or_404
 from django.contrib.auth import get_user_model
 
@@ -62,8 +62,35 @@ def genre_detail(request, genre_pk):
 # 맞춤영화 짜야함
 @api_view(['GET'])
 def movies_list_personal(request, page):
-    pass
+    user = request.user
+    serializer = recommendSerializer(user)
+    maxGenre = {}
+    for like in serializer.data.get('like_movies'):
+        for genre in like.get('genres'):
+            name = genre.get('name')
+            if maxGenre.get(name):
+                maxGenre[name] += 1
+            else:
+                maxGenre[name] = 1
 
+    for watch in serializer.data.get('watchlist_movies'):
+        for genre in watch.get('genres'):
+            name = genre.get('name')
+            if maxGenre.get(name):
+                maxGenre[name] += 1
+            else:
+                maxGenre[name] = 1
+    maxGenre = sorted(maxGenre.items(), key= lambda x : x[1], reverse=True)
+    if maxGenre:
+        genre = get_object_or_404(Genre, name=maxGenre[0][0])
+        serializer = GenreListSerializer(genre)
+        pages = 20 * page
+        data = sorted(serializer.data.get('movies'), key= lambda x : x.get('popularity'), reverse=True)[pages - 20 : pages]
+        return Response(data)
+    else:
+        context = {'pick': '영화에 좋아요를 눌러주세요!'}
+        return Response(context)
+    
 
 # 영화 상세 조회
 @api_view(['GET'])
@@ -108,4 +135,22 @@ def crews_detail(request, crew_pk):
 def makedb(request):
     user = request.user
     serializer = recommendSerializer(user)
+    maxGenre = {}
+    for like in serializer.data.get('like_movies'):
+        for genre in like.get('genres'):
+            name = genre.get('name')
+            if maxGenre.get(name):
+                maxGenre[name] += 1
+            else:
+                maxGenre[name] = 1
+
+    for watch in serializer.data.get('watchlist_movies'):
+        for genre in watch.get('genres'):
+            name = genre.get('name')
+            if maxGenre.get(name):
+                maxGenre[name] += 1
+            else:
+                maxGenre[name] = 1
+    maxGenre = sorted(maxGenre.items(), key= lambda x : x[1], reverse=True)
+    print(maxGenre[0][0])
     return Response(serializer.data)

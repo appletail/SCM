@@ -7,7 +7,7 @@ class MovieListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = ('id', 'title', 'img_url', 'release_date', 'description',)
+        fields = ('id', 'title', 'img_url', 'release_date', 'description', 'popularity',)
 
 
 class CrewListSerializer(serializers.ModelSerializer):
@@ -19,9 +19,11 @@ class CrewListSerializer(serializers.ModelSerializer):
 
 class GenreListSerializer(serializers.ModelSerializer):
 
+    movies = MovieListSerializer(many=True, read_only=True)
+
     class Meta:
         model = Genre
-        fields = ('id', 'name')
+        fields = '__all__'
 
 
 class CrewSerializer(serializers.ModelSerializer):

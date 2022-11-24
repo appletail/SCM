@@ -1,5 +1,6 @@
 <template>
   <div class="p-2">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <div class="back">
       <div class="d-flex p-5">
         <img :src="movie?.img_url" alt="" style="width:16em; border-radius: 1rem;">
@@ -16,8 +17,20 @@
             </div>
           </span>
           <div class="m-3 d-flex flex-column justify-content-between" style="text-align: start;">
-            <div><h5>{{movie?.description}}</h5></div>
-            <div>fasjkhklasd</div>
+          <div><h5>{{movie?.description}}</h5></div>
+
+          <div class="d-flex">
+            <span @click.stop="toggleLikeMovie" style="cursor: pointer;" class="mx-2">
+              <div v-show="!like" class="watchlike"><a><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a></div>
+              <div v-show="like" class="watchlike"><a><i class="fa fa-thumbs-up" aria-hidden="true"></i></a></div>
+            </span>
+            <span @click.stop="toogleWatchList" style="cursor: pointer;" class="mx-2">
+              <div v-show="!watch" class="watchlike"><a><i class="fa fa-eye-slash" aria-hidden="true"></i></a></div>
+              <div v-show="watch" class="watchlike"><a><i class="fa fa-eye" aria-hidden="true"></i></a></div>
+            </span>
+          </div>
+
+
           </div>
         </div>
       </div>
@@ -72,20 +85,13 @@ export default {
       movie: null,
       similar_movies : [],
       movie_id : null,
+      like: null,
+      watch: null,
     }
   },
   components : {
     MovieCrewSwiperView,
     SimilarMovieSwiperView
-  },
-  created() {
-    this.movie_id = this.$route.params.id
-    this.ReadMovie()
-  },
-  beforeRouteUpdate(to, from, next) {
-    this.movie_id = to.params.id;
-    this.ReadMovie()
-    next();
   },
   methods : {
     ReadMovie() {
@@ -97,6 +103,12 @@ export default {
       .then((res) => {
         this.movie = res.data
         this.ReadSimilar()
+        this.$store.dispatch('moviesStore/getWatchlist')
+        this.$store.dispatch('moviesStore/getLikeMovies')
+      })
+      .then(() => {
+        this.like = this.likeMovies().includes(this?.movie_id)
+        this.watch = this.watchlist().includes(this?.movie_id)
       })
       .catch((err) => {
         console.log(err.response.data)
@@ -125,7 +137,52 @@ export default {
     reviewDetail(review) {
       this.$router.push({ name: 'detailview', params: { id: review.id } })
     },
-  }
+    toogleWatchList() {
+      this.$axios({
+        method: 'post',
+        url: `${this.$API_URL}/accounts/watchlist/${this.movie.id}/`,
+        headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`,}
+      })
+        .then((res) => {
+          this.watch = res.data.message
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    toggleLikeMovie() {
+      this.$axios({
+        method: 'post',
+        url: `${this.$API_URL}/accounts/likemovie/${this.movie.id}/`,
+        headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`,}
+      })
+        .then((res) => {
+          this.like = res.data.message
+        })
+        .catch((err) => {
+          console.log(err.response.data)
+        })
+    },
+    watchlist() {
+      return this.$store.state.moviesStore.watchList.map((elem) => {
+        return elem.id
+      })
+    },
+    likeMovies() {
+      return this.$store.state.moviesStore.likeMovies.map((elem) => {
+        return elem.id
+      })
+    },
+  },
+  created() {
+    this.movie_id = this.$route.params.id
+    this.ReadMovie()
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.movie_id = to.params.id;
+    this.ReadMovie()
+    next();
+  },
 }
 
 </script>
@@ -136,7 +193,7 @@ export default {
   }
 
  .back {
-    margin: 20px;
+   margin: 20px;
     background-color : white ;
     border-radius: 20px;
   };
@@ -150,5 +207,7 @@ export default {
   border-bottom-right-radius: 1rem;
   background-color : gray;
 }
-
+.watchlike{
+  font-size: 2rem;
+}
 </style>
