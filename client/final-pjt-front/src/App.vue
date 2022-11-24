@@ -1,25 +1,32 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-expand-lg bg-light d-flex justify-content-evenly">
-
-      <router-link to="/">
-        <div class="content">
-          <h2>SCM</h2>
-          <h2>SCM</h2>
-        </div>
-      </router-link>
+    <nav class="navbar navbar-expand-lg bg-light d-flex justify-content-between align-items-center" style="height: 60px;">
       <div>
-        <router-link :to="{ name: 'login' }" v-if="!is_login">Login |</router-link>
-        <router-link :to="{ name: 'logout' }" v-if="is_login">logout |</router-link>
-        <router-link :to="{ name : 'reviewlatest'}">review |</router-link>
-        <router-link :to="{ name : 'MovieListItems', params: { movieListName: 'popular' } }">movies |</router-link>
-        <router-link :to="{ name: 'profile-item', params:{ userName: username() } }" v-if="is_login">profile |</router-link>
-      </div>
-      <div style="display:flex;">
-        <md-autocomplete v-model="search_value" :md-options="movies"
-        style="width:80%; margin-left: auto; margin-right: auto;">
-        <label>Serach</label>
-        </md-autocomplete>
+          <router-link to="/">
+            <div class="content">
+              <h2>SCM</h2>
+              <h2>SCM</h2>
+            </div>
+          </router-link>
+            <div style=" left: 10rem;	position: relative;">
+              <router-link :to="{ name : 'reviewlatest'}" class="m-1">review</router-link>
+              <router-link :to="{ name : 'MovieListItems', params: { movieListName: 'popular' } }" class="m-1">movies</router-link>
+            </div>
+
+    </div>
+      <div class="d-flex justify-content-center align-items-center">
+          <div>
+            <md-autocomplete v-model="search_value" :md-options="movies"
+            style="width:80%; margin-left: auto; margin-right: auto;">
+            <label>Serach</label>
+            </md-autocomplete>
+          </div>
+        <div class="m-3">
+          <router-link :to="{ name: 'login' }" v-if="!is_login" class="m-1">Login</router-link>
+          <router-link :to="{ name: 'logout' }" v-if="is_login" class="m-1">logout</router-link>
+          <router-link :to="{ name: 'profile-item', params:{ userName: username() } }" v-if="is_login" class="m-1">profile</router-link>
+        </div>
+
       </div>
     </nav>
     <router-view/>
@@ -69,7 +76,21 @@ export default {
         .catch((err) => {
           console.log(err)
         })
-    }
+    },
+    completedMovies() {
+      this.$axios({
+        method: 'get',
+        url: `${this.$API_URL}/movies/savemovies/`,
+        // headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`},
+      })
+        .then((res) => {
+          const movies = res.data
+          this.$store.dispatch('moviesStore/completedMovies', movies)
+        })
+        .catch((err) => {
+          console.log(err.response.data)
+        })
+    },
   },
   computed: {
     is_login() {
@@ -80,6 +101,7 @@ export default {
     this.$store.dispatch('accountsStore/login')
     this.saveMovies()
     this.popularMovies()
+    this.completedMovies()
   }
 }
 </script>
@@ -102,12 +124,14 @@ export default {
 }
 
 .content {
+  top: 0.6rem;
+  left: 5rem;
 	position: relative;
 }
 
 .content h2 {
 	color: #fff;
-	font-size: 3em;
+	font-size: 4em;
 	position: absolute;
 	transform: translate(-50%, -50%);
 }

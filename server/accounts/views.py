@@ -5,8 +5,9 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404, get_list_or_404
 from django.contrib.auth import get_user_model
 
-from .serializers import UserSerializer, UserProfileSerializer, followSerializer, UserProfileUpdateSerializer
+from .serializers import UserSerializer, UserProfileSerializer, followSerializer, UserProfileUpdateSerializer, watchlistSerializer
 
+from movies.models import Movie
 # Create your views here.
 
 # 회원가입
@@ -140,3 +141,41 @@ def follow(request, username, page_name):
                 else:
                     user['is_follow'] = 'Follow'
             return Response(serializer.data)
+
+
+@api_view(['GET', 'POST'])
+def watchlist(requset, movie_pk):
+    user = requset.user
+    movie = get_object_or_404(Movie, pk=movie_pk)
+    if requset.method == 'POST':
+        if user.watchlist_movies.filter(pk=movie_pk).exists():
+            user.watchlist_movies.remove(movie)
+            message = False
+        else:
+            user.watchlist_movies.add(movie)
+            message = True
+        context = {'message': message,}
+        return Response(context, status=status.HTTP_201_CREATED)
+    else:
+        watchlists = user.watchlist_movies.all()
+        serializer = watchlistSerializer(watchlists, many=True)
+        return Response(serializer.data)
+
+
+@api_view(['GET', 'POST'])
+def like_movies(requset, movie_pk):
+    user = requset.user
+    movie = get_object_or_404(Movie, pk=movie_pk)
+    if requset.method == 'POST':
+        if user.like_movies.filter(pk=movie_pk).exists():
+            user.like_movies.remove(movie)
+            message = False
+        else:
+            user.like_movies.add(movie)
+            message = True
+        context = {'message': message,}
+        return Response(context, status=status.HTTP_201_CREATED)
+    else:
+        likes = user.like_movies.all()
+        serializer = watchlistSerializer(likes, many=True)
+        return Response(serializer.data)
