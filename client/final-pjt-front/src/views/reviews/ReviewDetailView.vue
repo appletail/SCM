@@ -6,7 +6,7 @@
         <md-card>
           <md-card-header style="background-color: black; color: white;">
             <div class="md-title">{{review.title}}</div>
-            <div class="md-subhead">{{review.movie}}</div>
+            <div class="md-subhead">{{review.movie.title}}</div>
           </md-card-header>
           <br>
           <md-card-content style="display: flex; justify-content: center;" v-html="review.content">
