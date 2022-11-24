@@ -7,11 +7,14 @@
 			<input type="password" placeholder="Password" v-model="signup_password"/>
 			<input type="password" placeholder="password confirm" v-model="signup_password_confirm"/>
 			<div v-show="signup_err_msg">
-				<span>
-					<svg aria-hidden="true" focusable="false" width="16px" height="16px" viewBox="0 0 24 24">
+				<span class="d-flex justify-content-center align-items-center">
+					<svg aria-hidden="true" focusable="false" width="19px" height="19px" viewBox="0 0 24 24" fill="red">
 					<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path>
 					</svg>
-				</span>{{ signup_err_msg }}
+					<span style="font-size: 17px">
+						{{ signup_err_msg }}
+					</span>
+				</span>
 			</div>
 			<button>Sign Up</button>
 		</form>
@@ -24,7 +27,7 @@
 			<input type="password" placeholder="Password" v-model="login_password"/>
 			<div v-show="login_err_msg">
 				<span>
-					<svg aria-hidden="true" focusable="false" width="16px" height="16px" viewBox="0 0 24 24">
+					<svg aria-hidden="true" focusable="false" width="16px" height="16px" viewBox="0 0 24 24" fill="red">
 					<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path>
 					</svg>
 				</span>{{ login_err_msg }}
@@ -59,9 +62,9 @@ export default {
       login_username: null,
       login_password: null,
 			login_err_msg: null,
-      signup_username: null,
-      signup_password: null,
-      signup_password_confirm: null,
+      signup_username: '',
+      signup_password: '',
+      signup_password_confirm: '',
 			signup_err_msg: null,
       is_panel_active: false,
     }
@@ -109,14 +112,17 @@ export default {
           this.login()
         })
         .catch((err) => {
-					if (err.response.data.password) {
-						this.signup_err_msg = '비밀번호를 입력해주세요.'
-					} else if (err.response.data.password_unmatch) {
-						this.signup_err_msg = '비밀번호가 일치하지 않습니다.'
-					} else if (err.response.data.username[0] === '해당 사용자 이름은 이미 존재합니다.') {
-						this.signup_err_msg = '해당 사용자 이름은 이미 존재합니다.'
-					} else if (err.response.data.username[0].includes('필드는')) {
+					console.log()
+					if (!this.signup_username.trim()) {
 						this.signup_err_msg = '아이디를 입력해주세요.'
+					} else if (err.response.data.username) {
+						this.signup_err_msg = '이미 존재하는 아이디입니다.'
+					} else if (!this.signup_password.trim()) {
+						this.signup_err_msg = '비밀번호를 입력해주세요.'
+					} else if (!this.signup_password_confirm.trim()) {
+						this.signup_err_msg = '비밀번호 확인을 입력해주세요.'
+					} else if (this.signup_password != this.signup_password_confirm) {
+						this.signup_err_msg = '비밀번호가 일치하지 않습니다.'
 					}	
         })
     },
