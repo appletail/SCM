@@ -1,7 +1,6 @@
 <template>
   <div class="card col p-2 m-1">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="style.css"> -->
     <div class="image">
       <img :src="movie.img_url"/>
     </div>
@@ -68,7 +67,6 @@ export default {
         })
     },
     moveMovie(movie) {
-      // location.href=move_url+`${movie.id}+${crew.name}?language=ko`;
       this.$router.push({ name: 'moviedetail', params: { id: movie.id } })
 
     }
@@ -94,8 +92,8 @@ export default {
 
 <style scoped>
 .card {
-  width: 360px;
-  height: 501px;
+  width: 20rem;
+  height: 30rem;
 }
 .card .image {
   width: 100%;

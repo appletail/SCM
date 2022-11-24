@@ -45,7 +45,7 @@ def reviews_list_view(request):
 
 @api_view(['GET', 'POST'])
 def reviews_create(request):
-    # # 전체 데이터 조회인데 일단 적었습니다.
+    # 전체 데이터 조회인데 일단 적었습니다.
     if request.method == 'GET':
         reviews = Review.objects.all()
         serializer = ReviewListSerializer(reviews, many=True)
@@ -53,7 +53,6 @@ def reviews_create(request):
 
     if request.method == 'POST':
         serializer = ReviewCreateSerializer(data=request.data)
-        # print(request.data.get('movie').get('id'))
         movie = Movie.objects.get(pk=request.data.get('movie').get('id'))
 
         if serializer.is_valid(raise_exception=True):
@@ -109,7 +108,9 @@ def reviewscomments_create(request,review_pk):
     review = Review.objects.get(pk=review_pk)
     serializer = ReviewCommentSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
-        serializer.save(review=review)
+        comment = serializer.save(review=review)
+        comment.user = request.user
+        comment.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 

@@ -1,12 +1,13 @@
 from rest_framework import serializers
 from .models import Movie, Crew, Genre
 from reviews.serializers import ReviewListSerializer
+from django.contrib.auth import get_user_model
 
 class MovieListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = ('id', 'title', 'img_url', 'release_date', 'description',)
+        fields = ('id', 'title', 'img_url', 'release_date', 'description', 'popularity',)
 
 
 class CrewListSerializer(serializers.ModelSerializer):
@@ -18,9 +19,11 @@ class CrewListSerializer(serializers.ModelSerializer):
 
 class GenreListSerializer(serializers.ModelSerializer):
 
+    movies = MovieListSerializer(many=True, read_only=True)
+
     class Meta:
         model = Genre
-        fields = ('id', 'name')
+        fields = '__all__'
 
 
 class CrewSerializer(serializers.ModelSerializer):
@@ -41,3 +44,27 @@ class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
         fields = '__all__'
+
+
+class recommendSerializer(serializers.ModelSerializer):
+
+    class movieSerializer(serializers.ModelSerializer):
+
+        class genreSerializer(serializers.ModelSerializer):
+
+            class Meta:
+                model = Genre
+                fields = ('id', 'name',)
+
+        genres = genreSerializer(many=True, read_only=True)
+
+        class Meta:
+            model = Movie
+            fields = ('genres',)
+
+    watchlist_movies = movieSerializer(many=True, read_only=True)
+    like_movies = movieSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = get_user_model()
+        fields = ('like_movies', 'watchlist_movies',)

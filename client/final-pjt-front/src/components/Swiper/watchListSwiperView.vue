@@ -1,11 +1,12 @@
 <template>
+  
   <div>
     <swiper ref="filterSwiper" :options="swiperOption" role="tablist">
-    <swiper-slide role="tab" style="width: 30rem; height: 40rem;"
-    v-for="movie in popmovies"
+    <swiper-slide role="tab" style="width: 12rem; height:18rem;"
+    v-for="movie in watchList"
     :key="movie.id">
-      <img :src="movie.img_url" @click="moveMovie(movie)">
-      <p></p>
+      <img :src="movie.img_url" alt="" @click="moveMovie(movie)">
+      <p>{{ movie.title }}</p>
     </swiper-slide>  
     </swiper>
   </div>
@@ -14,13 +15,16 @@
 <script>
 import 'swiper/dist/css/swiper.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
-import _ from 'lodash'
+
 
 export default {
   name: 'SwiperView',
   components: {
     swiper,
     swiperSlide
+  },
+  props: {
+    watchList: Array
   },
   data () {
     return {
@@ -30,7 +34,7 @@ export default {
         slidesOffsetBefore: 0, // slidesOffsetBefore는 첫번째 슬라이드의 시작점에 대한 변경할 때 사용
         slidesOffsetAfter: 0, // slidesOffsetAfter는 마지막 슬라이드 시작점 + 마지막 슬라이드 너비에 해당하는 위치의 변경이 필요할 때 사용
         freeMode: true, // freeMode를 사용시 스크롤하는 느낌으로 구현 가능
-        centerInsufficientSlides: false, // 컨텐츠의 수량에 따라 중앙정렬 여부를 결정함
+        centerInsufficientSlides: true, // 컨텐츠의 수량에 따라 중앙정렬 여부를 결정함
         autoplay: {
           disableOnInteraction: true,
         },
@@ -41,22 +45,8 @@ export default {
   computed: {
   },
   created() {
-    this.popMovies()
   },
   methods: {
-    popMovies() {
-      const page = _.random(1, 100)
-      this.$axios({
-        method:'get',
-        url: `${this.$API_URL}/movies/popular/${page}/`,
-      })
-        .then((res) => {
-          this.popmovies = res.data.slice(0,10)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
     moveMovie(movie) {
       this.$router.push({ name: 'moviedetail', params: { id: movie.id } })
     }

@@ -2,7 +2,7 @@
   <div>
     <h1>회원정보수정</h1>
     <form @submit.prevent="updateProfile">
-      <img :src="profile_img_url" alt="프로필 이미지"><br>
+      <img alt="프로필 이미지" :src="profile_img_url" style="width: 200px; height: 200px"><br>
       <input type="password" placeholder="비밀번호" v-model="password"><br>
       <input type="password" placeholder="비밀번호 확인" v-model="password_confirm"><br>
       <textarea cols="30" rows="10" placeholder="자기소개" v-model="introduce"></textarea><br>
@@ -18,7 +18,7 @@ export default {
   data() {
     return {
       profile_img: null,
-      profile_img_url: null,
+      profile_img_url: require('@/assets/test.png'),
       userName: null,
       password: null,
       password_confirm: null,
@@ -36,18 +36,31 @@ export default {
         },
       })
         .then((res) => {
-          this.profile_img_url = `${this.$API_URL}/${res.data.profile_img}`;
+          if (res.data.profile_img) {
+            this.profile_img_url = `${this.$API_URL}${res.data.profile_img}`;
+          }
           this.introduce = res.data.introduce;
         })
         .catch((err) => {
           console.log(err);
         });
     },
-    // refresh() {
-    //   this.$axios({
-    //     method: 
-    //   })
-    // },
+    deleteUser() {
+      this.$axios({
+        method: "DELETE",
+        url: `${this.$API_URL}/accounts/${this.loginUser}`,
+        headers: {Authorization: `Bearer ${this.access_token}`,},
+        data: {
+          username: this.loginUser,
+        },
+      })
+        .then(() => {
+          this.$router.push({ name: "logout" });
+        })
+        .catch((err) => {
+          console.log(err.response.data.faild);
+        });
+    },
     updateProfile() {
       const formData = new FormData();
       if (this.profile_img) {

@@ -3,15 +3,15 @@
   <div>
     <swiper ref="filterSwiper" :options="swiperOption" role="tablist">
     <swiper-slide role="tab" style="width: 200px;"
-    v-for="movie in movies"
-    :key="movie.id">
+    v-for="(movie, idx) in movies"
+    :key="idx + Date.now()">
       <div class="card" style="" @click="moveMovie(movie)">
         <img :src="movie.img_url" alt="">
         <div class="card-body">
-          <p class="card-text" style="color: black;">{{movie.title}}</p>
+          <p class="card-text" style="color: black;">{{movie?.title}}</p>
         </div>
       </div>
-    </swiper-slide>  
+    </swiper-slide>
     </swiper>
   </div>
 </template>
@@ -44,13 +44,11 @@ export default {
     }
   },
   created() {
-    console.log(this.movies)
   },
   computed: {
   },
   methods: {
     moveMovie(movie) {
-      // location.href=move_url+`${movie.id}+${crew.name}?language=ko`;
       this.$router.push({ name: 'moviedetail', params: { id: movie.id } })
     }
   },

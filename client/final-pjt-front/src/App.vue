@@ -15,12 +15,12 @@
 
     </div>
       <div class="d-flex justify-content-center align-items-center">
-          <div>
+          <!-- <div>
             <md-autocomplete v-model="search_value" :md-options="movies"
             style="width:80%; margin-left: auto; margin-right: auto;">
             <label>Serach</label>
             </md-autocomplete>
-          </div>
+          </div> -->
         <div class="m-3">
           <router-link :to="{ name: 'login' }" v-if="!is_login" class="m-1">Login</router-link>
           <router-link :to="{ name: 'logout' }" v-if="is_login" class="m-1">logout</router-link>
@@ -50,7 +50,6 @@ export default {
       this.$axios({
         method: 'get',
         url: `${this.$API_URL}/movies/savemovies/`,
-        headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`},
       })
         .then((res) => {
           const movies = res.data
@@ -64,13 +63,9 @@ export default {
       this.$axios({
         method:'get',
         url: `${this.$API_URL}/movies/savemovies/`,
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('jwt')}`
-        }
       })
         .then((res) => {
           this.movies = res.data.slice(0,500).map(element => Object.values(element)[1])
-          // console.log(res.data.map(element => Object.values(element)[1]))
 
         })
         .catch((err) => {
@@ -81,7 +76,6 @@ export default {
       this.$axios({
         method: 'get',
         url: `${this.$API_URL}/movies/savemovies/`,
-        // headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`},
       })
         .then((res) => {
           const movies = res.data
@@ -131,7 +125,7 @@ export default {
 
 .content h2 {
 	color: #fff;
-	font-size: 4em;
+	font-size: 3rem;
 	position: absolute;
 	transform: translate(-50%, -50%);
 }
