@@ -18,7 +18,7 @@
       <div style="display:flex;">
         <md-autocomplete v-model="search_value" :md-options="movies"
         style="width:80%; margin-left: auto; margin-right: auto;">
-        <label>Serach</label>
+        <label>Search</label>
         </md-autocomplete>
       </div>
     </nav>

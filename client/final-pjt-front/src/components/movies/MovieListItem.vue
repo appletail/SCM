@@ -5,16 +5,16 @@
     <div class="image">
       <img :src="movie.img_url"/>
     </div>
-    <div class="details">
+    <div class="details" @click="moveMovie(movie)">
       <div class="center">
         <h1>{{ movie.title }}<br><span>{{ movie.release_date }}</span></h1>
         <p>{{ description }}</p>
         <ul>
-          <span @click="toggleLikeMovie">
+          <span @click.stop="toggleLikeMovie" style="cursor: pointer;">
             <li v-show="!like"><a><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a></li>
             <li v-show="like"><a><i class="fa fa-thumbs-up" aria-hidden="true"></i></a></li>
           </span>
-          <span @click="toogleWatchList">
+          <span @click.stop="toogleWatchList" style="cursor: pointer;">
             <li v-show="!watch"><a><i class="fa fa-eye-slash" aria-hidden="true"></i></a></li>
             <li v-show="watch"><a><i class="fa fa-eye" aria-hidden="true"></i></a></li>
           </span>
@@ -67,6 +67,11 @@ export default {
           console.log(err.response.data)
         })
     },
+    moveMovie(movie) {
+      // location.href=move_url+`${movie.id}+${crew.name}?language=ko`;
+      this.$router.push({ name: 'moviedetail', params: { id: movie.id } })
+
+    }
   },
   computed: {
     description() {

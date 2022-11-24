@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{review}}
+    <!-- {{review}} -->
     <!-- {{movie}} -->
     <div class="back">
         <md-card>
