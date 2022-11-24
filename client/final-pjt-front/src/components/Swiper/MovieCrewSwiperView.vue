@@ -5,7 +5,8 @@
     <swiper-slide role="tab" style="width: 200px;"
     v-for="crew in crews"
     :key="crew.id">
-      <div class="card" style="">
+      <div class="card"
+      @click="moveCrew(crew)">
         <img :src="crew.profile_img_path" alt="">
         <div class="card-body">
           <p class="card-text" style="color: black;">{{crew.name}}</p>
@@ -20,9 +21,9 @@
 import 'swiper/dist/css/swiper.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
-
+const move_url =  'https://www.themoviedb.org/person/'
 export default {
-  name: 'SwiperView',
+  name: 'MovieCrewSwiperView',
   components: {
     swiper,
     swiperSlide
@@ -44,12 +45,14 @@ export default {
     }
   },
   created() {
-    console.log(this.crews)
+    // console.log(this.crews)
   },
   computed: {
   },
   methods: {
-
+    moveCrew(crew) {
+      location.href=move_url+`${crew.id}+${crew.name}?language=ko`;
+    }
   },
 }
 </script>

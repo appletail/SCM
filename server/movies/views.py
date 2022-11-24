@@ -26,17 +26,17 @@ def movies_list_popular(request, page):
     if request.method == 'GET':
         pages = 20 * page
         movies = Movie.objects.all().order_by('-popularity')[pages - 20 : pages]
-        # movies = sorted(movies, key=lambda x: x.popularity, reverse=True)
         serializer = MovieListSerializer(movies, many=True)
         return Response(serializer.data)
 
 
 # 최신영화 조회
 @api_view(['GET'])
-def movies_list_latest(request):
+def movies_list_latest(request, page):
     if request.method == 'GET':
+        pages = 20 * page
         movies = get_list_or_404(Movie)
-        movies = sorted(movies, key=lambda x:x.release_date, reverse=True)
+        movies = sorted(movies, key=lambda x:x.release_date, reverse=True)[pages - 20 : pages]
         serializer = MovieListSerializer(movies, many=True)
         return Response(serializer.data)
 
@@ -61,7 +61,7 @@ def genre_detail(request, genre_pk):
 
 # 맞춤영화 짜야함
 @api_view(['GET'])
-def movies_list_personal(request):
+def movies_list_personal(request, page):
     pass
 
 
@@ -107,6 +107,6 @@ def crews_detail(request, crew_pk):
 @api_view(['GET'])  
 def makedb(request):
     # makeDB()
-    # makeCrewDB()
-    makeMovieBackdrop()
+    makeCrewDB()
+    # makeMovieBackdrop()
     return Response(status=status.HTTP_201_CREATED)

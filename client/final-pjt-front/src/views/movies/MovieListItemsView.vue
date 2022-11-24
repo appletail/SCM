@@ -1,11 +1,13 @@
 <template>
   <div>
     <div class="container-fluid">
-      <div class="list row row-cols-5 d-flex justify-content-center" @scroll="loadPage">
+      <div class="list row row-cols-4 d-flex justify-content-center" @scroll="loadPage">
         <MovieListItem
           v-for="movie in movies"
           :key="movie.id"
           :movie="movie"
+          :is_watchlist="watchlist.includes(movie)"
+          :is_like="likeMovies.includes(movie.id)"
         />
       </div>
     </div>
@@ -23,6 +25,8 @@ export default {
   data() {
     return {
       listName: null,
+      watchlist: [],
+      likeMovies: [],
       movies: [],
       page: 0,
     }
@@ -36,8 +40,11 @@ export default {
         headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`,},
       })
         .then((res) => {
-          // console.log(res.data)
-          this.movies = this.movies.concat(res.data)
+          if (this.page === 1) {
+            this.movies = res.data
+          } else {
+            this.movies = this.movies.concat(res.data)
+          }
         })
         .catch((err) => {
           console.log(err)
@@ -51,21 +58,37 @@ export default {
         setTimeout(() => this.handleLoadMore(), 300)
       }
     },
-
     // 내려오면 api를 호출하여 아래에 더 추가,
     handleLoadMore() {
       // api를 호출하여 리스트 추가하면 됨, 현재는 pushList에 1개의 index 추가
       this.getMovieList()
     },
+    getLikeMovies() {
+      const movies = this.$store.state.moviesStore.likeMovies
+      console.log(movies)
+    }
+  },
+  computed: {
+    loginUser() {
+      return localStorage.getItem('username')
+    },
   },
   beforeRouteUpdate(to, from, next) {
     this.listName = to.params.movieListName
+    this.page = 0
     this.getMovieList()
+    this.$store.dispatch('moviesStore/getWatchlist')
+    this.$store.dispatch('moviesStore/getLikeMovies')
     next()
   },
   created() {
     this.listName = this.$route.params.movieListName
+    this.page = 0
     this.getMovieList()
+    this.$store.dispatch('moviesStore/getWatchlist')
+    this.$store.dispatch('moviesStore/getLikeMovies')
+    this.getLikeMovies()
+    console.log(this.likeMovies)
   },
 }
 </script>

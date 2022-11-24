@@ -27,6 +27,7 @@
             </div>
             <div>
               <button type="button" class="btn btn-dark" @click="MoveUpdate()">Update</button>
+
               <button type="button" class="btn btn-danger" @click="DeleteReview()">DELETE</button>
             </div>
           </div>
@@ -39,20 +40,14 @@
             <form @submit.prevent="CreateReviewComment">
               <md-field style="width:80%; margin-left: auto; margin-right: auto;">
                 <label for="reviewcomment">reviewComment</label>
-                <md-input v-model="reviewComment" type="text" id="reviewcomment"></md-input>
+                <md-input type="text" id="reviewcomment" v-model.trim="reviewcomment"></md-input>
                 <button type="submit" id="submit" class="btn btn-dark" >Submit</button>
               </md-field>
-            </form>
-            <form @submit.prevent="CreateReviewComment">
-              <div>
-                <label for="reviewcomment"> 댓글 작성: </label>
-                <input type="text" id="reviewcomment" v-model.trim="reviewcomment"><br>
-                <input type="submit" id="submit">
-              </div>
             </form>
           </md-card-header>
  
           <br>
+
           <!-- 댓글 출력 -->
           <md-card-content style="display: flex; justify-content: center;">
             <ReviewComment

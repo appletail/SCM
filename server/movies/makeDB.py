@@ -39,21 +39,31 @@ def makeDB():
 
 def makeCrewDB():
     movies = Movie.objects.all()
+    crew_ids = set()
     for movie in movies:                  
         Crew_URL = f'https://api.themoviedb.org/3/movie/{movie.pk}/credits?api_key={API_KEY}&language=ko-KR'
         cast_data = requests.get(Crew_URL).json().get('cast')
         for data in cast_data:
             if data['profile_path']:
-                at = Crew.objects.create(name=data['name'], gender=data['gender'],job=data['known_for_department'], profile_img_path="https://image.tmdb.org/t/p/w500"+data['profile_path'],popularity=data['popularity'])
+                if data['id'] not in crew_ids:
+                    crew_ids.add(data['id'])
+                    at = Crew.objects.create(id=data['id'],name=data['name'], gender=data['gender'],job=data['known_for_department'], profile_img_path="https://image.tmdb.org/t/p/w500"+data['profile_path'],popularity=data['popularity'])
+                else:
+                    at = Crew.objects.get(pk=data['id'])
                 # print(at.name)
                 movie.crews.add(at)
         
         crew_data = requests.get(Crew_URL).json().get('crew')
         for data in crew_data:
             if data['profile_path'] and data['known_for_department'] =='Directing':
-                at = Crew.objects.create(name=data['name'], gender=data['gender'],job=data['known_for_department'], profile_img_path="https://image.tmdb.org/t/p/w500"+data['profile_path'],popularity=data['popularity'])
+                if data['id'] not in crew_ids:
+                    crew_ids.add(data['id'])
+                    at = Crew.objects.create(id=data['id'],name=data['name'], gender=data['gender'],job=data['known_for_department'], profile_img_path="https://image.tmdb.org/t/p/w500"+data['profile_path'],popularity=data['popularity'])
+                else:
+                    at = Crew.objects.get(pk=data['id'])
                 # print(at.name)
                 movie.crews.add(at)
+        
 
 
 def makeMovieBackdrop():

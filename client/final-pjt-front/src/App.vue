@@ -73,7 +73,7 @@ export default {
     completedMovies() {
       this.$axios({
         method: 'get',
-        url: `${this.$API_URL}/movies/popular/`,
+        url: `${this.$API_URL}/movies/savemovies/`,
         // headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`},
       })
         .then((res) => {

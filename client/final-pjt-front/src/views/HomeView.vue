@@ -95,7 +95,7 @@
     </div>
   </div>
 </template>
-<!-- <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script> -->
+
 <script>
 import SwiperView from '@/components/Swiper/SwiperView.vue'
 
@@ -120,7 +120,7 @@ export default {
     popularMovies() {
       this.$axios({
         method:'get',
-        url: `${this.$API_URL}/movies/popular/`,
+        url: `${this.$API_URL}/movies/savemovies/`,
         headers: {
           Authorization: `Bearer ${localStorage.getItem('jwt')}`
         }

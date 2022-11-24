@@ -30,46 +30,87 @@
       </div>
       <br>
       <div>
-        <p>비슷한 장르 영화</p>
-        
+        <p>비슷한 장르 인기 영화</p>
+        <SimilarMovieSwiperView
+        :movies="similar_movies"/>
+      </div>
+      <br>
+      <div>
+        <h1>리뷰 들어갈꺼에요~</h1>
       </div>
 
-      {{movie.genres}}
+
+
     </div>
+    
   </div>
 </template>
 
 <script>
 import MovieCrewSwiperView from "@/components/Swiper/MovieCrewSwiperView.vue"
+import SimilarMovieSwiperView from "@/components/Swiper/SimilarMovieSwiperView.vue"
 
 export default {
   name: "MovieDetail",
   data() {
     return {
       movie: null,
+      similar_movies : [],
+      movie_id : null,
     }
   },
   components : {
-    MovieCrewSwiperView
+    MovieCrewSwiperView,
+    SimilarMovieSwiperView
   },
   created() {
+    this.movie_id = this.$route.params.id
     this.ReadMovie()
+    // this.ReadSimilar()
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.movie_id = to.params.id;
+    this.ReadMovie()
+    next();
   },
   methods : {
     ReadMovie() {
       this.$axios({
         method: 'get',
-        url: `${this.$API_URL}/movies/${this.$route.params.id}/`,
+        url: `${this.$API_URL}/movies/${this.movie_id}/`,
         headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`},
       })
+      .then((res) => {
+        this.movie = res.data
+        this.ReadSimilar()
+        // console.log(this.movie)
+      })
+      .catch((err) => {
+        console.log(err.response.data)
+      })
+    },
+    ReadSimilar() {
+      for (const element of this.movie.genres) {
+        this.$axios({
+          method: 'get',
+          url: `${this.$API_URL}/movies/genre/${element.id}/`,
+          headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`},
+        })
         .then((res) => {
-          this.movie = res.data
-          // console.log(this.movie)
+          const append_data = res.data.slice(0,10)
+          for (const movie of append_data) {
+            if (this.similar_movies.indexOf(movie) === -1) {
+              this.similar_movies.push(movie)
+              console.log(movie.title)
+            }
+          }
+          // this.similar_movies = this.similar_movies.concat(res.data.slice(0,5))
         })
         .catch((err) => {
           console.log(err.response.data)
         })
-    },
+      }
+    }
   }
 }
 

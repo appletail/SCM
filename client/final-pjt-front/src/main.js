@@ -15,7 +15,7 @@ import CKEditor from 'ckeditor4-vue';
 Vue.use(VueMaterial)
 Vue.use( CKEditor );
 Vue.config.productionTip = false
-Vue.prototype.$axios = axios; 
+Vue.prototype.$axios = axios;
 Vue.prototype.$API_URL = 'http://127.0.0.1:8000';
 
 new Vue({
